@@ -1,11 +1,6 @@
-### Hi there 👋
+### Kaito Udagawa
 
-<table>
-<tr>
-<td>
 <img src="https://user-images.githubusercontent.com/1067855/129916388-487b5b49-2fac-4f9b-b29f-6b8466695dbf.jpeg" width="300">
-</td>
-<td>
 
 - 🤝 Friend code: 6724 6609 8766
 - 🔰 Referral code: J7F8X26HC
@@ -19,7 +14,3 @@
 - 💬 Ask me about shell scripts
 - 📫 How to reach me: [@umireon on Twitter](https://twitter.com/umireon/)
 - 😄 Pronouns: /kaito/ /ɯdaɡawa/
-
-</td>
-</tr>
-</table>
