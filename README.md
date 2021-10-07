@@ -14,3 +14,5 @@
 - 💬 Ask me about shell scripts
 - 📫 How to reach me: [@umireon on Twitter](https://twitter.com/umireon/)
 - 😄 Pronouns: /kaito/ /ɯdaɡawa/
+
+<iframe src="https://discord.com/widget?id=876131915424489472&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
