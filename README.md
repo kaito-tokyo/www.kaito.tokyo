@@ -1,4 +1,4 @@
-### Kaito Udagawa
+### UmireonのポケモンGOのDiscordサーバー
 
 <img src="https://user-images.githubusercontent.com/1067855/129916388-487b5b49-2fac-4f9b-b29f-6b8466695dbf.jpeg" width="300">
 
