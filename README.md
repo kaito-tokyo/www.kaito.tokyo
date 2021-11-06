@@ -1,6 +1,8 @@
 ### UmireonのポケモンGOのDiscordサーバー
 
 - [Discordサーバーに参加する！](https://discord.gg/ujRU8VB4rw)
+- 自動翻訳で簡単に外国の方とレイドで交流できます！！！
+- Automated translation available!!!
 
 <div style="display: flex;">
 <div>
@@ -14,6 +16,5 @@
 - 🤝 Friend code: 6724 6609 8766
 - 🔰 Referral code: J7F8X26HC
 - 🎥 [YouTube](https://www.youtube.com/channel/UCumTleFHsbhzVKmIlzi22Nw)
-- 自動翻訳で簡単に外国の方とレイドで交流できます！！！
 
 
