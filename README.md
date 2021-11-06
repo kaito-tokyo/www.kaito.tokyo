@@ -4,16 +4,8 @@
 
 - 🤝 Friend code: 6724 6609 8766
 - 🔰 Referral code: J7F8X26HC
-- ⭐️ Please invite 1-star and 3-star raids
-- 🐥 [Twitter](https://twitter.com/umireon)
-- 🎬 [YouTube](https://www.youtube.com/channel/UCfhyVWrxCmdUpst-5n7Kz_Q)
-- 🎥 [YouTube Sub](https://www.youtube.com/channel/UCumTleFHsbhzVKmIlzi22Nw)
-- ⚡ Fun fact: Crazy about Pokémon GO
-- 🔭 I’m currently working on [Ricksoft, Inc.](https://ricksoft-inc.com/)
-- 🌱 I’m currently learning AWS
-- 💬 Ask me about shell scripts
-- 📫 How to reach me: [@umireon on Twitter](https://twitter.com/umireon/)
-- 😄 Pronouns: /kaito/ /ɯdaɡawa/
+- 自動翻訳で簡単に外国の方とレイドで交流できます！！！
+
 
 <div>
 <iframe src="https://discord.com/widget?id=876131915424489472&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
