@@ -1,12 +1,13 @@
 ### UmireonのポケモンGOのDiscordサーバー
 
+- [Discordサーバーに参加する！](https://discord.gg/ujRU8VB4rw)
+
 <img src="https://user-images.githubusercontent.com/1067855/129916388-487b5b49-2fac-4f9b-b29f-6b8466695dbf.jpeg" width="300">
 
 - 🤝 Friend code: 6724 6609 8766
 - 🔰 Referral code: J7F8X26HC
 - 🎥 [YouTube](https://www.youtube.com/channel/UCumTleFHsbhzVKmIlzi22Nw)
 - 自動翻訳で簡単に外国の方とレイドで交流できます！！！
-- https://discord.gg/ujRU8VB4rw
 
 
 <div>
