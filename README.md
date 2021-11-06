@@ -5,6 +5,7 @@
 - 🤝 Friend code: 6724 6609 8766
 - 🔰 Referral code: J7F8X26HC
 - 自動翻訳で簡単に外国の方とレイドで交流できます！！！
+- https://discord.gg/ujRU8VB4rw
 
 
 <div>
