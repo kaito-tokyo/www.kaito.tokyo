@@ -1,3 +1,8 @@
+---
+title: Umireon
+layout: default
+---
+
 ### Umireon
 
 - [Discordサーバーに参加する！](https://discord.gg/ujRU8VB4rw)

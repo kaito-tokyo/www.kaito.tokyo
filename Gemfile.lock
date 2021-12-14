@@ -272,6 +272,7 @@ PLATFORMS
 
 DEPENDENCIES
   github-pages
+  kramdown
 
 BUNDLED WITH
    2.2.32
