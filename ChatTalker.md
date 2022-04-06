@@ -1,3 +1,8 @@
+---
+title: ChatTalker
+layout: default
+---
+
 # ChatTalker
 Chat message talker on Twitch and YouTube for OBS and so on.
 
