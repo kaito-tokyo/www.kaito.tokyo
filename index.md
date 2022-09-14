@@ -5,7 +5,7 @@ layout: default
 
 ### Umireon
 
-<h2><a href="javascript:twq('event', 'tw-oc2va-oc2vi', {});location.href='https://discord.gg/umireon-pogo';">Join my Discord server!</h2>
+<h2><a href="javascript:twq('event', 'tw-oc2va-oc2vi', {});location.href='https://discord.gg/umireon-pogo';">Join my Discord server!</a></h2>
 
 - 自動翻訳で簡単に外国の方とレイドで交流できます！！！
 - Automated translation available!!!
