@@ -11,7 +11,6 @@ export const load = (async ({ params }) => {
       select: ['_id', 'title', 'slug', 'images', 'publishDate', 'description']
     }
   })
-  console.log(article)
   return {
     article
   }
