@@ -13,7 +13,7 @@ export interface IllustrationArticle {
 	title: string;
 	slug: string;
 	images: Image[];
-	publishDate: string;
+	publishedAt: string;
 	description: string;
 	tags: IllustrationTag[];
 }
