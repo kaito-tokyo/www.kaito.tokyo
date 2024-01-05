@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { Image } from "@unpic/svelte";
 	import type { PageData } from './$types';
 	export let data: PageData;
 </script>
@@ -13,6 +14,12 @@
 		{#each data.articles as article (article._id)}
 			<li>
 				<a href={`illustrations/${article.slug}`}>{article.title}</a>
+				<Image
+					src={article.images[0].src}
+					layout="constrained"
+					width={200}
+					height={200}
+				/>
 			</li>
 		{/each}
 	</ul>
