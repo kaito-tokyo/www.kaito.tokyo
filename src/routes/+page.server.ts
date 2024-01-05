@@ -7,7 +7,7 @@ export const load = (async () => {
 		appUid: 'illustration',
 		modelUid: 'article',
 		query: {
-			select: ['_id', 'title', 'slug']
+			select: ['_id', 'title', 'slug', 'images']
 		}
 	});
 	return {

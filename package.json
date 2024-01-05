@@ -34,6 +34,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@unpic/svelte": "^0.0.43",
 		"newt-client-js": "^3.2.8"
 	}
 }
