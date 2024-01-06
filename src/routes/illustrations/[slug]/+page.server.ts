@@ -8,7 +8,7 @@ export const load = (async ({ params }) => {
 		modelUid: 'article',
 		query: {
 			slug: params.slug,
-			select: ['_id', 'title', 'slug', 'images', 'publishDate', 'description']
+			select: ['_id', 'title', 'slug', 'images', 'publishedAt', 'description']
 		}
 	});
 	return {
