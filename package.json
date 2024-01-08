@@ -35,7 +35,7 @@
 	"type": "module",
 	"dependencies": {
 		"@unpic/svelte": "^0.0.43",
-		"date-fns": "^2.30.0",
+		"date-fns": "^3.1.0",
 		"date-fns-tz": "^2.0.0",
 		"newt-client-js": "^3.2.8"
 	}
