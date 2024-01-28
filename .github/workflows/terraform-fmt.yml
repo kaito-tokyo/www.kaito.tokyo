@@ -1,0 +1,16 @@
+name: "Terraform format"
+
+on:
+  push:
+    branches:
+      - "main"
+  pull_request:
+    branches:
+      - "main"
+
+jobs:
+  CheckFormat:
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: "Check format"
+        run: "terraform fmt -check -recursive modules"
