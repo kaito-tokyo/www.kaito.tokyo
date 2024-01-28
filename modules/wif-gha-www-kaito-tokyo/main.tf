@@ -17,3 +17,10 @@ resource "google_service_account_iam_policy" "gha_www_kaito_tokyo" {
   service_account_id = google_service_account.gha_www_kaito_tokyo.name
   policy_data        = data.google_iam_policy.gha_www_kaito_tokyo.policy_data
 }
+
+
+resource "google_project_iam_member" "gha_www_kaito_tokyo_run_admin" {
+  project = var.project_id
+  role    = "roles/run.admin"
+  member  = google_service_account.gha_www_kaito_tokyo.email
+}
