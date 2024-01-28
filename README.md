@@ -22,6 +22,9 @@ gcloud projects add-iam-policy-binding $PROJECT_ID \
 gcloud projects add-iam-policy-binding $PROJECT_ID \
   --member="serviceAccount:$SERVICE_ACCOUNT_NAME@$PROJECT_ID.iam.gserviceaccount.com" \
   --role=roles/iam.workloadIdentityPoolAdmin
+gcloud projects add-iam-policy-binding $PROJECT_ID \
+  --member="serviceAccount:$SERVICE_ACCOUNT_NAME@$PROJECT_ID.iam.gserviceaccount.com" \
+  --role=roles/iam.serviceAccountAdmin
 ```
 
 ```
@@ -39,7 +42,7 @@ gcloud infra-manager deployments apply \
   "projects/$PROJECT_ID/locations/$REGION/deployments/wif-gha-www-kaito-tokyo" \
   --git-source-repo="https://github.com/umireon/www.kaito.tokyo.git" \
   --git-source-directory="modules/wif-gha-www-kaito-tokyo" \
-  --git-source-ref="add-sa-for-gha-wif" \
+  --git-source-ref="main" \
   --service-account="projects/$PROJECT_ID/serviceAccounts/$SERVICE_ACCOUNT_NAME@$PROJECT_ID.iam.gserviceaccount.com" \
   --input-values="project_id=$PROJECT_ID,project_number=$PROJECT_NUMBER,pool_id=$POOL_ID"
 ```
