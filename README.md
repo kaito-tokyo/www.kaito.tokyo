@@ -1,38 +1,32 @@
-# create-svelte
+# www.kaito.tokyo
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
+## Google Cloud
 
-## Creating a project
+### Bootstrap
 
-If you're seeing this, you've probably already done this step. Congrats!
-
-```bash
-# create a new project in the current directory
-npm create svelte@latest
-
-# create a new project in my-app
-npm create svelte@latest my-app
+```
+PROJECT_ID=www-kaito-tokyo
+SERVICE_ACCOUNT_NAME=infra-manager-bootstrap
+gcloud config set project $PROJECT_ID
 ```
 
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+```
+gcloud services enable config.googleapis.com
+gcloud iam service-accounts create $SERVICE_ACCOUNT_NAME
+gcloud projects add-iam-policy-binding $PROJECT_ID \
+  --member="serviceAccount:$SERVICE_ACCOUNT_NAME@$PROJECT_ID.iam.gserviceaccount.com" \
+  --role=roles/config.agent
+gcloud projects add-iam-policy-binding $PROJECT_ID \
+  --member="serviceAccount:$SERVICE_ACCOUNT_NAME@$PROJECT_ID.iam.gserviceaccount.com" \
+  --role=roles/iam.workloadIdentityPoolAdmin
 ```
 
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
 ```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+gcloud infra-manager deployments apply \
+  projects/www-kaito-tokyo/locations/asia-east1/deployments/wif-github-umireon \
+  --git-source-repo="https://github.com/umireon/www.kaito.tokyo.git" \
+  --git-source-directory="modules/wif-github-umireon" \
+  --git-source-ref="main" \
+  --service-account="projects/www-kaito-tokyo/serviceAccounts/$SERVICE_ACCOUNT_NAME@www-kaito-tokyo.iam.gserviceaccount.com" \
+  --input-values="project_id=www-kaito-tokyo"
+```
