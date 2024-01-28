@@ -8,7 +8,7 @@ data "google_iam_policy" "gha_www_kaito_tokyo" {
     role = "roles/iam.workloadIdentityUser"
 
     members = [
-      "principalSet://iam.googleapis.com/projects/${var.project_number}/locations/global/workloadIdentityPools/${var.pool_id}/attribute.ATTRIBUTE_NAME/ATTRIBUTE_VALUE"
+      "principalSet://iam.googleapis.com/projects/${var.project_number}/locations/global/workloadIdentityPools/${var.pool_id}/attribute.repository/umireon/www.kaito.tokyo"
     ]
   }
 }
@@ -16,4 +16,11 @@ data "google_iam_policy" "gha_www_kaito_tokyo" {
 resource "google_service_account_iam_policy" "gha_www_kaito_tokyo" {
   service_account_id = google_service_account.gha_www_kaito_tokyo.name
   policy_data        = data.google_iam_policy.gha_www_kaito_tokyo.policy_data
+}
+
+
+resource "google_project_iam_member" "gha_www_kaito_tokyo_run_admin" {
+  project = var.project_id
+  role    = "roles/run.admin"
+  member  = "serviceAccount:${google_service_account.gha_www_kaito_tokyo.email}"
 }
