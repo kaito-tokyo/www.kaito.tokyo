@@ -1,4 +1,5 @@
 resource "google_service_account" "gha_www_kaito_tokyo" {
+  project    = var.project_id
   account_id = "gha-www-kaito-tokyo"
 }
 
@@ -13,6 +14,6 @@ data "google_iam_policy" "gha_www_kaito_tokyo" {
 }
 
 resource "google_service_account_iam_policy" "gha_www_kaito_tokyo" {
-  service_account_id = google_service_account.gha_www_kaito_tokyo.name
+  service_account_id = google_service_accountcd.gha_www_kaito_tokyo.name
   policy_data        = data.google_iam_policy.gha_www_kaito_tokyo.policy_data
 }

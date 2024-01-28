@@ -10,6 +10,7 @@ SERVICE_ACCOUNT_NAME=infra-manager-bootstrap
 gcloud config set project $PROJECT_ID
 PROJECT_NUMBER=$(gcloud projects list --filter="$(gcloud config get-value project)" --format="value(PROJECT_NUMBER)")
 REGION=asia-east1
+POOL_ID=github-umireon
 ```
 
 ```
@@ -40,5 +41,5 @@ gcloud infra-manager deployments apply \
   --git-source-directory="modules/wif-gha-www-kaito-tokyo" \
   --git-source-ref="add-sa-for-gha-wif" \
   --service-account="projects/$PROJECT_ID/serviceAccounts/$SERVICE_ACCOUNT_NAME@$PROJECT_ID.iam.gserviceaccount.com" \
-  --input-values="project_number=$PROJECT_NUMBER"
+  --input-values="project_id=$PROJECT_ID,project_number=$PROJECT_NUMBER,pool_id=$POOL_ID"
 ```
