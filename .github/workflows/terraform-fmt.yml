@@ -10,7 +10,12 @@ on:
 
 jobs:
   CheckFormat:
+
     runs-on: "ubuntu-latest"
+
     steps:
+      - name: "Install terraform"
+        uses: "hashicorp/setup-terraform@v3"
+
       - name: "Check format"
         run: "terraform fmt -check -recursive modules"
