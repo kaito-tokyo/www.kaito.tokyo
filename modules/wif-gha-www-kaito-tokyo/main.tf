@@ -8,7 +8,7 @@ data "google_iam_policy" "gha_www_kaito_tokyo" {
     role = "roles/iam.workloadIdentityUser"
 
     members = [
-      "principalSet://iam.googleapis.com/projects/${var.project_number}/locations/global/workloadIdentityPools/${var.pool_id}/attribute.ATTRIBUTE_NAME/ATTRIBUTE_VALUE"
+      "principalSet://iam.googleapis.com/projects/${var.project_number}/locations/global/workloadIdentityPools/${var.pool_id}/attribute.repository/umireon/www.kaito.tokyo"
     ]
   }
 }
