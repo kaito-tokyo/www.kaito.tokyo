@@ -22,5 +22,5 @@ resource "google_service_account_iam_policy" "gha_www_kaito_tokyo" {
 resource "google_project_iam_member" "gha_www_kaito_tokyo_run_admin" {
   project = var.project_id
   role    = "roles/run.admin"
-  member  = google_service_account.gha_www_kaito_tokyo.email
+  member  = "serviceAccount:${google_service_account.gha_www_kaito_tokyo.email}"
 }
