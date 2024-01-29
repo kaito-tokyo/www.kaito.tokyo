@@ -30,8 +30,8 @@ jobs:
       - name: "Authenticate to Google Cloud"
         uses: "google-github-actions/auth@v2"
         with:
-          workload_identity_provider: "projects/{{ env.PROJECT_NUMBER }}/locations/global/workloadIdentityPools/{{ env.POOL_ID }}/providers/{{ env.PROVIDER_ID }}"
-          service_account: "{{ env.SERVICE_ACCOUNT }}"
+          workload_identity_provider: "projects/${{ env.PROJECT_NUMBER }}/locations/global/workloadIdentityPools/${{ env.POOL_ID }}/providers/${{ env.PROVIDER_ID }}"
+          service_account: "${{ env.SERVICE_ACCOUNT }}"
 
       - name: "Deploy the function"
         uses: "google-github-actions/deploy-cloud-functions@v2"
