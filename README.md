@@ -33,9 +33,7 @@ gcloud projects add-iam-policy-binding $PROJECT_ID \
 ```
 gcloud infra-manager deployments apply \
   "projects/$PROJECT_ID/locations/$REGION/deployments/wif-github-umireon" \
-  --git-source-repo="https://github.com/umireon/www.kaito.tokyo.git" \
-  --git-source-directory="modules/wif-github-umireon" \
-  --git-source-ref="main" \
+  --local-source="./modules/wif-github-umireon" \
   --service-account="projects/$PROJECT_ID/serviceAccounts/$SERVICE_ACCOUNT_NAME@$PROJECT_ID.iam.gserviceaccount.com" \
   --input-values="project_id=$PROJECT_ID"
 ```
@@ -43,9 +41,7 @@ gcloud infra-manager deployments apply \
 ```
 gcloud infra-manager deployments apply \
   "projects/$PROJECT_ID/locations/$REGION/deployments/wif-gha-www-kaito-tokyo" \
-  --git-source-repo="https://github.com/umireon/www.kaito.tokyo.git" \
-  --git-source-directory="modules/wif-gha-www-kaito-tokyo" \
-  --git-source-ref="main" \
+  --local-source="./modules/wif-gha-www-kaito-tokyo" \
   --service-account="projects/$PROJECT_ID/serviceAccounts/$SERVICE_ACCOUNT_NAME@$PROJECT_ID.iam.gserviceaccount.com" \
   --input-values="project_id=$PROJECT_ID,project_number=$PROJECT_NUMBER,pool_id=$POOL_ID"
 ```
