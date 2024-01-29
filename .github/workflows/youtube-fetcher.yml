@@ -42,7 +42,7 @@ jobs:
         run: |
           gcloud infra-manager deployments apply \
             "projects/${{ env.PROJECT_ID }}/locations/${{ env.REGION }}/deployments/youtube-fetcher" \
-            --local-source="./modules/youtube-fetcher"
+            --local-source="./modules/youtube-fetcher" \
             --service-account="projects/${{ env.PROJECT_ID }}/serviceAccounts/${{ env.SERVICE_ACCOUNT }}" \
             --input-values="project_id=$PROJECT_ID"
 
