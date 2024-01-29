@@ -25,8 +25,6 @@ jobs:
       id-token: "write"
 
     steps:
-      - name: "Set up Cloud SDK"
-        uses: "google-github-actions/setup-gcloud@v2"
 
       - name: "Checkout"
         uses: "actions/checkout@v4"
@@ -36,6 +34,9 @@ jobs:
         with:
           workload_identity_provider: "projects/${{ env.PROJECT_NUMBER }}/locations/global/workloadIdentityPools/${{ env.POOL_ID }}/providers/${{ env.PROVIDER_ID }}"
           service_account: "${{ env.SERVICE_ACCOUNT }}"
+
+      - name: "Set up Cloud SDK"
+        uses: "google-github-actions/setup-gcloud@v2"
 
       - name: "Apply Terraform"
         run: |
