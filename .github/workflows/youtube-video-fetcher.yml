@@ -1,0 +1,38 @@
+name: "YouTube video fetcher"
+
+on:
+  push:
+    branches:
+      - "main"
+
+env:
+  PROJECT_ID: "www-kaito-tokyo"
+  PROJECT_NUMBER: "641342314523"
+  POOL_ID: "github-umireon"
+  PROVIDER_ID: "actions-githubusercontent-com"
+  SERVICE_ACCOUNT: "gha-www-kaito-tokyo@www-kaito-tokyo.iam.gserviceaccount.com"
+
+jobs:
+  Deploy:
+    runs-on: "ubuntu-latest"
+
+    permissions:
+      contents: "read"
+      id-token: "write"
+
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v4"
+
+      - name: "Authenticate to Google Cloud"
+        uses: "google-github-actions/auth@v2"
+        with:
+          workload_identity_provider: "projects/{{ env.PROJECT_NUMBER }}/locations/global/workloadIdentityPools/{{ env.POOL_ID }}/providers/{{ env.PROVIDER_ID }}"
+          service_account: "{{ env.SERVICE_ACCOUNT }}"
+
+      - name: "Deploy the function"
+        uses: "google-github-actions/deploy-cloud-functions@v2"
+        with:
+          name: "youtube-video-fetcher"
+          runtime: "nodejs20"
+          source_dir: "serverless/youtube-video-fetcher"
