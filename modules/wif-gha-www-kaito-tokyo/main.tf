@@ -18,9 +18,9 @@ resource "google_service_account_iam_policy" "gha_www_kaito_tokyo" {
   policy_data        = data.google_iam_policy.gha_www_kaito_tokyo.policy_data
 }
 
-resource "google_project_iam_member" "gha_www_kaito_tokyo_config_agent" {
+resource "google_project_iam_member" "gha_www_kaito_tokyo_config_admin" {
   project = var.project_id
-  role    = "roles/config.agent"
+  role    = "roles/config.admin"
   member  = "serviceAccount:${google_service_account.gha_www_kaito_tokyo.email}"
 }
 
