@@ -58,3 +58,9 @@ resource "google_project_iam_member" "infra_manager_project_iam_admin" {
   role    = "roles/resourcemanager.projectIamAdmin"
   member  = "serviceAccount:${google_service_account.infra_manager.email}"
 }
+
+resource "google_project_iam_member" "infra_manager_service_account_admin" {
+  project = var.project_id
+  role    = "roles/iam.serviceAccountAdmin"
+  member  = "serviceAccount:${google_service_account.infra_manager.email}"
+}
