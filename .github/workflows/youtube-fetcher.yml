@@ -43,13 +43,13 @@ jobs:
       - name: "Set up Cloud SDK"
         uses: "google-github-actions/setup-gcloud@v2"
 
-      # - name: "Apply Terraform"
-      #   run: |
-      #     gcloud infra-manager deployments apply \
-      #       "projects/${{ env.PROJECT_ID }}/locations/${{ env.REGION }}/deployments/youtube-fetcher" \
-      #       --local-source="./modules/youtube-fetcher" \
-      #       --service-account="projects/${{ env.PROJECT_ID }}/serviceAccounts/${{ env.SERVICE_ACCOUNT }}" \
-      #       --input-values="project_id=$PROJECT_ID"
+      - name: "Apply Terraform"
+        run: |
+          gcloud infra-manager deployments apply \
+            "projects/${{ env.PROJECT_ID }}/locations/${{ env.REGION }}/deployments/youtube-fetcher" \
+            --local-source="./modules/youtube-fetcher" \
+            --service-account="projects/${{ env.PROJECT_ID }}/serviceAccounts/${{ env.INFRA_MANAGER_SERVICE_ACCOUNT }}" \
+            --input-values="project_id=$PROJECT_ID"
 
       - name: "Deploy the function"
         uses: "google-github-actions/deploy-cloud-functions@v2"
