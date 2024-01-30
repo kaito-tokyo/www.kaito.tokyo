@@ -8,7 +8,7 @@ data "google_iam_policy" "gha_www_kaito_tokyo" {
     role = "roles/iam.workloadIdentityUser"
 
     members = [
-      "principalSet://iam.googleapis.com/projects/${var.project_number}/locations/global/workloadIdentityPools/${var.pool_id}/attribute.repository/umireon/www.kaito.tokyo"
+      "principal://iam.googleapis.com/projects/641342314523/locations/global/workloadIdentityPools/github-umireon/subject/repo:umireon/www.kaito.tokyo:pull_request"
     ]
   }
 }
