@@ -24,6 +24,12 @@ resource "google_project_iam_member" "gha_www_kaito_tokyo_config_admin" {
   member  = "serviceAccount:${google_service_account.gha_www_kaito_tokyo.email}"
 }
 
+resource "google_project_iam_member" "gha_www_kaito_tokyo_service_account_token_creator" {
+  project = var.project_id
+  role    = "roles/iam.serviceAccountTokenCreator"
+  member  = "serviceAccount:${google_service_account.gha_www_kaito_tokyo.email}"
+}
+
 resource "google_service_account" "infra_manager" {
   project    = var.project_id
   account_id = "infra-manager"
