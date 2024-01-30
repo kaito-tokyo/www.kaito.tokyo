@@ -8,6 +8,10 @@ on:
     branches:
       - "main"
 
+concurrency:
+  group: "${{ github.workflow }}-${{ github.ref }}"
+  cancel-in-progress: true
+
 env:
   PROJECT_ID: "www-kaito-tokyo"
   PROJECT_NUMBER: "641342314523"
