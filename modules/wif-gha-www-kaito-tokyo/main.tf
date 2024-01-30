@@ -24,20 +24,13 @@ resource "google_project_iam_member" "gha_www_kaito_tokyo_config_admin" {
   member  = "serviceAccount:${google_service_account.gha_www_kaito_tokyo.email}"
 }
 
-resource "google_project_iam_member" "gha_www_kaito_tokyo_config_agent" {
+resource "google_service_account" "infra_manager" {
+  project    = var.project_id
+  account_id = "infra-manager"
+}
+
+resource "google_project_iam_member" "infra_manager_config_agent" {
   project = var.project_id
   role    = "roles/config.agent"
-  member  = "serviceAccount:${google_service_account.gha_www_kaito_tokyo.email}"
-}
-
-resource "google_project_iam_member" "gha_www_kaito_tokyo_run_admin" {
-  project = var.project_id
-  role    = "roles/run.admin"
-  member  = "serviceAccount:${google_service_account.gha_www_kaito_tokyo.email}"
-}
-
-resource "google_project_iam_member" "gha_www_kaito_tokyo_cloudfunctions_admin" {
-  project = var.project_id
-  role    = "roles/cloudfunctions.admin"
-  member  = "serviceAccount:${google_service_account.gha_www_kaito_tokyo.email}"
+  member  = "serviceAccount:${google_service_account.infra_manager.email}"
 }
