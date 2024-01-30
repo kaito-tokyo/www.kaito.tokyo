@@ -13,13 +13,13 @@
 	"devDependencies": {
 		"@fontsource/fira-mono": "^5.0.8",
 		"@neoconfetti/svelte": "^2.2.1",
-		"@sveltejs/adapter-auto": "^3.0.0",
-		"@sveltejs/adapter-cloudflare": "^3.0.2",
-		"@sveltejs/kit": "^2.3.2",
+		"@sveltejs/adapter-auto": "^3.1.1",
+		"@sveltejs/adapter-cloudflare": "^4.1.0",
+		"@sveltejs/kit": "^2.5.0",
 		"@sveltejs/vite-plugin-svelte": "^3.0.0",
 		"@types/eslint": "8.56.2",
 		"@types/qs": "^6.9.11",
-		"@typescript-eslint/eslint-plugin": "^6.19.0",
+		"@typescript-eslint/eslint-plugin": "^6.20.0",
 		"@typescript-eslint/parser": "^6.18.1",
 		"eslint": "^8.56.0",
 		"eslint-config-prettier": "^9.1.0",
@@ -37,6 +37,6 @@
 		"@unpic/svelte": "^0.0.43",
 		"date-fns": "^2.30.0",
 		"date-fns-tz": "^2.0.0",
-		"newt-client-js": "^3.2.8"
+		"newt-client-js": "^3.3.0"
 	}
 }
