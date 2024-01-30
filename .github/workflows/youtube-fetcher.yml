@@ -17,7 +17,8 @@ env:
   PROJECT_NUMBER: "641342314523"
   POOL_ID: "github-umireon"
   PROVIDER_ID: "actions-githubusercontent-com"
-  SERVICE_ACCOUNT: "infra-manager@www-kaito-tokyo.iam.gserviceaccount.com"
+  SERVICE_ACCOUNT: "gha-www-kaito-tokyo@www-kaito-tokyo.iam.gserviceaccount.com"
+  INFRA_MANAGER_SERVICE_ACCOUNT: "infra-manager@www-kaito-tokyo.iam.gserviceaccount.com"
   REGION: "asia-east1"
 
 jobs:
