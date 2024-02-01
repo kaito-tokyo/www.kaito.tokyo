@@ -3,7 +3,7 @@ resource "google_service_account" "youtube_fetcher_workflow" {
   account_id = "youtube-fetcher-workflow"
 }
 
-resource "google_project_iam_member" "youtube_fetcher_workflow_run.invoker" {
+resource "google_project_iam_member" "youtube_fetcher_workflow_run_invoker" {
   project = var.project_id
   role    = "roles/run.invoker"
   member  = "serviceAccount:${google_service_account.youtube_fetcher_workflow.email}"
