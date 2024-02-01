@@ -1,0 +1,66 @@
+name: "YouTube fetcher"
+
+on:
+  push:
+    branches:
+      - "main"
+  pull_request:
+    branches:
+      - "main"
+
+concurrency:
+  group: "${{ github.workflow }}-${{ github.ref }}"
+  cancel-in-progress: true
+
+env:
+  PROJECT_ID: "www-kaito-tokyo"
+  PROJECT_NUMBER: "641342314523"
+  POOL_ID: "github-umireon"
+  PROVIDER_ID: "actions-githubusercontent-com"
+  SERVICE_ACCOUNT: "gha-www-kaito-tokyo@www-kaito-tokyo.iam.gserviceaccount.com"
+  INFRA_MANAGER_SERVICE_ACCOUNT: "infra-manager@www-kaito-tokyo.iam.gserviceaccount.com"
+  FUNCTION_SERVICE_ACCOUNT: "youtube-fetcher@www-kaito-tokyo.iam.gserviceaccount.com"
+  REGION: "asia-east1"
+
+jobs:
+  Deploy:
+    runs-on: "ubuntu-latest"
+
+    permissions:
+      contents: "read"
+      id-token: "write"
+
+    steps:
+
+      - name: "Checkout"
+        uses: "actions/checkout@v4"
+
+      - name: "Authenticate to Google Cloud"
+        uses: "google-github-actions/auth@v2"
+        with:
+          workload_identity_provider: "projects/${{ env.PROJECT_NUMBER }}/locations/global/workloadIdentityPools/${{ env.POOL_ID }}/providers/${{ env.PROVIDER_ID }}"
+          service_account: "${{ env.SERVICE_ACCOUNT }}"
+
+      - name: "Set up Cloud SDK"
+        uses: "google-github-actions/setup-gcloud@v2"
+
+      - name: "Apply Terraform"
+        run: |
+          gcloud infra-manager deployments apply \
+            "projects/$PROJECT_ID/locations/$REGION/deployments/youtube-fetcher" \
+            --local-source="./modules/youtube-fetcher" \
+            --service-account="projects/$PROJECT_ID/serviceAccounts/$INFRA_MANAGER_SERVICE_ACCOUNT" \
+            --input-values="project_id=$PROJECT_ID"
+
+      - name: "Deploy the function"
+        working-directory: "serverless/youtube-fetcher"
+        run: |
+          gcloud functions deploy youtube-video-fetcher \
+            --region=$REGION \
+            --no-allow-unauthenticated \
+            --gen2 \
+            --ingress-settings=internal-only \
+            --run-service-account=$FUNCTION_SERVICE_ACCOUNT \
+            --runtime=nodejs20 \
+            --service-account=$FUNCTION_SERVICE_ACCOUNT \
+            --trigger-http
