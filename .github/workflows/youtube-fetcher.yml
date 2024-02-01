@@ -53,6 +53,7 @@ jobs:
             --input-values="project_id=$PROJECT_ID"
 
       - name: "Deploy the function"
+        working-directory: "serverless/youtube-fetcher"
         run: |
           gcloud functions deploy youtube-video-fetcher \
             --region=$REGION \
