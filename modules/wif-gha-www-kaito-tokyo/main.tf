@@ -64,3 +64,9 @@ resource "google_project_iam_member" "infra_manager_service_account_admin" {
   role    = "roles/iam.serviceAccountAdmin"
   member  = "serviceAccount:${google_service_account.infra_manager.email}"
 }
+
+resource "google_project_iam_member" "infra_manager_workflows_admin" {
+  project = var.project_id
+  role    = "roles/workflows.admin"
+  member  = "serviceAccount:${google_service_account.infra_manager.email}"
+}
