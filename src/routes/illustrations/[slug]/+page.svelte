@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Image } from "@unpic/svelte";
-	import type { PageData } from './$types';
-	import { error } from '@sveltejs/kit';
+	import type { PageData } from "./$types";
+	import { error } from "@sveltejs/kit";
 	import { formatInTimeZone } from "date-fns-tz";
 	export let data: PageData;
 	if (!data.article) {
@@ -10,14 +10,17 @@
 	const { article } = data;
 
 	function formatDate(dateString: string): string {
-		return formatInTimeZone(new Date(dateString), "Asia/Tokyo", "yyyy-MM-dd")
+		return formatInTimeZone(new Date(dateString), "Asia/Tokyo", "yyyy-MM-dd");
 	}
 </script>
 
 <svelte:head>
 	<title>{article.title}</title>
 	<meta name="description" content="投稿詳細ページです" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300">
+	<link
+		rel="stylesheet"
+		href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300"
+	/>
 </svelte:head>
 
 <section>
@@ -28,12 +31,7 @@
 		</div>
 		<div>{@html article.description}</div>
 		{#each article.images as image}
-			<Image
-				src={image.src}
-				layout="constrained"
-				width={1600}
-				height={1600}
-			/>
+			<Image src={image.src} layout="constrained" width={1600} height={1600} />
 		{/each}
 	</article>
 </section>
@@ -46,7 +44,7 @@
 	}
 
 	article h1 {
-		font-family: 'Zen Kaku Gothic New', serif;
+		font-family: "Zen Kaku Gothic New", serif;
 	}
 
 	article .metadata {
