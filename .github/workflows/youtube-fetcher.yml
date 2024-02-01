@@ -19,6 +19,7 @@ env:
   PROVIDER_ID: "actions-githubusercontent-com"
   SERVICE_ACCOUNT: "gha-www-kaito-tokyo@www-kaito-tokyo.iam.gserviceaccount.com"
   INFRA_MANAGER_SERVICE_ACCOUNT: "infra-manager@www-kaito-tokyo.iam.gserviceaccount.com"
+  FUNCTION_SERVICE_ACCOUNT: "youtube-fetcher@www-kaito-tokyo.iam.gserviceaccount.com"
   REGION: "asia-east1"
 
 jobs:
@@ -52,8 +53,11 @@ jobs:
             --input-values="project_id=$PROJECT_ID"
 
       - name: "Deploy the function"
-        uses: "google-github-actions/deploy-cloud-functions@v2"
-        with:
-          name: "youtube-video-fetcher"
-          runtime: "nodejs20"
-          source_dir: "serverless/youtube-video-fetcher"
+        run: >-
+          gcloud functions deploy youtube-video-fetcher
+            --region=asia-east1
+            --gen2
+            --ingress-settings=internal-only
+            --run-service-account=${{ env.FUNCTION_SERVICE_ACCOUNT }}
+            --runtime=nodejs20
+            --service-account=${{ env.FUNCTION_SERVICE_ACCOUNT }}
