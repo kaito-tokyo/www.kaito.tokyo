@@ -57,7 +57,7 @@ jobs:
         run: |
           gcloud functions deploy youtube-video-fetcher \
             --region=$REGION \
-            --allow-unauthenticated \
+            --no-allow-unauthenticated \
             --gen2 \
             --ingress-settings=internal-only \
             --run-service-account=$FUNCTION_SERVICE_ACCOUNT \
