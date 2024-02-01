@@ -47,9 +47,9 @@ jobs:
       - name: "Apply Terraform"
         run: |
           gcloud infra-manager deployments apply \
-            "projects/${{ env.PROJECT_ID }}/locations/${{ env.REGION }}/deployments/youtube-fetcher" \
+            "projects/$PROJECT_ID/locations/$REGION/deployments/youtube-fetcher" \
             --local-source="./modules/youtube-fetcher" \
-            --service-account="projects/${{ env.PROJECT_ID }}/serviceAccounts/${{ env.INFRA_MANAGER_SERVICE_ACCOUNT }}" \
+            --service-account="projects/$PROJECT_ID/serviceAccounts/$INFRA_MANAGER_SERVICE_ACCOUNT" \
             --input-values="project_id=$PROJECT_ID"
 
       - name: "Deploy the function"
