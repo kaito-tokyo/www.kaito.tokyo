@@ -4,4 +4,4 @@
       url: "https://asia-east1-www-kaito-tokyo.cloudfunctions.net/youtube-video-fetcher"
       result: youtube_video_fetcher_result
 - return_result:
-    return "${youtube_video_fetcher_result}"
+    return: "${youtube_video_fetcher_result}"
