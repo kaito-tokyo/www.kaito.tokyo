@@ -3,6 +3,12 @@ resource "google_service_account" "youtube_fetcher_workflow" {
   account_id = "youtube-fetcher-workflow"
 }
 
+resource "google_project_iam_member" "youtube_fetcher_workflow_run.invoker" {
+  project = var.project_id
+  role    = "roles/run.invoker"
+  member  = "serviceAccount:${google_service_account.youtube_fetcher_workflow.email}"
+}
+
 resource "google_workflows_workflow" "youtube_fetcher" {
   project = var.project_id
   region = "asia-east1"
