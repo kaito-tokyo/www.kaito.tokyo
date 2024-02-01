@@ -1,0 +1,11 @@
+{
+	"name": "www.kaito.tokyo-youtube-fetcher",
+	"version": "1.0.0",
+	"main": "index.js",
+	"license": "MIT",
+	"private": true,
+	"dependencies": {
+		"@google-cloud/functions-framework": "^3.3.0"
+	},
+	"type": "module"
+}

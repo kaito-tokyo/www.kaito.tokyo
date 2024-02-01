@@ -53,11 +53,12 @@ jobs:
             --input-values="project_id=$PROJECT_ID"
 
       - name: "Deploy the function"
-        run: >-
-          gcloud functions deploy youtube-video-fetcher
-            --region=asia-east1
-            --gen2
-            --ingress-settings=internal-only
-            --run-service-account=${{ env.FUNCTION_SERVICE_ACCOUNT }}
-            --runtime=nodejs20
-            --service-account=${{ env.FUNCTION_SERVICE_ACCOUNT }}
+        run: |
+          gcloud functions deploy youtube-video-fetcher \
+            --region=$REGION \
+            --allow-unauthenticated \
+            --gen2 \
+            --run-service-account=$FUNCTION_SERVICE_ACCOUNT \
+            --runtime=nodejs20 \
+            --service-account=$FUNCTION_SERVICE_ACCOUNT \
+            --trigger-http
