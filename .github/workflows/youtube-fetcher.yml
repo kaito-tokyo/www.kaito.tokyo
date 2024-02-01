@@ -59,6 +59,7 @@ jobs:
             --region=$REGION \
             --allow-unauthenticated \
             --gen2 \
+            --ingress-settings=internal-only \
             --run-service-account=$FUNCTION_SERVICE_ACCOUNT \
             --runtime=nodejs20 \
             --service-account=$FUNCTION_SERVICE_ACCOUNT \
