@@ -1,7 +1,7 @@
 <script>
-	import { page } from '$app/stores';
-	import logo from '$lib/images/svelte-logo.svg';
-	import github from '$lib/images/github.svg';
+	import { page } from "$app/stores";
+	import logo from "$lib/images/svelte-logo.svg";
+	import github from "$lib/images/github.svg";
 </script>
 
 <header>
@@ -16,7 +16,7 @@
 			<path d="M0,0 L1,2 C1.5,3 1.5,3 2,3 L2,0 Z" />
 		</svg>
 		<ul>
-			<li aria-current={$page.url.pathname === '/' ? 'page' : undefined}>
+			<li aria-current={$page.url.pathname === "/" ? "page" : undefined}>
 				<a href="/">Home</a>
 			</li>
 		</ul>
@@ -91,9 +91,9 @@
 		height: 100%;
 	}
 
-	li[aria-current='page']::before {
+	li[aria-current="page"]::before {
 		--size: 6px;
-		content: '';
+		content: "";
 		width: 0;
 		height: 0;
 		position: absolute;

@@ -1,6 +1,6 @@
-import { createClient } from './newt-createClient';
-import { type Image } from 'newt-client-js';
-import { NEWT_SPACE_UID, NEWT_CDN_API_TOKEN } from '$env/static/private';
+import { createClient } from "./newt-createClient";
+import { type Image } from "newt-client-js";
+import { NEWT_SPACE_UID, NEWT_CDN_API_TOKEN } from "$env/static/private";
 
 export interface IllustrationTag {
 	_id: string;
@@ -21,5 +21,5 @@ export interface IllustrationArticle {
 export const newtClient = createClient({
 	spaceUid: NEWT_SPACE_UID,
 	token: NEWT_CDN_API_TOKEN,
-	apiType: 'cdn'
+	apiType: "cdn"
 });

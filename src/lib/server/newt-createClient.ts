@@ -6,12 +6,12 @@ import type {
 	Contents,
 	GetAppParams,
 	AppMeta
-} from 'newt-client-js';
-import type { Query, FilterQuery } from 'newt-client-js/dist/types/types';
-import { stringify } from 'qs';
+} from "newt-client-js";
+import type { Query, FilterQuery } from "newt-client-js/dist/types/types";
+import { stringify } from "qs";
 
 const parseAndQuery = (andQuery: FilterQuery[]) => {
-	if (!andQuery) throw new Error('invalid query');
+	if (!andQuery) throw new Error("invalid query");
 	const rawAndConditions: string[] = [];
 	const encodedAndConditions: string[] = [];
 
@@ -20,13 +20,13 @@ const parseAndQuery = (andQuery: FilterQuery[]) => {
 		rawAndConditions.push(raw);
 		encodedAndConditions.push(encoded);
 	});
-	const rawQ = rawAndConditions.join('&');
-	const encodedQ = encodedAndConditions.join('&');
+	const rawQ = rawAndConditions.join("&");
+	const encodedQ = encodedAndConditions.join("&");
 	return { raw: rawQ, encoded: encodedQ };
 };
 
 const parseOrQuery = (orQuery: FilterQuery[]) => {
-	if (!orQuery) throw new Error('invalid query');
+	if (!orQuery) throw new Error("invalid query");
 	const rawOrConditions: string[] = [];
 
 	orQuery.forEach((query: FilterQuery) => {
@@ -34,37 +34,37 @@ const parseOrQuery = (orQuery: FilterQuery[]) => {
 		rawOrConditions.push(raw);
 	});
 	const params = new URLSearchParams();
-	params.set('[or]', `(${rawOrConditions.join(';')})`);
-	const rawQ = `[or]=(${rawOrConditions.join(';')})`;
+	params.set("[or]", `(${rawOrConditions.join(";")})`);
+	const rawQ = `[or]=(${rawOrConditions.join(";")})`;
 	return { raw: rawQ, encoded: params.toString() };
 };
 
 export const parseQuery = (query: Query) => {
-	let andQuery = { raw: '', encoded: '' };
+	let andQuery = { raw: "", encoded: "" };
 	if (query.and) {
 		andQuery = parseAndQuery(query.and);
 		delete query.and;
 	}
 
-	let orQuery = { raw: '', encoded: '' };
+	let orQuery = { raw: "", encoded: "" };
 	if (query.or) {
 		orQuery = parseOrQuery(query.or);
 		delete query.or;
 	}
 
-	const rawQuery = stringify(query, { encode: false, arrayFormat: 'comma' });
-	const encodedQuery = stringify(query, { arrayFormat: 'comma' });
-	const raw = [rawQuery, orQuery.raw, andQuery.raw].filter((queryString) => queryString).join('&');
+	const rawQuery = stringify(query, { encode: false, arrayFormat: "comma" });
+	const encodedQuery = stringify(query, { arrayFormat: "comma" });
+	const raw = [rawQuery, orQuery.raw, andQuery.raw].filter((queryString) => queryString).join("&");
 	const encoded = [encodedQuery, orQuery.encoded, andQuery.encoded]
 		.filter((queryString) => queryString)
-		.join('&');
+		.join("&");
 	return { raw, encoded };
 };
 
-export const createClient = ({ spaceUid, token, apiType = 'cdn' }: CreateClientParams) => {
-	if (!spaceUid) throw new Error('spaceUid parameter is required.');
-	if (!token) throw new Error('token parameter is required.');
-	if (!['cdn', 'api'].includes(apiType))
+export const createClient = ({ spaceUid, token, apiType = "cdn" }: CreateClientParams) => {
+	if (!spaceUid) throw new Error("spaceUid parameter is required.");
+	if (!token) throw new Error("token parameter is required.");
+	if (!["cdn", "api"].includes(apiType))
 		throw new Error(`apiType parameter should be set to "cdn" or "api". apiType: ${apiType}`);
 
 	const baseUrl = new URL(`https://${spaceUid}.${apiType}.newt.so`);
@@ -75,8 +75,8 @@ export const createClient = ({ spaceUid, token, apiType = 'cdn' }: CreateClientP
 		modelUid,
 		query
 	}: GetContentsParams): Promise<Contents<T>> => {
-		if (!appUid) throw new Error('appUid parameter is required.');
-		if (!modelUid) throw new Error('modelUid parameter is required.');
+		if (!appUid) throw new Error("appUid parameter is required.");
+		if (!modelUid) throw new Error("modelUid parameter is required.");
 
 		const url = new URL(`/v1/${appUid}/${modelUid}`, baseUrl.toString());
 		if (query && Object.keys(query).length) {
@@ -86,7 +86,7 @@ export const createClient = ({ spaceUid, token, apiType = 'cdn' }: CreateClientP
 
 		const response = await fetch(url, { headers });
 		if (!response.ok) {
-			throw new Error('Reponse error!');
+			throw new Error("Reponse error!");
 		}
 		const json = await response.json();
 		return json;
@@ -98,9 +98,9 @@ export const createClient = ({ spaceUid, token, apiType = 'cdn' }: CreateClientP
 		contentId,
 		query
 	}: GetContentParams): Promise<T> => {
-		if (!appUid) throw new Error('appUid parameter is required.');
-		if (!modelUid) throw new Error('modelUid parameter is required.');
-		if (!contentId) throw new Error('contentId parameter is required.');
+		if (!appUid) throw new Error("appUid parameter is required.");
+		if (!modelUid) throw new Error("modelUid parameter is required.");
+		if (!contentId) throw new Error("contentId parameter is required.");
 
 		const url = new URL(`/v1/${appUid}/${modelUid}/${contentId}`, baseUrl.toString());
 		if (query && Object.keys(query).length) {
@@ -110,7 +110,7 @@ export const createClient = ({ spaceUid, token, apiType = 'cdn' }: CreateClientP
 
 		const response = await fetch(url, { headers });
 		if (!response.ok) {
-			throw new Error('Reponse error!');
+			throw new Error("Reponse error!");
 		}
 		const json = await response.json();
 		return json;
@@ -122,7 +122,7 @@ export const createClient = ({ spaceUid, token, apiType = 'cdn' }: CreateClientP
 		query
 	}: GetFirstContentParams): Promise<T | null> => {
 		if (query && query.limit) {
-			throw new Error('query.limit parameter cannot have a value.');
+			throw new Error("query.limit parameter cannot have a value.");
 		}
 		const q = { ...query, limit: 1 };
 
@@ -132,12 +132,12 @@ export const createClient = ({ spaceUid, token, apiType = 'cdn' }: CreateClientP
 	};
 
 	const getApp = async ({ appUid }: GetAppParams): Promise<AppMeta> => {
-		if (!appUid) throw new Error('appUid parameter is required.');
+		if (!appUid) throw new Error("appUid parameter is required.");
 		const url = new URL(`/v1/space/apps/${appUid}`, baseUrl.toString());
 
 		const response = await fetch(url, { headers });
 		if (!response.ok) {
-			throw new Error('Reponse error!');
+			throw new Error("Reponse error!");
 		}
 		const json = await response.json();
 		return json;
