@@ -1,7 +1,10 @@
+- assign_variables:
+    assign:
+      - ChannelId: "UCfhyVWrxCmdUpst-5n7Kz_Q"
 - youtube_video_fetcher:
     call: "http.get"
     args:
-      url: "https://asia-east1-www-kaito-tokyo.cloudfunctions.net/youtube-video-fetcher?channelId=UCfhyVWrxCmdUpst-5n7Kz_Q"
+      url: "https://asia-east1-www-kaito-tokyo.cloudfunctions.net/youtube-video-fetcher?channelId=${ChannelId}"
       auth:
         type: "OIDC"
     result: youtube_video_fetcher_result
