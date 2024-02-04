@@ -30,7 +30,7 @@ jobs:
       contents: "read"
       id-token: "write"
 
-    if: "github.event_name == 'push' || contains(github.event.pull_request.labels.*.name, 'Infra Development')"
+    if: "github.event_name == 'push' || contains(github.event.pull_request.labels.*.name, 'infra')"
 
     steps:
       - name: "Checkout"
