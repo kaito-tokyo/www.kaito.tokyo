@@ -1,7 +1,7 @@
 - AssignConstants:
     assign:
       - channelId: "UCfhyVWrxCmdUpst-5n7Kz_Q"
-      - bucketName: "www-kaito-tokyo-youtube-fetcher"
+      - cacheBucketName: "www-kaito-tokyo-youtube-fetcher-caches"
 - CalculateCachedObjectName:
     assign:
       - today: '${text.split(time.format(sys.now()), "T")[0]}'
@@ -9,7 +9,7 @@
 - GetCachedResponse:
     call: googleapis.storage.v1.objects.get
     args:
-      bucket: "${bucketName}"
+      bucket: "${cacheBucketName}"
       object: "${cachedObjectName}"
     result: cachedResponse
 # - youtube_video_fetcher:

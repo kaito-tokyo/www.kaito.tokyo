@@ -1,3 +1,11 @@
+resource "google_storage_bucket" "youtube_fetcher_caches" {
+  name                        = "www-kaito-tokyo-youtube-fetcher-cache"
+  location                    = "asia-east1"
+  project                     = var.project_id
+  uniform_bucket_level_access = true
+  public_access_prevention    = true
+}
+
 resource "google_service_account" "youtube_fetcher_workflow" {
   project    = var.project_id
   account_id = "youtube-fetcher-workflow"
