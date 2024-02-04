@@ -1,4 +1,4 @@
-name: "YouTube fetcher"
+name: "YouTube Fetcher"
 
 on:
   push:
