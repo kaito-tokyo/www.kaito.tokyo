@@ -1,43 +1,38 @@
 import { http } from "@google-cloud/functions-framework";
 import { type GaxiosResponse } from "gaxios";
 import { google, youtube_v3 } from "googleapis";
-import { GoogleAuth, Impersonated, OAuth2Client } from "google-auth-library";
+import { GoogleAuth } from "google-auth-library";
+import { type BodyResponseCallback } from "googleapis-common";
 
 const service = google.youtube("v3");
 
-async function getAccessTokenFromImpersonatedCredentials() {
-	const googleAuth = new GoogleAuth({
-		scopes: [],
-	});
-	const { credential } = await googleAuth.getApplicationDefault();
-	const impersonatedCredentials = new Impersonated({
-		sourceClient: credential,
-	});
-	const { token } = await impersonatedCredentials.getAccessToken();
-	return token;
+function promisifyYouTubeDataAPI<Params, Response>(
+	func: (params: Params, callback: BodyResponseCallback<Response>) => void
+): (params: Params) => Promise<GaxiosResponse<Response> | null | undefined> {
+	return (params) =>
+		new Promise((resolve, reject) => {
+			func(params, (err, response) => {
+				if (err) {
+					reject(err);
+				} else {
+					resolve(response);
+				}
+			});
+		});
 }
 
-function listChannels(
-	params: youtube_v3.Params$Resource$Channels$List
-): Promise<GaxiosResponse<youtube_v3.Schema$ChannelListResponse> | null | undefined> {
-	return new Promise((resolve, reject) => {
-		service.channels.list(params, (err, response) => {
-			if (err) {
-				reject(err);
-			} else {
-				resolve(response);
-			}
-		});
-	});
-}
+const listSearch = promisifyYouTubeDataAPI<
+	youtube_v3.Params$Resource$Search$List,
+	youtube_v3.Schema$SearchListResponse
+>(service.search.list);
 
 http("youtube-video-fetcher", async (_, res) => {
-	const response = await listChannels({
+	const response = await listSearch({
 		auth: new GoogleAuth({
-			scopes: ["https://www.googleapis.com/auth/youtube.readonly"],
+			scopes: ["https://www.googleapis.com/auth/youtube.readonly"]
 		}),
 		part: ["snippet"],
-		forUsername: "GoogleDevelopers"
+		forMine: true
 	});
 	res.send(response?.data);
 });
