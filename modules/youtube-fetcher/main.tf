@@ -3,7 +3,7 @@ resource "google_storage_bucket" "youtube_fetcher_caches" {
   location                    = "asia-east1"
   project                     = var.project_id
   uniform_bucket_level_access = true
-  public_access_prevention    = true
+  public_access_prevention    = "enforced"
 }
 
 resource "google_service_account" "youtube_fetcher_workflow" {
