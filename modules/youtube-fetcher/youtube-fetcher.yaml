@@ -30,6 +30,7 @@
     call: "googleapis.storage.v1.objects.insert"
     args:
       bucket: "${cacheBucketName}"
+      uploadType: "media"
       name: "${cachedObjectName}"
       body: "${requestedSearchList}"
 - GetSearchList:
@@ -37,6 +38,7 @@
     args:
       bucket: "${cacheBucketName}"
       object: "${text.url_encode(cachedObjectName)}"
+      alt: "media"
     result: searchResult
 - ReturnResult:
     return: "${searchResult}"
