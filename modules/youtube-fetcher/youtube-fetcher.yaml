@@ -1,14 +1,25 @@
-- assign_variables:
+- AssignConstants:
     assign:
-      - ChannelId: "UCfhyVWrxCmdUpst-5n7Kz_Q"
-- youtube_video_fetcher:
-    call: "http.get"
+      - channelId: "UCfhyVWrxCmdUpst-5n7Kz_Q"
+      - bucketName: "www-kaito-tokyo-youtube-fetcher"
+- CalculateCachedObjectName:
+    assign:
+      - today: '${text.split(time.format(sys.now()), "T")[0]}'
+      - cachedObjectName: '${channelId + "/" + today + ".json"}'
+- GetCachedResponse:
+    call: googleapis.storage.v1.objects.get
     args:
-      url: "https://asia-east1-www-kaito-tokyo.cloudfunctions.net/youtube-video-fetcher"
-      query:
-        channelId: "${ChannelId}"
-      auth:
-        type: "OIDC"
-    result: youtube_video_fetcher_result
+      bucket: '${bucketName}'
+      object: '${cacheObjectName}'
+    result: cachedResponse
+# - youtube_video_fetcher:
+#     call: "http.get"
+#     args:
+#       url: "https://asia-east1-www-kaito-tokyo.cloudfunctions.net/youtube-video-fetcher"
+#       query:
+#         channelId: "${channelId}"
+#       auth:
+#         type: "OIDC"
+#     result: youtube_video_fetcher_result
 - return_result:
-    return: "${youtube_video_fetcher_result}"
+    return: "${cachedResponse}"
