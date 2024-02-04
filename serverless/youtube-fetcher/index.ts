@@ -1,7 +1,6 @@
 import { http } from "@google-cloud/functions-framework";
 import { type GaxiosResponse } from "gaxios";
 import { google, youtube_v3 } from "googleapis";
-import { type BodyResponseCallback, type StreamMethodOptions } from "googleapis/build/src/apis/abusiveexperiencereport";
 
 const service = google.youtube("v3");
 
