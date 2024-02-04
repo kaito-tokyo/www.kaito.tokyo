@@ -61,7 +61,7 @@ jobs:
       - name: "Deploy the function"
         working-directory: "serverless/youtube-fetcher"
         run: |
-          gcloud functions deploy youtube-video-fetcher \
+          gcloud functions deploy youtube-list-search \
             --region=$REGION \
             --no-allow-unauthenticated \
             --gen2 \

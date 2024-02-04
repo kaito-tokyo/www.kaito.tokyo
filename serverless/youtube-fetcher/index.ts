@@ -19,7 +19,7 @@ function listSearch(
 	});
 }
 
-http("youtube-video-fetcher", async (req, res) => {
+http("youtube-list-search", async (req, res) => {
 	const { channelId } = req.query;
 
 	if (typeof channelId !== "string") {

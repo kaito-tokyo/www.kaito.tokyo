@@ -5,21 +5,38 @@
 - CalculateCachedObjectName:
     assign:
       - today: '${text.split(time.format(sys.now()), "T")[0]}'
-      - cachedObjectName: '${channelId + "/" + today + ".json"}'
-- GetCachedResponse:
-    call: googleapis.storage.v1.objects.get
+      - cachedObjectName: '${channelId + "/youtube-list-search/" + today + ".json"}'
+- CheckIfCachedSearchListExists:
+    call: googleapis.storage.v1.objects.list
+    args:
+      bucket: "${cacheBucketName}"
+      matchGlob: "${cachedObjectName}"
+    result: cachedResponseExists
+- DetermineIfRequestSearchList:
+    switch:
+      - condition: '${"items" in cachedResponseExists}'
+        next: "GetSearchList"
+    next: "RequestSearchList"
+- RequestSearchList:
+    call: "http.get"
+    args:
+      url: "https://asia-east1-www-kaito-tokyo.cloudfunctions.net/youtube-list-search"
+      query:
+        channelId: "${channelId}"
+      auth:
+        type: "OIDC"
+    result: "requestedSearchList"
+- SaveSearchList:
+    call: "googleapis.storage.v1.objects.insert"
+    args:
+      bucket: "${cacheBucketName}"
+      name: "${cachedObjectName}"
+      body: "${requestedSearchList}"
+- GetSearchList:
+    call: "googleapis.storage.v1.objects.get"
     args:
       bucket: "${cacheBucketName}"
       object: "${cachedObjectName}"
-    result: cachedResponse
-# - youtube_video_fetcher:
-#     call: "http.get"
-#     args:
-#       url: "https://asia-east1-www-kaito-tokyo.cloudfunctions.net/youtube-video-fetcher"
-#       query:
-#         channelId: "${channelId}"
-#       auth:
-#         type: "OIDC"
-#     result: youtube_video_fetcher_result
-- return_result:
-    return: "${cachedResponse}"
+    result: searchResult
+- ReturnResult:
+    return: "${searchResult}"
