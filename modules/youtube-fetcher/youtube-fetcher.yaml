@@ -36,7 +36,7 @@
     call: "googleapis.storage.v1.objects.get"
     args:
       bucket: "${cacheBucketName}"
-      object: "${cachedObjectName}"
+      object: "${text.url_encode(cachedObjectName)}"
     result: searchResult
 - ReturnResult:
     return: "${searchResult}"
