@@ -10,7 +10,7 @@
     call: googleapis.storage.v1.objects.get
     args:
       bucket: '${bucketName}'
-      object: '${cacheObjectName}'
+      object: '${cachedObjectName}'
     result: cachedResponse
 # - youtube_video_fetcher:
 #     call: "http.get"
