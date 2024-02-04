@@ -1,7 +1,7 @@
 - youtube_video_fetcher:
     call: "http.get"
     args:
-      url: "https://asia-east1-www-kaito-tokyo.cloudfunctions.net/youtube-video-fetcher"
+      url: "https://asia-east1-www-kaito-tokyo.cloudfunctions.net/youtube-video-fetcher?channelId=UCfhyVWrxCmdUpst-5n7Kz_Q"
       auth:
         type: "OIDC"
     result: youtube_video_fetcher_result
