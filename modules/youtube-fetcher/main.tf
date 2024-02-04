@@ -10,8 +10,9 @@ resource "google_project_iam_member" "youtube_fetcher_workflow_run_invoker" {
 }
 
 resource "google_workflows_workflow" "youtube_fetcher" {
-  project = var.project_id
-  region = "asia-east1"
+  name            = "youtube-fetcher"
+  project         = var.project_id
+  region          = "asia-east1"
   service_account = google_service_account.youtube_fetcher_workflow.email
   source_contents = file("${path.module}/youtube-fetcher.yaml")
 }
