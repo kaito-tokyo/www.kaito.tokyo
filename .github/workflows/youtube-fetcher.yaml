@@ -23,7 +23,7 @@ env:
   REGION: "asia-east1"
 
 jobs:
-  Deploy:
+  DeployYouTubeFetcher:
     runs-on: "ubuntu-latest"
 
     permissions:

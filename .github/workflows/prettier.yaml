@@ -9,7 +9,7 @@ on:
       - "main"
 
 jobs:
-  Deploy:
+  CheckPrettier:
     runs-on: "ubuntu-latest"
 
     steps:
