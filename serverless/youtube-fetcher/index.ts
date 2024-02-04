@@ -20,13 +20,20 @@ function listSearch(
 	});
 }
 
-http("youtube-video-fetcher", async (_, res) => {
+http("youtube-video-fetcher", async (req, res) => {
+	const { channelId } = req.query;
+	if (typeof channelId !== "string") {
+		throw new Error("channelId is not a string!");
+	}
 	const response = await listSearch({
 		auth: new GoogleAuth({
 			scopes: ["https://www.googleapis.com/auth/youtube.readonly"]
 		}),
 		part: ["snippet"],
-		forMine: true
+		channelId,
+		maxResults: 500,
+		order: "date",
+		type: ["video"]
 	});
 	res.send(response?.data);
 });
