@@ -16,5 +16,8 @@ jobs:
       - name: "Install terraform"
         uses: "hashicorp/setup-terraform@v3"
 
+      - name: "Checkout"
+        uses: "actions/checkout@v4"
+
       - name: "Check format"
         run: "terraform fmt -check -recursive modules"
