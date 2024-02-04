@@ -19,7 +19,7 @@ resource "google_project_iam_member" "youtube_fetcher_workflow_run_invoker" {
 
 resource "google_storage_bucket_iam_member" "youtube_fetcher_workflow_youtube_fetcher_cache_object_admin" {
   bucket = google_storage_bucket.youtube_fetcher_cache.name
-  role = "roles/storage.objectAdmin"
+  role   = "roles/storage.objectAdmin"
   member = "serviceAccount:${google_service_account.youtube_fetcher_workflow.email}"
 }
 
