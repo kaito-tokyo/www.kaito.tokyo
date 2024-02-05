@@ -58,10 +58,23 @@ jobs:
             --service-account="projects/$PROJECT_ID/serviceAccounts/$INFRA_MANAGER_SERVICE_ACCOUNT" \
             --input-values="project_id=$PROJECT_ID"
 
-      - name: "Deploy the function"
+      - name: "Deploy youtube-list-search"
         working-directory: "serverless/youtube-fetcher"
         run: |
           gcloud functions deploy youtube-list-search \
+            --region=$REGION \
+            --no-allow-unauthenticated \
+            --gen2 \
+            --ingress-settings=internal-only \
+            --run-service-account=$FUNCTION_SERVICE_ACCOUNT \
+            --runtime=nodejs20 \
+            --service-account=$FUNCTION_SERVICE_ACCOUNT \
+            --trigger-http
+
+      - name: "Deploy youtube-list-videos"
+        working-directory: "serverless/youtube-fetcher"
+        run: |
+          gcloud functions deploy youtube-list-videos \
             --region=$REGION \
             --no-allow-unauthenticated \
             --gen2 \

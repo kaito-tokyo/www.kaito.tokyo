@@ -79,6 +79,18 @@ resource "google_workflows_workflow" "fetch_all_search_list" {
   )
 }
 
+resource "google_workflows_workflow" "fetch_all_videos_list" {
+  name            = "fetch-all-videos-list"
+  project         = var.project_id
+  region          = "asia-east1"
+  service_account = google_service_account.youtube_fetcher_workflow.email
+  source_contents = format(
+    "%s\n%s",
+    yamlencode(local.workflow_constants),
+    file("${path.module}/workflows/fetch-all-videos-list.yaml")
+  )
+}
+
 resource "google_service_account" "youtube_fetcher" {
   project    = var.project_id
   account_id = "youtube-fetcher"
