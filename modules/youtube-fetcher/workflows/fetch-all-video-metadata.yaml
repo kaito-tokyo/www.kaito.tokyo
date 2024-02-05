@@ -37,7 +37,7 @@
             args:
               bucket: "${cacheBucketName}"
               uploadType: "media"
-              name: '${format("%s-%d.json", cachedReponsePrefix, i)}'
+              name: '${cachedReponsePrefix + "-" + i ".json"}'
               body: "${requestedSearchList}"
         - DetermineHasNextPage:
             switch:
