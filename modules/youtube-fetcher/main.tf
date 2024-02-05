@@ -46,8 +46,8 @@ locals {
     {
       "Constants" = {
         "assign" = {
-          "channelId" = local.channel_id
-          "cacheBucketName" = google_storage_bucket.youtube_fetcher_cache.name
+          "channelId"          = local.channel_id
+          "cacheBucketName"    = google_storage_bucket.youtube_fetcher_cache.name
           "metadataBucketName" = google_storage_bucket.youtube_fetcher_metadata.name
         }
       }
