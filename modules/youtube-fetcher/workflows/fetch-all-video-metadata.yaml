@@ -59,13 +59,13 @@
       value: "object"
       in: "${cachedSearchLists.items}"
       steps:
-      - GetSearchList:
-          call: "googleapis.storage.v1.objects.get"
-          args:
-            bucket: "${cacheBucketName}"
-            object: "${text.url_encode(object.name)}"
-            alt: "media"
-          result: "searchList"   
+        - GetSearchList:
+            call: "googleapis.storage.v1.objects.get"
+            args:
+              bucket: "${cacheBucketName}"
+              object: "${text.url_encode(object.name)}"
+              alt: "media"
+            result: "searchList"
         - IterateForAllSearchItems:
             for:
               value: "item"
