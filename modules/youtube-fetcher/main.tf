@@ -60,7 +60,8 @@ resource "google_workflows_workflow" "fetch_latest_video_metadata" {
   project         = var.project_id
   region          = "asia-east1"
   service_account = google_service_account.youtube_fetcher_workflow.email
-  source_contents = concat(
+  source_contents = format(
+    "%s\n%s",
     yamlencode(local.workflow_constants),
     file("${path.module}/workflows/fetch-latest-video-metadata.yaml")
   )
