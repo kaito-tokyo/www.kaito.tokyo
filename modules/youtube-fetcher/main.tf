@@ -67,6 +67,18 @@ resource "google_workflows_workflow" "fetch_latest_video_metadata" {
   )
 }
 
+resource "google_workflows_workflow" "fetch_all_video_metadata" {
+  name            = "fetch-all-video-metadata"
+  project         = var.project_id
+  region          = "asia-east1"
+  service_account = google_service_account.youtube_fetcher_workflow.email
+  source_contents = format(
+    "%s\n%s",
+    yamlencode(local.workflow_constants),
+    file("${path.module}/workflows/fetch-all-video-metadata.yaml")
+  )
+}
+
 resource "google_service_account" "youtube_fetcher" {
   project    = var.project_id
   account_id = "youtube-fetcher"
