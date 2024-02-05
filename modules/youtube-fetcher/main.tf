@@ -55,27 +55,27 @@ locals {
   ]
 }
 
-resource "google_workflows_workflow" "fetch_latest_video_search_list" {
-  name            = "fetch-latest-video-search-list"
+resource "google_workflows_workflow" "fetch_latest_search_list" {
+  name            = "fetch-latest-search-list"
   project         = var.project_id
   region          = "asia-east1"
   service_account = google_service_account.youtube_fetcher_workflow.email
   source_contents = format(
     "%s\n%s",
     yamlencode(local.workflow_constants),
-    file("${path.module}/workflows/fetch-latest-video-search-list.yaml")
+    file("${path.module}/workflows/fetch-latest-search-list.yaml")
   )
 }
 
-resource "google_workflows_workflow" "fetch_all_video_search_list" {
-  name            = "fetch-all-video-search-list"
+resource "google_workflows_workflow" "fetch_all_search_list" {
+  name            = "fetch-all-search-list"
   project         = var.project_id
   region          = "asia-east1"
   service_account = google_service_account.youtube_fetcher_workflow.email
   source_contents = format(
     "%s\n%s",
     yamlencode(local.workflow_constants),
-    file("${path.module}/workflows/fetch-all-video-search-list.yaml")
+    file("${path.module}/workflows/fetch-all-search-list.yaml")
   )
 }
 
