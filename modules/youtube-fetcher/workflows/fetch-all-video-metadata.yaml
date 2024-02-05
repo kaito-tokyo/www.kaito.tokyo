@@ -43,7 +43,7 @@
             switch:
               - condition: '${not ("nextPageToken" in requestedSearchList)}'
                 next: "break"
-            next: "SetNextPageToken"
+            next: "SetNextPageTokenAndLastIndex"
         - SetNextPageTokenAndLastIndex:
             assign:
               - pageToken: "${requestedSearchList.nextPageToken}"
