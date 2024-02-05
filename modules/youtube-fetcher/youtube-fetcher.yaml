@@ -2,6 +2,7 @@
     assign:
       - channelId: "UCfhyVWrxCmdUpst-5n7Kz_Q"
       - cacheBucketName: "www-kaito-tokyo-youtube-fetcher-cache"
+      - metadataBucketName: "www-kaito-tokyo-youtube-fetcher-metadata"
 - CalculateCachedObjectName:
     assign:
       - today: '${text.split(time.format(sys.now()), "T")[0]}'
@@ -30,6 +31,7 @@
     call: "googleapis.storage.v1.objects.insert"
     args:
       bucket: "${cacheBucketName}"
+      ifGenerationMatch: 0
       uploadType: "media"
       name: "${cachedObjectName}"
       body: "${requestedSearchList}"
@@ -39,6 +41,20 @@
       bucket: "${cacheBucketName}"
       object: "${text.url_encode(cachedObjectName)}"
       alt: "media"
-    result: searchResult
-- ReturnResult:
-    return: "${searchResult}"
+    result: "searchList"
+- EachSearchItem:
+    for:
+      value: "item"
+      in: "${searchList.body.items}"
+      steps:
+        - AssignMetadataObjectName:
+            assign:
+              - metadataObjectName: '${channelId + "/videos/" + item.snippet.publishedAt + "-" + item.id.videoId + ".json"}'
+        - SaveSearchItem:
+            call: "googleapis.storage.v1.objects.insert"
+            args:
+              bucket: "${metadataBucketName}"
+              ifGenerationMatch: 0
+              uploadType: "media"
+              name: "${metadataObjectName}"
+              body: "${item}"
