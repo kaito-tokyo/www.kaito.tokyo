@@ -54,31 +54,29 @@
       matchGlob: '${cachedReponsePrefix + "-*.json"}'
     result: "cachedSearchLists"
 - IterateForAllSearchLists:
-    parallel:
-      for:
-        value: "object"
-        in: "${cachedSearchLists.items}"
-        steps:
-          - GetSearchList:
-              call: "googleapis.storage.v1.objects.get"
-              args:
-                bucket: "${cacheBucketName}"
-                object: "${text.url_encode(object.name)}"
-                alt: "media"
-              result: "searchList"
-          - IterateForAllSearchItems:
-              parallel:
-                for:
-                  value: "item"
-                  in: "${searchList.body.items}"
-                  steps:
-                    - AssignMetadataObjectName:
-                        assign:
-                          - metadataObjectName: '${channelId + "/search/" + item.snippet.publishedAt + "-" + item.id.videoId + ".json"}'
-                    - SaveSearchItem:
-                        call: "googleapis.storage.v1.objects.insert"
-                        args:
-                          bucket: "${metadataBucketName}"
-                          uploadType: "media"
-                          name: "${metadataObjectName}"
-                          body: "${item}"
+    for:
+      value: "object"
+      in: "${cachedSearchLists.items}"
+      steps:
+        - GetSearchList:
+            call: "googleapis.storage.v1.objects.get"
+            args:
+              bucket: "${cacheBucketName}"
+              object: "${text.url_encode(object.name)}"
+              alt: "media"
+            result: "searchList"
+        - IterateForAllSearchItems:
+            for:
+              value: "item"
+              in: "${searchList.body.items}"
+              steps:
+                - AssignMetadataObjectName:
+                    assign:
+                      - metadataObjectName: '${channelId + "/search/" + item.snippet.publishedAt + "-" + item.id.videoId + ".json"}'
+                - SaveSearchItem:
+                    call: "googleapis.storage.v1.objects.insert"
+                    args:
+                      bucket: "${metadataBucketName}"
+                      uploadType: "media"
+                      name: "${metadataObjectName}"
+                      body: "${item}"
