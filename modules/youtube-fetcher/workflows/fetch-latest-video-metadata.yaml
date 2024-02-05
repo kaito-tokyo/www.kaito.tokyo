@@ -43,7 +43,7 @@
       steps:
         - AssignMetadataObjectName:
             assign:
-              - metadataObjectName: '${channelId + "/videos/" + item.snippet.publishedAt + "-" + item.id.videoId + ".json"}'
+              - metadataObjectName: '${channelId + "/search/" + item.snippet.publishedAt + "-" + item.id.videoId + ".json"}'
         - SaveSearchItem:
             call: "googleapis.storage.v1.objects.insert"
             args:
