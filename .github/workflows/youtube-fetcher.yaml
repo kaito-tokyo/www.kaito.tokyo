@@ -1,7 +1,15 @@
-name: "YouTube fetcher"
+name: "YouTube Fetcher"
 
 on:
   push:
+    branches:
+      - "main"
+  pull_request:
+    types:
+      - "opened"
+      - "labeled"
+      - "synchronize"
+      - "auto_merge_enabled"
     branches:
       - "main"
 
@@ -20,12 +28,14 @@ env:
   REGION: "asia-east1"
 
 jobs:
-  Deploy:
+  DeployYouTubeFetcher:
     runs-on: "ubuntu-latest"
 
     permissions:
       contents: "read"
       id-token: "write"
+
+    if: "github.event_name == 'push' || contains(github.event.pull_request.labels.*.name, 'infra')"
 
     steps:
       - name: "Checkout"
@@ -51,7 +61,7 @@ jobs:
       - name: "Deploy the function"
         working-directory: "serverless/youtube-fetcher"
         run: |
-          gcloud functions deploy youtube-video-fetcher \
+          gcloud functions deploy youtube-list-search \
             --region=$REGION \
             --no-allow-unauthenticated \
             --gen2 \

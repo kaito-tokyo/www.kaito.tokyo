@@ -1,9 +1,58 @@
-- youtube_video_fetcher:
+- AssignConstants:
+    assign:
+      - channelId: "UCfhyVWrxCmdUpst-5n7Kz_Q"
+      - cacheBucketName: "www-kaito-tokyo-youtube-fetcher-cache"
+      - metadataBucketName: "www-kaito-tokyo-youtube-fetcher-metadata"
+- CalculateCachedObjectName:
+    assign:
+      - today: '${text.split(time.format(sys.now()), "T")[0]}'
+      - cachedObjectName: '${channelId + "/youtube-list-search/" + today + ".json"}'
+- CheckIfCachedSearchListExists:
+    call: googleapis.storage.v1.objects.list
+    args:
+      bucket: "${cacheBucketName}"
+      matchGlob: "${cachedObjectName}"
+    result: cachedResponseExists
+- DetermineIfRequestSearchList:
+    switch:
+      - condition: '${"items" in cachedResponseExists}'
+        next: "GetSearchList"
+    next: "RequestSearchList"
+- RequestSearchList:
     call: "http.get"
     args:
-      url: "https://asia-east1-www-kaito-tokyo.cloudfunctions.net/youtube-video-fetcher"
+      url: "https://asia-east1-www-kaito-tokyo.cloudfunctions.net/youtube-list-search"
+      query:
+        channelId: "${channelId}"
       auth:
         type: "OIDC"
-    result: youtube_video_fetcher_result
-- return_result:
-    return: "${youtube_video_fetcher_result}"
+    result: "requestedSearchList"
+- SaveSearchList:
+    call: "googleapis.storage.v1.objects.insert"
+    args:
+      bucket: "${cacheBucketName}"
+      uploadType: "media"
+      name: "${cachedObjectName}"
+      body: "${requestedSearchList}"
+- GetSearchList:
+    call: "googleapis.storage.v1.objects.get"
+    args:
+      bucket: "${cacheBucketName}"
+      object: "${text.url_encode(cachedObjectName)}"
+      alt: "media"
+    result: "searchList"
+- EachSearchItem:
+    for:
+      value: "item"
+      in: "${searchList.body.items}"
+      steps:
+        - AssignMetadataObjectName:
+            assign:
+              - metadataObjectName: '${channelId + "/videos/" + item.snippet.publishedAt + "-" + item.id.videoId + ".json"}'
+        - SaveSearchItem:
+            call: "googleapis.storage.v1.objects.insert"
+            args:
+              bucket: "${metadataBucketName}"
+              uploadType: "media"
+              name: "${metadataObjectName}"
+              body: "${item}"
