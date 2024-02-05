@@ -1,12 +1,12 @@
 - CalculateCachedResponsePrefix:
     assign:
       - today: '${text.split(time.format(sys.now()), "T")[0]}'
-      - cachedReponsePrefix: '${format("%s/youtube-list-search-all/%s", channelId, today)}'
+      - cachedReponsePrefix: '${channelId + "/youtube-list-search-all/" + today)}'
 - CheckIfCachedSearchListExists:
     call: "googleapis.storage.v1.objects.list"
     args:
       bucket: "${cacheBucketName}"
-      matchGlob: '${format("%s-*.json", cachedReponsePrefix)}'
+      matchGlob: '${cachedReponsePrefix + "-*.json"}'
     result: "cachedResponseExists"
 - DetermineIfRequestSearchList:
     switch:
@@ -52,7 +52,7 @@
     call: "googleapis.storage.v1.objects.list"
     args:
       bucket: "${cacheBucketName}"
-      matchGlob: '${format("%s-*.json", cachedReponsePrefix)}'
+      matchGlob: '${cachedReponsePrefix + "-*.json"}'
     result: "cachedSearchLists"
 - IterateForAllSearchLists:
     return: "${cachedSearchLists}"
