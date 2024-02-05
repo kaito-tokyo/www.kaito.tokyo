@@ -1,7 +1,7 @@
 - CalculateCachedResponsePrefix:
     assign:
       - today: '${text.split(time.format(sys.now()), "T")[0]}'
-      - cachedReponsePrefix: '${channelId + "/youtube-list-search-all/" + today)}'
+      - cachedReponsePrefix: '${channelId + "/youtube-list-search-all/" + today}'
 - CheckIfCachedSearchListExists:
     call: "googleapis.storage.v1.objects.list"
     args:
