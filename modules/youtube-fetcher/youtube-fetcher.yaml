@@ -31,7 +31,6 @@
     call: "googleapis.storage.v1.objects.insert"
     args:
       bucket: "${cacheBucketName}"
-      ifGenerationMatch: 0
       uploadType: "media"
       name: "${cachedObjectName}"
       body: "${requestedSearchList}"
@@ -54,7 +53,6 @@
             call: "googleapis.storage.v1.objects.insert"
             args:
               bucket: "${metadataBucketName}"
-              ifGenerationMatch: 0
               uploadType: "media"
               name: "${metadataObjectName}"
               body: "${item}"
