@@ -20,7 +20,7 @@
 - IterateForAllPages:
     for:
       value: "i"
-      range: [0, 1]
+      range: [0, 30]
       steps:
         - RequestSearchList:
             call: "http.get"
@@ -41,12 +41,12 @@
               body: "${requestedSearchList}"
         - DetermineHasNextPage:
             switch:
-              - condition: '${not ("nextPageToken" in requestedSearchList)}'
-                next: "break"
-            next: "SetNextPageTokenAndLastIndex"
+              - condition: '${"nextPageToken" in requestedSearchList.body}'
+                next: "SetNextPageTokenAndLastIndex"
+            next: "break"
         - SetNextPageTokenAndLastIndex:
             assign:
-              - pageToken: "${requestedSearchList.nextPageToken}"
+              - pageToken: "${requestedSearchList.body.nextPageToken}"
               - lastIndex: "${i}"
 - GetAllSearchLists:
     call: "googleapis.storage.v1.objects.list"
