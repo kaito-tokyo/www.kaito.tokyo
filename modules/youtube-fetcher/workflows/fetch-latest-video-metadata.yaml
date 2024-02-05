@@ -1,8 +1,3 @@
-- AssignConstants:
-    assign:
-      - channelId: "UCfhyVWrxCmdUpst-5n7Kz_Q"
-      - cacheBucketName: "www-kaito-tokyo-youtube-fetcher-cache"
-      - metadataBucketName: "www-kaito-tokyo-youtube-fetcher-metadata"
 - CalculateCachedObjectName:
     assign:
       - today: '${text.split(time.format(sys.now()), "T")[0]}'

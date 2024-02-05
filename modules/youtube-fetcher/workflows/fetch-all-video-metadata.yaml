@@ -1,0 +1,82 @@
+- CalculateCachedResponsePrefix:
+    assign:
+      - today: '${text.split(time.format(sys.now()), "T")[0]}'
+      - cachedReponsePrefix: '${channelId + "/youtube-list-search-all/" + today}'
+- CheckIfCachedSearchListExists:
+    call: "googleapis.storage.v1.objects.list"
+    args:
+      bucket: "${cacheBucketName}"
+      matchGlob: '${cachedReponsePrefix + "-*.json"}'
+    result: "cachedResponseExists"
+- DetermineIfRequestSearchList:
+    switch:
+      - condition: '${"items" in cachedResponseExists}'
+        next: "GetAllSearchLists"
+    next: "PrepareForIterateAllPages"
+- PrepareForIterateAllPages:
+    assign:
+      - pageToken: ""
+      - lastIndex: 0
+- IterateForAllPages:
+    for:
+      value: "i"
+      range: [0, 30]
+      steps:
+        - RequestSearchList:
+            call: "http.get"
+            args:
+              url: "https://asia-east1-www-kaito-tokyo.cloudfunctions.net/youtube-list-search"
+              query:
+                channelId: "${channelId}"
+                pageToken: "${pageToken}"
+              auth:
+                type: "OIDC"
+            result: "requestedSearchList"
+        - SaveSearchList:
+            call: "googleapis.storage.v1.objects.insert"
+            args:
+              bucket: "${cacheBucketName}"
+              uploadType: "media"
+              name: '${cachedReponsePrefix + "-" + i + ".json"}'
+              body: "${requestedSearchList}"
+        - DetermineHasNextPage:
+            switch:
+              - condition: '${"nextPageToken" in requestedSearchList.body}'
+                next: "SetNextPageToken"
+            next: "break"
+        - SetNextPageToken:
+            assign:
+              - pageToken: "${requestedSearchList.body.nextPageToken}"
+- GetAllSearchLists:
+    call: "googleapis.storage.v1.objects.list"
+    args:
+      bucket: "${cacheBucketName}"
+      matchGlob: '${cachedReponsePrefix + "-*.json"}'
+    result: "cachedSearchLists"
+- IterateForAllSearchLists:
+    for:
+      value: "object"
+      in: "${cachedSearchLists.items}"
+      steps:
+        - GetSearchList:
+            call: "googleapis.storage.v1.objects.get"
+            args:
+              bucket: "${cacheBucketName}"
+              object: "${text.url_encode(object.name)}"
+              alt: "media"
+            result: "searchList"
+        - IterateForAllSearchItems:
+            for:
+              value: "item"
+              in: "${searchList.body.items}"
+              steps:
+                - AssignMetadataObjectName:
+                    assign:
+                      - metadataObjectName: '${channelId + "/videos/" + item.snippet.publishedAt + "-" + item.id.videoId + ".json"}'
+                - SaveSearchItem:
+                    call: "googleapis.storage.v1.objects.insert"
+                    args:
+                      bucket: "${metadataBucketName}"
+                      uploadType: "media"
+                      name: "${metadataObjectName}"
+                      body: "${item}"

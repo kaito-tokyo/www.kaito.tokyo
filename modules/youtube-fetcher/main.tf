@@ -1,3 +1,7 @@
+locals {
+  channel_id = "UCfhyVWrxCmdUpst-5n7Kz_Q"
+}
+
 resource "google_service_account" "youtube_fetcher_workflow" {
   project    = var.project_id
   account_id = "youtube-fetcher-workflow"
@@ -37,12 +41,42 @@ resource "google_storage_bucket_iam_member" "youtube_fetcher_workflow_youtube_fe
   member = "serviceAccount:${google_service_account.youtube_fetcher_workflow.email}"
 }
 
-resource "google_workflows_workflow" "youtube_fetcher" {
-  name            = "youtube-fetcher"
+locals {
+  workflow_constants = [
+    {
+      "Constants" = {
+        "assign" = [
+          { "channelId" = local.channel_id },
+          { "cacheBucketName" = google_storage_bucket.youtube_fetcher_cache.name },
+          { "metadataBucketName" = google_storage_bucket.youtube_fetcher_metadata.name }
+        ]
+      }
+    }
+  ]
+}
+
+resource "google_workflows_workflow" "fetch_latest_video_metadata" {
+  name            = "fetch-latest-video-metadata"
   project         = var.project_id
   region          = "asia-east1"
   service_account = google_service_account.youtube_fetcher_workflow.email
-  source_contents = file("${path.module}/youtube-fetcher.yaml")
+  source_contents = format(
+    "%s\n%s",
+    yamlencode(local.workflow_constants),
+    file("${path.module}/workflows/fetch-latest-video-metadata.yaml")
+  )
+}
+
+resource "google_workflows_workflow" "fetch_all_video_metadata" {
+  name            = "fetch-all-video-metadata"
+  project         = var.project_id
+  region          = "asia-east1"
+  service_account = google_service_account.youtube_fetcher_workflow.email
+  source_contents = format(
+    "%s\n%s",
+    yamlencode(local.workflow_constants),
+    file("${path.module}/workflows/fetch-all-video-metadata.yaml")
+  )
 }
 
 resource "google_service_account" "youtube_fetcher" {
