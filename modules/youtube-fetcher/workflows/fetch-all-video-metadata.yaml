@@ -23,15 +23,15 @@
       range: [0, 1]
       steps:
         - RequestSearchList:
-          call: "http.get"
-          args:
-            url: "https://asia-east1-www-kaito-tokyo.cloudfunctions.net/youtube-list-search"
-            query:
-              channelId: "${channelId}"
-              pageToken: "${pageToken}"
-            auth:
-              type: "OIDC"
-          result: "requestedSearchList"
+            call: "http.get"
+            args:
+              url: "https://asia-east1-www-kaito-tokyo.cloudfunctions.net/youtube-list-search"
+              query:
+                channelId: "${channelId}"
+                pageToken: "${pageToken}"
+              auth:
+                type: "OIDC"
+            result: "requestedSearchList"
         - SaveSearchList:
             call: "googleapis.storage.v1.objects.insert"
             args:
@@ -41,18 +41,18 @@
               body: "${requestedSearchList}"
         - DetermineHasNextPage:
             switch:
-              condition: '${not ("nextPageToken" in requestedSearchList)}'
-              next: "break"
+              - condition: '${not ("nextPageToken" in requestedSearchList)}'
+                next: "break"
             next: "SetNextPageToken"
         - SetNextPageTokenAndLastIndex:
             assign:
               - pageToken: "${requestedSearchList.nextPageToken}"
               - lastIndex: "${i}"
 - GetAllSearchLists:
-  call: "googleapis.storage.v1.objects.list"
-  args:
-    bucket: "${cacheBucketName}"
-    matchGlob: '${format("%s-*.json", cachedReponsePrefix)}'
-  result: "cachedSearchLists"
+    call: "googleapis.storage.v1.objects.list"
+    args:
+      bucket: "${cacheBucketName}"
+      matchGlob: '${format("%s-*.json", cachedReponsePrefix)}'
+    result: "cachedSearchLists"
 - IterateForAllSearchLists:
     return: "${cachedSearchLists}"
