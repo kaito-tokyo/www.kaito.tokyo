@@ -20,15 +20,12 @@ function listSearch(
 }
 
 http("youtube-list-search", async (req, res) => {
-	const {
-		channelId,
-		pageToken
-	} = req.query;
+	const { channelId, pageToken } = req.query;
 
 	if (typeof channelId !== "string") {
 		throw new Error("channelId is invalid!");
 	}
-	
+
 	if (typeof pageToken !== "undefined" && typeof pageToken !== "string") {
 		throw new Error("pageToken is invalid!");
 	}

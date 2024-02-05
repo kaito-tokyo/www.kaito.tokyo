@@ -53,6 +53,6 @@
   args:
     bucket: "${cacheBucketName}"
     matchGlob: '${format("%s-*.json", cachedReponsePrefix)}'
-  result: "cachedSearchLists"           
+  result: "cachedSearchLists"
 - IterateForAllSearchLists:
     return: "${cachedSearchLists}"
