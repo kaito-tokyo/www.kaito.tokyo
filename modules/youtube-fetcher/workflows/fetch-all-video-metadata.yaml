@@ -42,12 +42,11 @@
         - DetermineHasNextPage:
             switch:
               - condition: '${"nextPageToken" in requestedSearchList.body}'
-                next: "SetNextPageTokenAndLastIndex"
+                next: "SetNextPageToken"
             next: "break"
-        - SetNextPageTokenAndLastIndex:
+        - SetNextPageToken:
             assign:
               - pageToken: "${requestedSearchList.body.nextPageToken}"
-              - lastIndex: "${i}"
 - GetAllSearchLists:
     call: "googleapis.storage.v1.objects.list"
     args:
