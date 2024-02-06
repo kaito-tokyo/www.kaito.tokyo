@@ -13,7 +13,7 @@ inputs:
   service-account:
     required: true
     type: "string"
-      
+
 runs:
   using: "composite"
   steps:
