@@ -17,8 +17,8 @@
         - AssignLoopVariablesForVideosRequests:
             assign:
               - requestingitems: []
-              - startingItemIndex: "${pageIndex * numRequest}"
-              - endingItemIndex: "${math.min(len(searchItems.items), (pageIndex + 1) * numRequest) - 1}"
+              - startingItemIndex: "${pageIndex * itemsPerRequest}"
+              - endingItemIndex: "${math.min(len(searchItems.items), (pageIndex + 1) * itemsPerRequest) - 1}"
         - LogIterateForVideosRequests:
             call: "sys.log"
             args:
