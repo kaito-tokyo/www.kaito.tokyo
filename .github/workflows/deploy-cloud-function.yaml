@@ -28,8 +28,6 @@ on:
 
 jobs:
   DeployCloudFunction:
-    run-name: "Deploy Cloud Function ${ inputs.name }"
-
     runs-on: "ubuntu-latest"
 
     permissions:
@@ -46,7 +44,7 @@ jobs:
           project-number: "${{ secrets.project-number }}"
           pool-id: "${{ secrets.wif-pool-id }}"
           provider-id: "${{ secrets.wif-provider-id }}"
-          service-account: "${ secrets.wif-service-account }}"
+          service-account: "${{ secrets.wif-service-account }}"
 
       - name: "Deploy Function"
         working-directory: "${{ inputs.working-directory }}"
