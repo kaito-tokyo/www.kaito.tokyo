@@ -27,8 +27,6 @@ on:
 
 jobs:
   DeployInfraManager:
-    run-name: "Deploy Infra Manager ${ inputs.name }"
-
     runs-on: "ubuntu-latest"
 
     permissions:

@@ -26,54 +26,115 @@ on:
 
 jobs:
   DeployYouTubeFetcherInfra:
+    runs-on: "ubuntu-latest"
+
     permissions:
       contents: "read"
       id-token: "write"
-    uses: "./.github/workflows/deploy-infra-manager.yaml"
-    with:
-      name: "youtube-fetcher"
-      infra-manager-service-account: "${{ inputs.infra-manager-service-account }}"
-      region: "${{ inputs.region }}"
-    secrets: "inherit"
+
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v4"
+
+      - name: "Setup Google Cloud"
+        uses: "./.github/actions/setup-google-cloud"
+        with:
+          project-number: "${{ secrets.project-number }}"
+          pool-id: "${{ secrets.wif-pool-id }}"
+          provider-id: "${{ secrets.wif-provider-id }}"
+          service-account: "${ secrets.wif-service-account }}"
+
+      - name: "Deploy Infra Manager"
+        uses: "./.github/actions/deploy-infra-manager"
+        with:
+          name: "youtube-fetcher"
+          project-id: "${{ secrets.project-id }}"
+          infra-manager-service-account: "${{ inputs.infra-manager-service-account }}"
+          region: "${{ inputs.region }}"
 
   DeployYouTubeFetcherDigest:
+    runs-on: "ubuntu-latest"
+
     permissions:
       contents: "read"
       id-token: "write"
+
     needs:
       - "DeployYouTubeFetcherInfra"
-    uses: "./.github/workflows/deploy-cloud-function.yaml"
-    with:
-      name: "youtube-fetcher-digest"
-      working-directory: "serverless/youtube-fetcher"
-      region: "${{ inputs.region }}"
-      function-service-account: "${{ inputs.function-service-account }}"
-    secrets: "inherit"
+    
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v4"
+
+      - name: "Setup Google Cloud"
+        uses: "./.github/actions/setup-google-cloud"
+        with:
+          project-number: "${{ secrets.project-number }}"
+          pool-id: "${{ secrets.wif-pool-id }}"
+          provider-id: "${{ secrets.wif-provider-id }}"
+          service-account: "${ secrets.wif-service-account }}"
+
+      - name: "Deploy Function"
+        uses: "./.github/actions/deploy-cloud-function"
+          name: "youtube-fetcher-digest"
+          working-directory: "serverless/youtube-fetcher"
+          region: "${{ inputs.region }}"
+          function-service-account: "${{ inputs.function-service-account }}"
 
   DeployYouTubeFetcherListSearch:
+    runs-on: "ubuntu-latest"
+
     permissions:
       contents: "read"
       id-token: "write"
+
     needs:
       - "DeployYouTubeFetcherInfra"
-    uses: "./.github/workflows/deploy-cloud-function.yaml"
-    with:
-      name: "youtube-fetcher-list-search"
-      working-directory: "serverless/youtube-fetcher"
-      region: "${{ inputs.region }}"
-      function-service-account: "${{ inputs.function-service-account }}"
-    secrets: "inherit"
+    
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v4"
+
+      - name: "Setup Google Cloud"
+        uses: "./.github/actions/setup-google-cloud"
+        with:
+          project-number: "${{ secrets.project-number }}"
+          pool-id: "${{ secrets.wif-pool-id }}"
+          provider-id: "${{ secrets.wif-provider-id }}"
+          service-account: "${ secrets.wif-service-account }}"
+
+      - name: "Deploy Function"
+        uses: "./.github/actions/deploy-cloud-function"
+          name: "youtube-fetcher-list-search"
+          working-directory: "serverless/youtube-fetcher"
+          region: "${{ inputs.region }}"
+          function-service-account: "${{ inputs.function-service-account }}"
 
   DeployYouTubeFetcherListVideos:
+    runs-on: "ubuntu-latest"
+
     permissions:
       contents: "read"
       id-token: "write"
+
     needs:
       - "DeployYouTubeFetcherInfra"
-    uses: "./.github/workflows/deploy-cloud-function.yaml"
-    with:
-      name: "youtube-fetcher-list-videos"
-      working-directory: "serverless/youtube-fetcher"
-      region: "${{ inputs.region }}"
-      function-service-account: "${{ inputs.function-service-account }}"
-    secrets: "inherit"
+    
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v4"
+
+      - name: "Setup Google Cloud"
+        uses: "./.github/actions/setup-google-cloud"
+        with:
+          project-number: "${{ secrets.project-number }}"
+          pool-id: "${{ secrets.wif-pool-id }}"
+          provider-id: "${{ secrets.wif-provider-id }}"
+          service-account: "${ secrets.wif-service-account }}"
+
+      - name: "Deploy Function"
+        uses: "./.github/actions/deploy-cloud-function"
+          name: "youtube-fetcher-list-videos"
+          working-directory: "serverless/youtube-fetcher"
+          region: "${{ inputs.region }}"
+          function-service-account: "${{ inputs.function-service-account }}"
