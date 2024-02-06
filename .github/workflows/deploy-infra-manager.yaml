@@ -27,7 +27,7 @@ on:
 
 jobs:
   DeployInfraManager:
-    name: "Deploy Infra Manager ${ inputs.name }"
+    run-name: "Deploy Infra Manager ${ inputs.name }"
 
     runs-on: "ubuntu-latest"
 
