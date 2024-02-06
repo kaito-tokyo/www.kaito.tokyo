@@ -1,0 +1,40 @@
+name: "Setup Google Cloud"
+
+on:
+  workflow_call:
+    inputs:
+      project-number:
+        default: "641342314523"
+        required: false
+        type: "string"
+      pool-id:
+        default: "github-umireon"
+        required: false
+        type: "string"
+      provider-id:
+        default: "actions-githubusercontent-com"
+        required: false
+        type: "string"
+      service-account:
+        default: "gha-www-kaito-tokyo@www-kaito-tokyo.iam.gserviceaccount.com"
+        required: false
+        type: "string"
+      
+
+jobs:
+  AuthenticateToGoogleCloud:
+    runs-on: "ubuntu-latest"
+
+    permissions:
+      contents: "read"
+      id-token: "write"
+
+    steps:
+      - name: "Authenticate to Google Cloud"
+        uses: "google-github-actions/auth@v2"
+        with:
+          workload_identity_provider: "projects/${{ inputs.project-number }}/locations/global/workloadIdentityPools/${{ input.pool-id }}/providers/${{ input.provider-id }}"
+          service_account: "${{ inputs.service-account }}"
+
+      - name: "Set up Cloud SDK"
+        uses: "google-github-actions/setup-gcloud@v2"
