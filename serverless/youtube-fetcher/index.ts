@@ -74,10 +74,15 @@ function coarceQueryIntoStringArray(q: undefined | string | string[] | ParsedQs 
 	}
 }
 
+interface YouYubeListVideosRequest {
+	readonly id: string[]
+}
+
 http("youtube-list-videos", async (req, res) => {
+	const body: YouYubeListVideosRequest = req.body 
 	const id = coarceQueryIntoStringArray(req.query.id);
 
-	res.send(JSON.stringify(id));
+	res.send(JSON.stringify(body.id));
 	return;
 	if (typeof id === "undefined") {
 		throw new Error("id is invalid!");

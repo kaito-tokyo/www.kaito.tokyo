@@ -37,9 +37,11 @@
             args:
               url: "https://asia-east1-www-kaito-tokyo.cloudfunctions.net/youtube-list-videos"
               headers:
-                "Content-Type": "application/x-www-form-urlencoded"
+                "Content-Type": "application/json"
               body:
                 id: "${requestingItems}"
+              auth:
+                type: "OIDC"
             result: "videosList"
         - Return:
             return: "${videosList}"
