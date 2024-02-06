@@ -1,0 +1,27 @@
+on:
+  push:
+    branches:
+      - "main"
+  pull_request:
+    types:
+      - "opened"
+      - "labeled"
+      - "synchronize"
+      - "auto_merge_enabled"
+    branches:
+      - "main"
+
+concurrency:
+  group: "${{ github.workflow }}-${{ github.ref }}"
+  cancel-in-progress: true
+
+jobs:
+  DeployYouTubeFetcher:
+    if: "github.event_name == 'push' || contains(github.event.pull_request.labels.*.name, 'infra')"
+    uses: "./.github/workflows/youtube-fetcher.yaml"
+    secrets:
+      project-id: "www-kaito-tokyo"
+      project-number: "641342314523"
+      wif-pool-id: "github-umireon"
+      wif-provider-id: "actions-githubusercontent-com"
+      wif-service-account: "gha-www-kaito-tokyo@www-kaito-tokyo.iam.gserviceaccount.com"
