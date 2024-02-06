@@ -28,7 +28,7 @@ on:
         required: true
 
 jobs:
-  DeployFunction:
+  DeployInfraManager:
     runs-on: "ubuntu-latest"
 
     permissions:
@@ -45,12 +45,12 @@ jobs:
           project-number: "${{ secrets.project-number }}"
           pool-id: "${{ secrets.wif-pool-id }}"
           provider-id: "${{ secrets.wif-provider-id }}"
-          service-account: "${ secrets.wif-service-account }}"
+          service-account: "${{ secrets.wif-service-account }}"
 
       - name: "Apply Terraform"
         run: |
           gcloud infra-manager deployments apply \
             "projects/${{ secrets.project-id }}/locations/${{ inputs.region }}/deployments/${{ inputs.name }}" \
             --local-source="./modules/${{ inputs.name }}" \
-            --service-account="projects/${{ inputs.project-id }}/serviceAccounts/${{ inputs.infra-manager-service-account }}" \
+            --service-account="projects/${{ secrets.project-id }}/serviceAccounts/${{ inputs.infra-manager-service-account }}" \
             --input-values="${{ inputs.input-values }}"
