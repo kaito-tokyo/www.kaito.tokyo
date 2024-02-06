@@ -29,7 +29,7 @@ env:
 
 jobs:
   DeployYouTubeFetcherInfra:
-    uses: "./.github/workflows/deploy-infra-manager"
+    uses: "./.github/workflows/deploy-infra-manager.yaml"
     with:
       name: "youtube-fetcher"
       project-id: "${{ env.PROJECT_ID }}"
@@ -40,7 +40,7 @@ jobs:
   DeployYouTubeFetcherDigest:
     needs:
       - "DeployYouTubeFetcherInfra"
-    uses: "./.github/workflows/deploy-cloud-function"
+    uses: "./.github/workflows/deploy-cloud-function.yaml"
     with:
       name: "youtube-fetcher-digest"
       working-directory: "serverless/youtube-fetcher"
@@ -55,7 +55,7 @@ jobs:
   DeployYouTubeFetcherListSearch:
     needs:
       - "DeployYouTubeFetcherInfra"
-    uses: "./.github/workflows/deploy-cloud-function"
+    uses: "./.github/workflows/deploy-cloud-function.yaml"
     with:
       name: "youtube-fetcher-list-search"
       working-directory: "serverless/youtube-fetcher"
@@ -70,7 +70,7 @@ jobs:
   DeployYouTubeFetcherListVideos:
     needs:
       - "DeployYouTubeFetcherInfra"
-    uses: "./.github/workflows/deploy-cloud-function"
+    uses: "./.github/workflows/deploy-cloud-function.yaml"
     with:
       name: "youtube-fetcher-list-videos"
       working-directory: "serverless/youtube-fetcher"
