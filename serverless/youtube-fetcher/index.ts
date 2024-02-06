@@ -94,7 +94,6 @@ http("youtube-list-videos", async (req, res) => {
 			"liveStreamingDetails",
 			"localizations",
 			"player",
-			"processingDetails",
 			"recordingDetails",
 			"snippet",
 			"statistics",
