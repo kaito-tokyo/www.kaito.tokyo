@@ -50,7 +50,7 @@ jobs:
       - name: "Apply Terraform"
         run: |
           gcloud infra-manager deployments apply \
-            "projects/${{ inputs.project-id }}/locations/${{ inputs.region }}/deployments/${{ inputs.name }}" \
+            "projects/${{ secrets.project-id }}/locations/${{ inputs.region }}/deployments/${{ inputs.name }}" \
             --local-source="./modules/${{ inputs.name }}" \
             --service-account="projects/${{ inputs.project-id }}/serviceAccounts/${{ inputs.infra-manager-service-account }}" \
             --input-values="${{ inputs.input-values }}"
