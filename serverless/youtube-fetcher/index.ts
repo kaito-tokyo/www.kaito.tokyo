@@ -1,6 +1,10 @@
 import { http } from "@google-cloud/functions-framework";
 import { handleDigest } from "./handlers/digest.js";
-import { handleListSearch, handleSaveListVideos, handleSplitListVideos } from "./handlers/youtube.js";
+import {
+	handleListSearch,
+	handleSaveListVideos,
+	handleSplitListVideos
+} from "./handlers/youtube.js";
 
 http("youtube-fetcher-digest", handleDigest);
 http("youtube-fetcher-list-search", handleListSearch);

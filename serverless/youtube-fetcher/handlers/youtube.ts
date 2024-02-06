@@ -119,12 +119,7 @@ export interface YouTubeSplitListVideosRequest {
 export async function handleSplitListVideos(req: Request, res: Response) {
 	const body: YouTubeSplitListVideosRequest = req.query;
 
-	const {
-		inputBucket,
-		inputObject,
-		outputBucket,
-		outputDirectory
-	} = body;
+	const { inputBucket, inputObject, outputBucket, outputDirectory } = body;
 
 	if (!inputBucket || !inputObject || !outputBucket) {
 		throw new Error("Request body is invalid!");
@@ -139,7 +134,7 @@ export async function handleSplitListVideos(req: Request, res: Response) {
 	const outputStorageBucket = storage.bucket(outputBucket);
 	for (const item of json.items) {
 		if (!item.id) {
-			throw new Error("Item formait is invalid")
+			throw new Error("Item formait is invalid");
 		}
 		const outputObject = `${outputDirectory}/${item.id}.json`;
 		await outputStorageBucket.file(outputObject).save(JSON.stringify(item));
