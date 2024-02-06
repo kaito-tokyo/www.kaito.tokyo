@@ -1,0 +1,31 @@
+- ListAllSearchItems:
+    call: "googleapis.storage.v1.objects.list"
+    args:
+      bucket: "${metadataBucketName}"
+      matchGlob: '${channelId + "/search/*.json"}'
+    result: "searchItems"
+- AssignRequestVariables:
+    assign:
+      - itemsPerRequest: 50
+      - sizeOfSearchItems: "${len(searchItems.items)}"
+      - numRequest: "${int((sizeOfSearchItems + itemsPerRequest - 1) / itemsPerRequest)}"
+- IterateForVideosRequests:
+    for:
+      value: pageIndex
+      range: [0, "${numRequest - 1}"]
+      steps:
+        - AssignLoopVariablesForVideosRequests:
+            assign:
+              - requestingitems: []
+              - startingItemIndex: "${pageIndex * numRequest}"
+              - endingItemIndex: "${math.min(len(searchItems.items), (pageIndex + 1) * numRequest) - 1}"
+        - GenerateRequestingIds:
+            for:
+              value: itemIndex
+              range: ["${startingItemIndex}", "${endingItemIndex}"]
+              steps:
+                - AppendSearchItem:
+                    assign:
+                      - requestingitems: "${list.concat(requestingitems, searchItems.items[itemIndex])}"
+        - Return:
+            return: "${requestingitems}"
