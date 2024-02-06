@@ -80,10 +80,8 @@ interface YouYubeListVideosRequest {
 
 http("youtube-list-videos", async (req, res) => {
 	const body: YouYubeListVideosRequest = req.body;
-	const id = coarceQueryIntoStringArray(req.query.id);
+	const { id } = body;
 
-	res.send(JSON.stringify(body.id));
-	return;
 	if (typeof id === "undefined") {
 		throw new Error("id is invalid!");
 	}
