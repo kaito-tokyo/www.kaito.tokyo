@@ -41,5 +41,5 @@
               body:
                 id: "${requestingItems}"
             result: "videosList"
-         - Return:
-             return: "${videosList}"
+        - Return:
+            return: "${videosList}"
