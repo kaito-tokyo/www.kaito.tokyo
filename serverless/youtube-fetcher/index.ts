@@ -77,6 +77,8 @@ function coarceQueryIntoStringArray(q: undefined | string | string[] | ParsedQs 
 http("youtube-list-videos", async (req, res) => {
 	const id = coarceQueryIntoStringArray(req.query.id);
 
+	res.send(JSON.stringify(id));
+	return;
 	if (typeof id === "undefined") {
 		throw new Error("id is invalid!");
 	}

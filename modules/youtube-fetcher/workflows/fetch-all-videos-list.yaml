@@ -30,7 +30,16 @@
               steps:
                 - AppendSearchItem:
                     assign:
-                      - videoId: '${text.split(searchItems.items[itemIndex].name, " ")[1]}'
+                      - videoId: '${text.split(text.split(searchItems.items[itemIndex].name, " ")[1], ".")[0]}'
                       - requestingItems: "${list.concat(requestingItems, videoId)}"
-        - Return:
-            return: "${requestingItems}"
+        - RequestVideosList:
+            call: "http.post"
+            args:
+              url: "https://asia-east1-www-kaito-tokyo.cloudfunctions.net/youtube-list-videos"
+              headers:
+                "Content-Type": "application/x-www-form-urlencoded"
+              body:
+                id: "${requestingItems}"
+            result: "videosList"
+         - Return:
+             return: "${videosList}"
