@@ -112,7 +112,7 @@ jobs:
           region: "${{ inputs.region }}"
           function-service-account: "${{ inputs.function-service-account }}"
 
-  DeployYouTubeFetcherListVideos:
+  DeployYouTubeFetcherSaveListVideos:
     runs-on: "ubuntu-latest"
 
     permissions:
@@ -137,7 +137,37 @@ jobs:
       - name: "Deploy Function"
         uses: "./.github/actions/deploy-cloud-function"
         with:
-          name: "youtube-fetcher-list-videos"
+          name: "youtube-fetcher-save-list-videos"
+          working-directory: "serverless/youtube-fetcher"
+          region: "${{ inputs.region }}"
+          function-service-account: "${{ inputs.function-service-account }}"
+
+  DeployYouTubeFetcherSplitListVideos:
+    runs-on: "ubuntu-latest"
+
+    permissions:
+      contents: "read"
+      id-token: "write"
+
+    needs:
+      - "DeployYouTubeFetcherInfra"
+
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v4"
+
+      - name: "Setup Google Cloud"
+        uses: "./.github/actions/setup-google-cloud"
+        with:
+          project-number: "${{ secrets.project-number }}"
+          pool-id: "${{ secrets.wif-pool-id }}"
+          provider-id: "${{ secrets.wif-provider-id }}"
+          service-account: "${{ secrets.wif-service-account }}"
+
+      - name: "Deploy Function"
+        uses: "./.github/actions/deploy-cloud-function"
+        with:
+          name: "youtube-fetcher-split-list-videos"
           working-directory: "serverless/youtube-fetcher"
           region: "${{ inputs.region }}"
           function-service-account: "${{ inputs.function-service-account }}"

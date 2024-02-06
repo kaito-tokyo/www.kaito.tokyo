@@ -49,7 +49,7 @@
             result: "requestHash"
         - AssignCacheStorageVariables:
             assign:
-              - cachedVideosListName: '${cachedReponsePrefix + "-" + requestHash.body + ".json"}'
+              - cachedVideosListName: '${cachedReponsePrefix + "/" + requestHash.body + ".json"}'
         - CheckIfCachedVideosListExists:
             call: "googleapis.storage.v1.objects.list"
             args:
@@ -59,12 +59,12 @@
         - BranchByCachedVideosListExists:
             switch:
               - condition: '${"items" in cachedVideosListExists}'
-                next: "LogHash"
-            next: "LogHash"
+                next: "RequestVideosList"
+            next: "Return"
         - RequestVideosList:
             call: "http.post"
             args:
-              url: "https://asia-east1-www-kaito-tokyo.cloudfunctions.net/youtube-list-videos"
+              url: "https://asia-east1-www-kaito-tokyo.cloudfunctions.net/youtube-save-list-videos"
               headers:
                 "Content-Type": "application/json"
               body:
@@ -73,6 +73,8 @@
                 object: "${cachedVideosListName}"
               auth:
                 type: "OIDC"
+        - Return:
+            return: ""
         # - RequestVideosList:
         #     call: "http.post"
         #     args:

@@ -68,14 +68,14 @@ function listVideos(
 	});
 }
 
-export interface YouTubeListVideosRequest {
+export interface YouTubeSaveListVideosRequest {
 	readonly id?: string[];
 	readonly bucket?: string;
 	readonly object?: string;
 }
 
-export async function handleListVideos(req: Request, res: Response) {
-	const body: YouTubeListVideosRequest = req.body;
+export async function handleSaveListVideos(req: Request, res: Response) {
+	const body: YouTubeSaveListVideosRequest = req.body;
 
 	const { id, bucket, object } = body;
 
@@ -104,7 +104,46 @@ export async function handleListVideos(req: Request, res: Response) {
 		throw new Error("Invalid response!");
 	}
 
-	storage.bucket(bucket).file(object).save(JSON.stringify(response.data));
+	await storage.bucket(bucket).file(object).save(JSON.stringify(response.data));
+
+	res.status(204).send("");
+}
+
+export interface YouTubeSplitListVideosRequest {
+	readonly inputBucket?: string;
+	readonly inputObject?: string;
+	readonly outputBucket?: string;
+	readonly outputDirectory?: string;
+}
+
+export async function handleSplitListVideos(req: Request, res: Response) {
+	const body: YouTubeSplitListVideosRequest = req.query;
+
+	const {
+		inputBucket,
+		inputObject,
+		outputBucket,
+		outputDirectory
+	} = body;
+
+	if (!inputBucket || !inputObject || !outputBucket) {
+		throw new Error("Request body is invalid!");
+	}
+
+	const response = await storage.bucket(inputBucket).file(inputObject).download();
+	const json: youtube_v3.Schema$VideoListResponse = JSON.parse(response[0].toString());
+	if (!json.items) {
+		throw new Error("Input format is invalid!");
+	}
+
+	const outputStorageBucket = storage.bucket(outputBucket);
+	for (const item of json.items) {
+		if (!item.id) {
+			throw new Error("Item formait is invalid")
+		}
+		const outputObject = `${outputDirectory}/${item.id}.json`;
+		await outputStorageBucket.file(outputObject).save(JSON.stringify(item));
+	}
 
 	res.status(204).send("");
 }
