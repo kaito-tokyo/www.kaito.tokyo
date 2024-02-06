@@ -6,9 +6,6 @@ on:
       name:
         required: true
         type: "string"
-      project-id:
-        required: true
-        type: "string"
       infra-manager-service-account:
         required: true
         type: "string"
@@ -19,6 +16,8 @@ on:
         required: true
         type: "string"
     secrets:
+      project-id:
+        required: true
       project-number:
         required: true
       pool-id:
