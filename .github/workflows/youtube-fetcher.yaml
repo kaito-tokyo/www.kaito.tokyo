@@ -61,7 +61,7 @@ jobs:
 
     needs:
       - "DeployYouTubeFetcherInfra"
-    
+
     steps:
       - name: "Checkout"
         uses: "actions/checkout@v4"
@@ -91,7 +91,7 @@ jobs:
 
     needs:
       - "DeployYouTubeFetcherInfra"
-    
+
     steps:
       - name: "Checkout"
         uses: "actions/checkout@v4"
@@ -121,7 +121,7 @@ jobs:
 
     needs:
       - "DeployYouTubeFetcherInfra"
-    
+
     steps:
       - name: "Checkout"
         uses: "actions/checkout@v4"
