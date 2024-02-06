@@ -34,7 +34,7 @@ jobs:
       name: "youtube-fetcher"
       infra-manager-service-account: "${{ inputs.infra-manager-service-account }}"
       region: "${{ inputs.region }}"
-      input-values: "project_id=${{ inputs.project-id }}"
+      input-values: "project_id=${{ secrets.project-id }}"
     secrets: "inherit"
 
   DeployYouTubeFetcherDigest:
