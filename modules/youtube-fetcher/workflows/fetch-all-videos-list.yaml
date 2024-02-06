@@ -6,7 +6,7 @@
     result: "searchItems"
 - AssignRequestVariables:
     assign:
-      - itemsPerRequest: 50
+      - itemsPerRequest: 20
       - sizeOfSearchItems: "${len(searchItems.items)}"
       - numRequest: "${int((sizeOfSearchItems + itemsPerRequest - 1) / itemsPerRequest)}"
 - IterateForVideosRequests:
@@ -43,5 +43,19 @@
               auth:
                 type: "OIDC"
             result: "videosList"
-        - Return:
-            return: "${videosList}"
+        - SaveVideosItems:
+            for:
+              value: "item"
+              in: "${videosList.body.items}"
+              steps:
+                - AssignVideosItemName:
+                    assign:
+                      - videosItemName: '${channelId + "/videos/" + item.snippet.publishedAt + " " + item.id + ".json"}'
+                - SaveVideosItem:
+                    call: "googleapis.storage.v1.objects.insert"
+                    args:
+                      bucket: "${metadataBucketName}"
+                      uploadType: "media"
+                      name: "${videosItemName}"
+                      body: "${item}"
+                  
