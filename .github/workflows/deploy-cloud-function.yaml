@@ -28,6 +28,8 @@ on:
 
 jobs:
   DeployCloudFunction:
+    name: "Deploy Cloud Function ${ inputs.name }"
+
     runs-on: "ubuntu-latest"
 
     permissions:
