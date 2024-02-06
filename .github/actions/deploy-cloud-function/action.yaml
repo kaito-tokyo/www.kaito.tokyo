@@ -19,6 +19,7 @@ runs:
   steps:
     - name: "Deploy Function"
       working-directory: "${{ inputs.working-directory }}"
+      shell: "bash"
       run: |
         gcloud functions deploy "${{ inputs.name }}" \
           --region="${{ inputs.region }}" \
