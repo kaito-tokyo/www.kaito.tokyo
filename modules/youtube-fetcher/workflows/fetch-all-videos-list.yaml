@@ -59,12 +59,12 @@
         - BranchByCachedVideosListExists:
             switch:
               - condition: '${"items" in cachedVideosListExists}'
-                next: "RequestVideosList"
-            next: "Return"
+                next: "Return"
+            next: "RequestVideosList"
         - RequestVideosList:
             call: "http.post"
             args:
-              url: "https://asia-east1-www-kaito-tokyo.cloudfunctions.net/youtube-save-list-videos"
+              url: "https://asia-east1-www-kaito-tokyo.cloudfunctions.net/youtube-fetcher-save-list-videos"
               headers:
                 "Content-Type": "application/json"
               body:
