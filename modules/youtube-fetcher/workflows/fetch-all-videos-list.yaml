@@ -1,3 +1,7 @@
+- CalculateCachedResponsePrefix:
+    assign:
+      - today: '${text.split(time.format(sys.now()), "T")[0]}'
+      - cachedReponsePrefix: '${channelId + "/videos/" + today}'
 - ListAllSearchItems:
     call: "googleapis.storage.v1.objects.list"
     args:
@@ -6,7 +10,7 @@
     result: "searchItems"
 - AssignRequestVariables:
     assign:
-      - itemsPerRequest: 20
+      - itemsPerRequest: 50
       - sizeOfSearchItems: "${len(searchItems.items)}"
       - numRequest: "${int((sizeOfSearchItems + itemsPerRequest - 1) / itemsPerRequest)}"
 - IterateForVideosRequests:
@@ -28,10 +32,35 @@
               value: itemIndex
               range: ["${startingItemIndex}", "${endingItemIndex}"]
               steps:
-                - AppendSearchItem:
+                - AppendId:
                     assign:
                       - videoId: '${text.split(text.split(searchItems.items[itemIndex].name, " ")[1], ".")[0]}'
                       - requestingItems: "${list.concat(requestingItems, videoId)}"
+        - GetRequestHash:
+            call: "http.post"
+            args:
+              url: "https://asia-east1-www-kaito-tokyo.cloudfunctions.net/youtube-fetcher-digest"
+              headers:
+                "Content-Type": "application/json"
+              body:
+                id: "${requestingItems}"
+              auth:
+                type: "OIDC"
+            result: "requestHash"
+        - AssignCacheStorageVariables:
+            assign:
+              - cachedVideosListName: '${cachedReponsePrefix + "-" + requestHash.body + ".json"}'
+        - CheckIfCachedVideosListExists:
+            call: "googleapis.storage.v1.objects.list"
+            args:
+              bucket: "${cacheBucketName}"
+              matchGlob: "${cachedVideosListName}"
+            result: "cachedVideosListExists"
+        - BranchByCachedVideosListExists:
+            switch:
+              - condition: '${"items" in cachedVideosListExists}'
+                next: "LogHash"
+            next: "LogHash"
         - RequestVideosList:
             call: "http.post"
             args:
@@ -40,21 +69,33 @@
                 "Content-Type": "application/json"
               body:
                 id: "${requestingItems}"
+                bucket: "${cacheBucketName}"
+                object: "${cachedVideosListName}"
               auth:
                 type: "OIDC"
-            result: "videosList"
-        - SaveVideosItems:
-            for:
-              value: "item"
-              in: "${videosList.body.items}"
-              steps:
-                - AssignVideosItemName:
-                    assign:
-                      - videosItemName: '${channelId + "/videos/" + item.snippet.publishedAt + " " + item.id + ".json"}'
-                - SaveVideosItem:
-                    call: "googleapis.storage.v1.objects.insert"
-                    args:
-                      bucket: "${metadataBucketName}"
-                      uploadType: "media"
-                      name: "${videosItemName}"
-                      body: "${item}"
+        # - RequestVideosList:
+        #     call: "http.post"
+        #     args:
+        #       url: "https://asia-east1-www-kaito-tokyo.cloudfunctions.net/youtube-list-videos"
+        #       headers:
+        #         "Content-Type": "application/json"
+        #       body:
+        #         id: "${requestingItems}"
+        #       auth:
+        #         type: "OIDC"
+        #     result: "videosList"
+        # - SaveVideosItems:
+        #     for:
+        #       value: "item"
+        #       in: "${videosList.body.items}"
+        #       steps:
+        #         - AssignVideosItemName:
+        #             assign:
+        #               - videosItemName: '${channelId + "/videos/" + item.snippet.publishedAt + " " + item.id + ".json"}'
+        #         - SaveVideosItem:
+        #             call: "googleapis.storage.v1.objects.insert"
+        #             args:
+        #               bucket: "${metadataBucketName}"
+        #               uploadType: "media"
+        #               name: "${videosItemName}"
+        #               body: "${item}"

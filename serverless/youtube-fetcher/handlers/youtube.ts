@@ -2,11 +2,14 @@ import { type Request, type Response } from "@google-cloud/functions-framework";
 import { type GaxiosResponse } from "gaxios";
 import { google, type youtube_v3 } from "googleapis";
 import { GoogleAuth } from "google-auth-library";
+import { Storage } from "@google-cloud/storage";
 
 const service = google.youtube("v3");
 const auth = new GoogleAuth({
 	scopes: ["https://www.googleapis.com/auth/youtube.readonly"]
 });
+
+const storage = new Storage();
 
 function listSearch(
 	params: youtube_v3.Params$Resource$Search$List
@@ -65,16 +68,19 @@ function listVideos(
 	});
 }
 
-export interface YouYubeListVideosRequest {
-	readonly id: string[];
+export interface YouTubeListVideosRequest {
+	readonly id?: string[];
+	readonly bucket?: string;
+	readonly object?: string;
 }
 
 export async function handleListVideos(req: Request, res: Response) {
-	const body: YouYubeListVideosRequest = req.body;
-	const { id } = body;
+	const body: YouTubeListVideosRequest = req.body;
 
-	if (typeof id === "undefined") {
-		throw new Error("id is invalid!");
+	const { id, bucket, object } = body;
+
+	if (!id || !bucket || !object) {
+		throw new Error("Request body is invalid!");
 	}
 
 	const response = await listVideos({
@@ -94,5 +100,11 @@ export async function handleListVideos(req: Request, res: Response) {
 		id
 	});
 
-	res.send(response?.data);
+	if (!response) {
+		throw new Error("Invalid response!");
+	}
+
+	storage.bucket(bucket).file(object).save(JSON.stringify(response.data));
+
+	res.status(204).send("");
 }
