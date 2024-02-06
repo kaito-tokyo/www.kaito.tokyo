@@ -20,11 +20,11 @@ on:
         required: true
       project-number:
         required: true
-      pool-id:
+      wif-pool-id:
         required: true
-      provider-id:
+      wif-provider-id:
         required: true
-      service-account:
+      wif-service-account:
         required: true
 
 jobs:
@@ -43,9 +43,9 @@ jobs:
         uses: "./.github/actions/setup-google-cloud"
         with:
           project-number: "${{ secrets.project-number }}"
-          pool-id: "${{ secrets.pool-id }}"
-          provider-id: "${{ secrets.provider-id }}"
-          service-account: "${ secrets.service-account }}"
+          pool-id: "${{ secrets.wif-pool-id }}"
+          provider-id: "${{ secrets.wif-provider-id }}"
+          service-account: "${ secrets.wif-service-account }}"
 
       - name: "Apply Terraform"
         run: |

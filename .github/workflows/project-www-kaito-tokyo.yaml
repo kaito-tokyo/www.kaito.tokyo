@@ -1,3 +1,5 @@
+name: "Project www.kaito.tokyo"
+
 on:
   push:
     branches:
