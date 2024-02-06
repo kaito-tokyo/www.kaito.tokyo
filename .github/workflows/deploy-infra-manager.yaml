@@ -53,4 +53,4 @@ jobs:
             "projects/${{ secrets.project-id }}/locations/${{ inputs.region }}/deployments/${{ inputs.name }}" \
             --local-source="./modules/${{ inputs.name }}" \
             --service-account="projects/${{ secrets.project-id }}/serviceAccounts/${{ inputs.infra-manager-service-account }}" \
-            --input-values="${{ inputs.input-values }}"
+            --input-values="project_id=${{ secrets.project-id }}"
