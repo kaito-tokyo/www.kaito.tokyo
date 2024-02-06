@@ -28,8 +28,6 @@ env:
   REGION: "asia-east1"
 
 jobs:
-  DeployYouTubeFetcherInfra:
-    
   DeployYouTubeFetcher:
     runs-on: "ubuntu-latest"
 
