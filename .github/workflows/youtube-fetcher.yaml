@@ -26,6 +26,9 @@ on:
 
 jobs:
   DeployYouTubeFetcherInfra:
+    permissions:
+      contents: "read"
+      id-token: "write"
     uses: "./.github/workflows/deploy-infra-manager.yaml"
     with:
       name: "youtube-fetcher"
@@ -35,6 +38,9 @@ jobs:
     secrets: "inherit"
 
   DeployYouTubeFetcherDigest:
+    permissions:
+      contents: "read"
+      id-token: "write"
     needs:
       - "DeployYouTubeFetcherInfra"
     uses: "./.github/workflows/deploy-cloud-function.yaml"
@@ -46,6 +52,9 @@ jobs:
     secrets: "inherit"
 
   DeployYouTubeFetcherListSearch:
+    permissions:
+      contents: "read"
+      id-token: "write"
     needs:
       - "DeployYouTubeFetcherInfra"
     uses: "./.github/workflows/deploy-cloud-function.yaml"
@@ -57,6 +66,9 @@ jobs:
     secrets: "inherit"
 
   DeployYouTubeFetcherListVideos:
+    permissions:
+      contents: "read"
+      id-token: "write"
     needs:
       - "DeployYouTubeFetcherInfra"
     uses: "./.github/workflows/deploy-cloud-function.yaml"
