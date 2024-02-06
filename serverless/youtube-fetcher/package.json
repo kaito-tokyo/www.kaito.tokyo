@@ -3,7 +3,6 @@
 	"version": "1.0.0",
 	"main": "index.js",
 	"scripts": {
-		"build": "swc --out-dir=. *.ts handlers/*.ts",
 		"gcp-build": "swc --out-dir=. *.ts handlers/*.ts"
 	},
 	"license": "MIT",
