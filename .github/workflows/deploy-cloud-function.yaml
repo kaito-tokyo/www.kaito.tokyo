@@ -1,0 +1,59 @@
+name: "Deploy Cloud Function"
+
+on:
+  workflow_call:
+    inputs:
+      name:
+        required: true
+        type: "string"
+      working-directory:
+        required: true
+        type: "string"
+      region:
+        required: true
+        type: "string"
+      function-service-account:
+        required: true
+        type: "string"
+    secrets:
+      project-number:
+        required: true
+      pool-id:
+        required: true
+      provider-id:
+        required: true
+      service-account:
+        required: true
+
+jobs:
+  DeployFunction:
+    runs-on: "ubuntu-latest"
+
+    permissions:
+      contents: "read"
+      id-token: "write"
+
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v4"
+
+      - name: "Setup Google Cloud"
+        uses: "./.github/actions/setup-google-cloud"
+        with:
+          project-number: "${{ secrets.project-number }}"
+          pool-id: "${{ secrets.pool-id }}"
+          provider-id: "${{ secrets.provider-id }}"
+          service-account: "${ secrets.service-account }}"
+
+      - name: "Deploy Function"
+        working-directory: "${{ inputs.working-directory }}"
+        run: |
+          gcloud functions deploy "${{ inputs.name }}" \
+            --region="${{ inputs.region }}" \
+            --no-allow-unauthenticated \
+            --gen2 \
+            --ingress-settings=internal-only \
+            --run-service-account="${{ inputs.function-service-account }}" \
+            --runtime=nodejs20 \
+            --service-account="${{ inputs.function-service-account }}" \
+            --trigger-http

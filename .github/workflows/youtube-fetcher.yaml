@@ -28,51 +28,56 @@ env:
   REGION: "asia-east1"
 
 jobs:
-  DeployYouTubeFetcher:
-    runs-on: "ubuntu-latest"
+  DeployYouTubeFetcherInfra:
+    uses: "./.github/workflows/deploy-infra-manager"
+    with:
+      name: "youtube-fetcher"
+      project-id: "${{ env.PROJECT_ID }}"
+      infra-manager-service-account: "${{ env.INFRA_MANAGER_SERVICE_ACCOUNT }}"
+      region: "${{ env.REGION }}"
+      input-values: "project_id=${{ env.PROJECT_ID }}"
 
-    permissions:
-      contents: "read"
-      id-token: "write"
+  DeployYouTubeFetcherDigest:
+    needs:
+      - "DeployYouTubeFetcherInfra"
+    uses: "./.github/workflows/deploy-cloud-function"
+    with:
+      name: "youtube-fetcher-digest"
+      working-directory: "serverless/youtube-fetcher"
+      region: "${{ env.REGION }}"
+      function-service-account: "${{ env.FUNCTION_SERVICE_ACCOUNT }}"
+    secrets:
+      project-number: "${{ env.PROJECT_NUMBER }}"
+      pool-id: "${{ env.POOL_ID }}"
+      provider-id: "${{ env.PROVIDER_ID }}"
+      service-account: "${{ env.SERVICE_ACCOUNT }}"
 
-    if: "github.event_name == 'push' || contains(github.event.pull_request.labels.*.name, 'infra')"
+  DeployYouTubeFetcherListSearch:
+    needs:
+      - "DeployYouTubeFetcherInfra"
+    uses: "./.github/workflows/deploy-cloud-function"
+    with:
+      name: "youtube-fetcher-list-search"
+      working-directory: "serverless/youtube-fetcher"
+      region: "${{ env.REGION }}"
+      function-service-account: "${{ env.FUNCTION_SERVICE_ACCOUNT }}"
+    secrets:
+      project-number: "${{ env.PROJECT_NUMBER }}"
+      pool-id: "${{ env.POOL_ID }}"
+      provider-id: "${{ env.PROVIDER_ID }}"
+      service-account: "${{ env.SERVICE_ACCOUNT }}"
 
-    steps:
-      - name: "Checkout"
-        uses: "actions/checkout@v4"
-
-      - uses: "./.github/actions/setup-google-cloud"
-
-      - name: "Apply Terraform"
-        run: |
-          gcloud infra-manager deployments apply \
-            "projects/$PROJECT_ID/locations/$REGION/deployments/youtube-fetcher" \
-            --local-source="./modules/youtube-fetcher" \
-            --service-account="projects/$PROJECT_ID/serviceAccounts/$INFRA_MANAGER_SERVICE_ACCOUNT" \
-            --input-values="project_id=$PROJECT_ID"
-
-      - name: "Deploy youtube-list-search"
-        working-directory: "serverless/youtube-fetcher"
-        run: |
-          gcloud functions deploy youtube-list-search \
-            --region=$REGION \
-            --no-allow-unauthenticated \
-            --gen2 \
-            --ingress-settings=internal-only \
-            --run-service-account=$FUNCTION_SERVICE_ACCOUNT \
-            --runtime=nodejs20 \
-            --service-account=$FUNCTION_SERVICE_ACCOUNT \
-            --trigger-http
-
-      - name: "Deploy youtube-list-videos"
-        working-directory: "serverless/youtube-fetcher"
-        run: |
-          gcloud functions deploy youtube-list-videos \
-            --region=$REGION \
-            --no-allow-unauthenticated \
-            --gen2 \
-            --ingress-settings=internal-only \
-            --run-service-account=$FUNCTION_SERVICE_ACCOUNT \
-            --runtime=nodejs20 \
-            --service-account=$FUNCTION_SERVICE_ACCOUNT \
-            --trigger-http
+  DeployYouTubeFetcherListVideos:
+    needs:
+      - "DeployYouTubeFetcherInfra"
+    uses: "./.github/workflows/deploy-cloud-function"
+    with:
+      name: "youtube-fetcher-list-videos"
+      working-directory: "serverless/youtube-fetcher"
+      region: "${{ env.REGION }}"
+      function-service-account: "${{ env.FUNCTION_SERVICE_ACCOUNT }}"
+    secrets:
+      project-number: "${{ env.PROJECT_NUMBER }}"
+      pool-id: "${{ env.POOL_ID }}"
+      provider-id: "${{ env.PROVIDER_ID }}"
+      service-account: "${{ env.SERVICE_ACCOUNT }}"

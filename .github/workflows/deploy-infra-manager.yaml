@@ -1,0 +1,57 @@
+name: "Deploy Cloud Function"
+
+on:
+  workflow_call:
+    inputs:
+      name:
+        required: true
+        type: "string"
+      project-id:
+        required: true
+        type: "string"
+      infra-manager-service-account:
+        required: true
+        type: "string"
+      region:
+        required: true
+        type: "string"
+      input-values:
+        required: true
+        type: "string"
+    secrets:
+      project-number:
+        required: true
+      pool-id:
+        required: true
+      provider-id:
+        required: true
+      service-account:
+        required: true
+
+jobs:
+  DeployFunction:
+    runs-on: "ubuntu-latest"
+
+    permissions:
+      contents: "read"
+      id-token: "write"
+
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v4"
+
+      - name: "Setup Google Cloud"
+        uses: "./.github/actions/setup-google-cloud"
+        with:
+          project-number: "${{ secrets.project-number }}"
+          pool-id: "${{ secrets.pool-id }}"
+          provider-id: "${{ secrets.provider-id }}"
+          service-account: "${ secrets.service-account }}"
+
+      - name: "Apply Terraform"
+        run: |
+          gcloud infra-manager deployments apply \
+            "projects/${{ inputs.project-id }}/locations/${{ inputs.region }}/deployments/${{ inputs.name }}" \
+            --local-source="./modules/${{ inputs.name }}" \
+            --service-account="projects/${{ inputs.project-id }}/serviceAccounts/${{ inputs.infra-manager-service-account }}" \
+            --input-values="${{ inputs.input-values }}"

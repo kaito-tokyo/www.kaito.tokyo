@@ -2,20 +2,16 @@ name: "Setup Google Cloud"
 
 inputs:
   project-number:
-    default: "641342314523"
-    required: false
+    required: true
     type: "string"
   pool-id:
-    default: "github-umireon"
-    required: false
+    required: true
     type: "string"
   provider-id:
-    default: "actions-githubusercontent-com"
-    required: false
+    required: true
     type: "string"
   service-account:
-    default: "gha-www-kaito-tokyo@www-kaito-tokyo.iam.gserviceaccount.com"
-    required: false
+    required: true
     type: "string"
       
 runs:
