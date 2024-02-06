@@ -90,7 +90,6 @@ http("youtube-list-videos", async (req, res) => {
 		auth,
 		part: [
 			"contentDetails",
-			"fileDetails",
 			"id",
 			"liveStreamingDetails",
 			"localizations",
@@ -100,7 +99,6 @@ http("youtube-list-videos", async (req, res) => {
 			"snippet",
 			"statistics",
 			"status",
-			"suggestions",
 			"topicDetails"
 		],
 		id
