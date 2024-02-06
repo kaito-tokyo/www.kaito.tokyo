@@ -42,7 +42,7 @@ jobs:
           project-number: "${{ secrets.project-number }}"
           pool-id: "${{ secrets.wif-pool-id }}"
           provider-id: "${{ secrets.wif-provider-id }}"
-          service-account: "${ secrets.wif-service-account }}"
+          service-account: "${{ secrets.wif-service-account }}"
 
       - name: "Deploy Infra Manager"
         uses: "./.github/actions/deploy-infra-manager"
@@ -72,7 +72,7 @@ jobs:
           project-number: "${{ secrets.project-number }}"
           pool-id: "${{ secrets.wif-pool-id }}"
           provider-id: "${{ secrets.wif-provider-id }}"
-          service-account: "${ secrets.wif-service-account }}"
+          service-account: "${{ secrets.wif-service-account }}"
 
       - name: "Deploy Function"
         uses: "./.github/actions/deploy-cloud-function"
@@ -101,7 +101,7 @@ jobs:
           project-number: "${{ secrets.project-number }}"
           pool-id: "${{ secrets.wif-pool-id }}"
           provider-id: "${{ secrets.wif-provider-id }}"
-          service-account: "${ secrets.wif-service-account }}"
+          service-account: "${{ secrets.wif-service-account }}"
 
       - name: "Deploy Function"
         uses: "./.github/actions/deploy-cloud-function"
