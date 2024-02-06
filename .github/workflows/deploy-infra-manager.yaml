@@ -12,9 +12,6 @@ on:
       region:
         required: true
         type: "string"
-      input-values:
-        required: true
-        type: "string"
     secrets:
       project-id:
         required: true
