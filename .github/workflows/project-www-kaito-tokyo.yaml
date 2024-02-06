@@ -17,6 +17,9 @@ concurrency:
 
 jobs:
   DeployYouTubeFetcher:
+    permissions:
+      contents: "read"
+      id-token: "write"
     if: "github.event_name == 'push' || contains(github.event.pull_request.labels.*.name, 'infra')"
     uses: "./.github/workflows/youtube-fetcher.yaml"
     with:
