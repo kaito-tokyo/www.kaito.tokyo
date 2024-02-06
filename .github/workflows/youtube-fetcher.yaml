@@ -41,7 +41,7 @@ jobs:
       - name: "Checkout"
         uses: "actions/checkout@v4"
 
-      - uses: "./.github/workflows/setup-google-cloud"
+      - uses: "./.github/actions/setup-google-cloud"
 
       - name: "Apply Terraform"
         run: |
