@@ -19,6 +19,10 @@
               - requestingitems: []
               - startingItemIndex: "${pageIndex * numRequest}"
               - endingItemIndex: "${math.min(len(searchItems.items), (pageIndex + 1) * numRequest) - 1}"
+        - LogIterateForVideosRequests:
+            call: "sys.log"
+            args:
+              text: '${startingItemIndex + ":" + endingItemIndex}'
         - GenerateRequestingIds:
             for:
               value: itemIndex
@@ -26,6 +30,6 @@
               steps:
                 - AppendSearchItem:
                     assign:
-                      - requestingitems: "${list.concat(requestingitems, searchItems.items[itemIndex])}"
+                      - requestingitems: "${list.concat(requestingitems, searchItems.items[itemIndex].name)}"
         - Return:
             return: "${requestingitems}"

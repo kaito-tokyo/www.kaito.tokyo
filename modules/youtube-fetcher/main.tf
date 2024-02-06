@@ -13,6 +13,12 @@ resource "google_project_iam_member" "youtube_fetcher_workflow_run_invoker" {
   member  = "serviceAccount:${google_service_account.youtube_fetcher_workflow.email}"
 }
 
+resource "google_project_iam_member" "youtube_fetcher_workflow_log_writer" {
+  project = var.project_id
+  role    = "roles/logging.logWriter"
+  member  = "serviceAccount:${google_service_account.youtube_fetcher_workflow.email}"
+}
+
 resource "google_storage_bucket" "youtube_fetcher_cache" {
   name                        = "www-kaito-tokyo-youtube-fetcher-cache"
   location                    = "asia-east1"
