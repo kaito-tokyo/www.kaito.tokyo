@@ -18,6 +18,10 @@ export function listVideos(
 	});
 }
 
+export interface GenerateListVideosQueriesResultItem {
+    readonly id: string[]
+}
+
 export async function handleGenerateListVideosQueries(req: Request, res: Response) {
 	const { bucket, matchGlob } = req.query;
 
@@ -29,12 +33,20 @@ export async function handleGenerateListVideosQueries(req: Request, res: Respons
 		throw new Error("itemsPerRequest is invalid!");
 	}
 
-	// const itemsPerRequest = parseInt(req.query.itemsPerRequest, 10);
+	const itemsPerRequest = parseInt(req.query.itemsPerRequest, 10);
 
 	const [files] = await storage.bucket(bucket).getFiles({ matchGlob });
-	const ids = files.map((f) => f.name);
+	const ids = files.map((f) => f.name.split(/[ ,]/)[1]);
 
-	res.send(ids);
+    const numRequests = Math.floor(files.length / itemsPerRequest);
+    const requests: GenerateListVideosQueriesResultItem[] = [];
+    for (let i = 0; i < numRequests; i++) {
+        requests.push({
+            id: ids.slice(i * itemsPerRequest, (i + 1) * itemsPerRequest)
+        });
+    }
+
+	res.send(requests);
 }
 
 export interface YouTubeSaveListVideosRequest {
