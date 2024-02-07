@@ -19,22 +19,22 @@ export function listVideos(
 }
 
 export async function handleGenerateListVideosQueries(req: Request, res: Response) {
-    const { bucket, matchGlob } = req.query;
+	const { bucket, matchGlob } = req.query;
 
-    if (typeof bucket !== "string" || typeof matchGlob !== "string") {
-        throw new Error("Query is invalid!");
-    }
+	if (typeof bucket !== "string" || typeof matchGlob !== "string") {
+		throw new Error("Query is invalid!");
+	}
 
-    if (typeof req.query.itemsPerRequest !== "string") {
-        throw new Error("itemsPerRequest is invalid!");
-    }
+	if (typeof req.query.itemsPerRequest !== "string") {
+		throw new Error("itemsPerRequest is invalid!");
+	}
 
-    // const itemsPerRequest = parseInt(req.query.itemsPerRequest, 10);
+	// const itemsPerRequest = parseInt(req.query.itemsPerRequest, 10);
 
-    const [files] = await storage.bucket(bucket).getFiles({ matchGlob });
-    const ids = files.map(f => f.name);
+	const [files] = await storage.bucket(bucket).getFiles({ matchGlob });
+	const ids = files.map((f) => f.name);
 
-    res.send(ids)
+	res.send(ids);
 }
 
 export interface YouTubeSaveListVideosRequest {

@@ -5,7 +5,7 @@ import {
 	handleSaveListVideos,
 	handleSplitListVideos,
 	handleGenerateListVideosQueries
-} from "./handlers/list-videos.js"
+} from "./handlers/list-videos.js";
 
 http("youtube-fetcher-digest", handleDigest);
 http("youtube-fetcher-list-search", handleListSearch);

@@ -1,5 +1,5 @@
 import { GoogleAuth } from "google-auth-library";
-import { Storage } from "@google-cloud/storage"
+import { Storage } from "@google-cloud/storage";
 import { google } from "googleapis";
 
 export const youtubeService = google.youtube("v3");
