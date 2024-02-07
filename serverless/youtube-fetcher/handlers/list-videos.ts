@@ -38,7 +38,7 @@ export async function handleGenerateListVideosQueries(req: Request, res: Respons
 	const [files] = await storage.bucket(bucket).getFiles({ matchGlob });
 	const ids = files.map((f) => f.name.split(/[ .]/)[1]);
 
-	const numRequests = Math.ceil(files.length + itemsPerRequest / itemsPerRequest);
+	const numRequests = Math.ceil(files.length / itemsPerRequest);
 	const requests: GenerateListVideosQueriesResultItem[] = [];
 	for (let i = 0; i < numRequests; i++) {
 		requests.push({
@@ -105,11 +105,9 @@ export interface YouTubeSplitListVideosRequest {
 }
 
 export async function handleSplitListVideos(req: Request, res: Response) {
-	const body: YouTubeSplitListVideosRequest = req.query;
+	const { inputBucket, inputObject, outputBucket, outputDirectory } = req.query;
 
-	const { inputBucket, inputObject, outputBucket, outputDirectory } = body;
-
-	if (!inputBucket || !inputObject || !outputBucket) {
+	if (typeof inputBucket !== "string" || typeof inputObject !== "string" || typeof outputBucket !== "string" || typeof outputDirectory !== "string") {
 		throw new Error("Request body is invalid!");
 	}
 
@@ -121,10 +119,10 @@ export async function handleSplitListVideos(req: Request, res: Response) {
 
 	const outputStorageBucket = storage.bucket(outputBucket);
 	for (const item of json.items) {
-		if (!item.id) {
-			throw new Error("Item formait is invalid");
+		if (!item.id || !item.snippet?.publishedAt) {
+			throw new Error("Item format is invalid");
 		}
-		const outputObject = `${outputDirectory}/${item.id}.json`;
+		const outputObject = `${outputDirectory}/${item.snippet.publishedAt} ${item.id}.json`;
 		await outputStorageBucket.file(outputObject).save(JSON.stringify(item));
 	}
 

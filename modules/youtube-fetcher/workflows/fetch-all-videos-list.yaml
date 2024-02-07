@@ -5,6 +5,7 @@
       - metadataBucketName: '${sys.get_env("METADATA_BUCKET_NAME")}'
       - today: '${text.split(time.format(sys.now()), "T")[0]}'
       - cachedVideosListPrefix: '${channelId + "/videos/" + today}'
+      - metadataVideosListPrefix: '${channelId + "/videos"}'
 - GetListVideosQueries:
     call: "http.get"
     args:
@@ -31,7 +32,10 @@
               auth:
                 type: "OIDC"
             result: "queryHash"
-        - RequestVideosList:
+        - AssignCachedVideosListName:
+            assign:
+              - cachedVideosListName: '${cachedVideosListPrefix + "/" + queryHash.body + ".json"}'
+        - SaveVideosList:
             call: "http.post"
             args:
               url: "https://asia-east1-www-kaito-tokyo.cloudfunctions.net/youtube-fetcher-save-list-videos"
@@ -40,107 +44,17 @@
               body:
                 id: "${query.id}"
                 bucket: "${cacheBucketName}"
-                object: '${cachedVideosListPrefix + "/" + queryHash.body + ".json"}'
+                object: "${cachedVideosListName}"
               auth:
                 type: "OIDC"
-# - Return:
-#     return: "${requestQueries}"
-# # - ListAllSearchItems:
-# #     call: "googleapis.storage.v1.objects.list"
-# #     args:
-# #       bucket: "${metadataBucketName}"
-# #       matchGlob: '${channelId + "/search/*.json"}'
-# #     result: "searchItems"
-# # - AssignRequestVariables:
-# #     assign:
-# #       - itemsPerRequest: 50
-# #       - sizeOfSearchItems: "${len(searchItems.items)}"
-# #       - numRequest: "${int((sizeOfSearchItems + itemsPerRequest - 1) / itemsPerRequest)}"
-# # - IterateForVideosRequests:
-# #     for:
-# #       value: pageIndex
-# #       range: [0, "${numRequest - 1}"]
-# #       steps:
-# #         - AssignLoopVariablesForVideosRequests:
-# #             assign:
-# #               - requestingItems: []
-# #               - startingItemIndex: "${pageIndex * itemsPerRequest}"
-# #               - endingItemIndex: "${math.min(len(searchItems.items), (pageIndex + 1) * itemsPerRequest) - 1}"
-# #         - LogIterateForVideosRequests:
-# #             call: "sys.log"
-# #             args:
-# #               text: '${startingItemIndex + ":" + endingItemIndex}'
-# #         - GenerateRequestingIds:
-# #             for:
-# #               value: itemIndex
-# #               range: ["${startingItemIndex}", "${endingItemIndex}"]
-# #               steps:
-# #                 - AppendId:
-# #                     assign:
-# #                       - videoId: '${text.split(text.split(searchItems.items[itemIndex].name, " ")[1], ".")[0]}'
-# #                       - requestingItems: "${list.concat(requestingItems, videoId)}"
-#         - GetRequestHash:
-#             call: "http.post"
-#             args:
-#               url: "https://asia-east1-www-kaito-tokyo.cloudfunctions.net/youtube-fetcher-digest"
-#               headers:
-#                 "Content-Type": "application/json"
-#               body:
-#                 id: "${requestingItems}"
-#               auth:
-#                 type: "OIDC"
-#             result: "requestHash"
-# #         - AssignCacheStorageVariables:
-# #             assign:
-# #               - cachedVideosListName: '${cachedReponsePrefix + "/" + requestHash.body + ".json"}'
-# #         - CheckIfCachedVideosListExists:
-# #             call: "googleapis.storage.v1.objects.list"
-# #             args:
-# #               bucket: "${cacheBucketName}"
-# #               matchGlob: "${cachedVideosListName}"
-# #             result: "cachedVideosListExists"
-# #         - BranchByCachedVideosListExists:
-# #             switch:
-# #               - condition: '${"items" in cachedVideosListExists}'
-# #                 next: "Return"
-# #             next: "RequestVideosList"
-#         - RequestVideosList:
-#             call: "http.post"
-#             args:
-#               url: "https://asia-east1-www-kaito-tokyo.cloudfunctions.net/youtube-fetcher-save-list-videos"
-#               headers:
-#                 "Content-Type": "application/json"
-#               body:
-#                 id: "${requestingItems}"
-#                 bucket: "${cacheBucketName}"
-#                 object: "${cachedVideosListName}"
-#               auth:
-#                 type: "OIDC"
-# #         - Return:
-# #             return: ""
-# #         # - RequestVideosList:
-# #         #     call: "http.post"
-# #         #     args:
-# #         #       url: "https://asia-east1-www-kaito-tokyo.cloudfunctions.net/youtube-list-videos"
-# #         #       headers:
-# #         #         "Content-Type": "application/json"
-# #         #       body:
-# #         #         id: "${requestingItems}"
-# #         #       auth:
-# #         #         type: "OIDC"
-# #         #     result: "videosList"
-# #         # - SaveVideosItems:
-# #         #     for:
-# #         #       value: "item"
-# #         #       in: "${videosList.body.items}"
-# #         #       steps:
-# #         #         - AssignVideosItemName:
-# #         #             assign:
-# #         #               - videosItemName: '${channelId + "/videos/" + item.snippet.publishedAt + " " + item.id + ".json"}'
-# #         #         - SaveVideosItem:
-# #         #             call: "googleapis.storage.v1.objects.insert"
-# #         #             args:
-# #         #               bucket: "${metadataBucketName}"
-# #         #               uploadType: "media"
-# #         #               name: "${videosItemName}"
-# #         #               body: "${item}"
+        - SplitVideosList:
+            call: "http.get"
+            args:
+              url: "https://asia-east1-www-kaito-tokyo.cloudfunctions.net/youtube-fetcher-split-list-videos"
+              query:
+                inputBucket: "${cacheBucketName}"
+                inputObject: "${cachedVideosListName}"
+                outputBucket: "${metadataBucketName}"
+                outputDirectory: "${metadataVideosListPrefix}"
+              auth:
+                type: "OIDC"
