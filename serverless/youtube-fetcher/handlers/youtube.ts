@@ -83,6 +83,13 @@ export async function handleSaveListVideos(req: Request, res: Response) {
 		throw new Error("Request body is invalid!");
 	}
 
+	const [outputExists] = await storage.bucket(bucket).file(object).exists()
+
+	if (outputExists) {
+		res.status(204).send("");
+		return;
+	}
+
 	const response = await listVideos({
 		auth,
 		part: [
