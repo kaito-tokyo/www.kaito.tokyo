@@ -107,7 +107,12 @@ export interface YouTubeSplitListVideosRequest {
 export async function handleSplitListVideos(req: Request, res: Response) {
 	const { inputBucket, inputObject, outputBucket, outputDirectory } = req.query;
 
-	if (typeof inputBucket !== "string" || typeof inputObject !== "string" || typeof outputBucket !== "string" || typeof outputDirectory !== "string") {
+	if (
+		typeof inputBucket !== "string" ||
+		typeof inputObject !== "string" ||
+		typeof outputBucket !== "string" ||
+		typeof outputDirectory !== "string"
+	) {
 		throw new Error("Request body is invalid!");
 	}
 
