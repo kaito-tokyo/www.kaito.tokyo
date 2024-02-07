@@ -19,7 +19,7 @@ export function listVideos(
 }
 
 export interface GenerateListVideosQueriesResultItem {
-    readonly id: string[]
+	readonly id: string[];
 }
 
 export async function handleGenerateListVideosQueries(req: Request, res: Response) {
@@ -38,13 +38,13 @@ export async function handleGenerateListVideosQueries(req: Request, res: Respons
 	const [files] = await storage.bucket(bucket).getFiles({ matchGlob });
 	const ids = files.map((f) => f.name.split(/[ ,]/)[1]);
 
-    const numRequests = Math.floor(files.length / itemsPerRequest);
-    const requests: GenerateListVideosQueriesResultItem[] = [];
-    for (let i = 0; i < numRequests; i++) {
-        requests.push({
-            id: ids.slice(i * itemsPerRequest, (i + 1) * itemsPerRequest)
-        });
-    }
+	const numRequests = Math.floor(files.length / itemsPerRequest);
+	const requests: GenerateListVideosQueriesResultItem[] = [];
+	for (let i = 0; i < numRequests; i++) {
+		requests.push({
+			id: ids.slice(i * itemsPerRequest, (i + 1) * itemsPerRequest)
+		});
+	}
 
 	res.send(requests);
 }
