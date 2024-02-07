@@ -48,17 +48,11 @@ resource "google_storage_bucket_iam_member" "youtube_fetcher_workflow_youtube_fe
 }
 
 locals {
-  workflow_constants = [
-    {
-      "Constants" = {
-        "assign" = [
-          { "channelId" = local.channel_id },
-          { "cacheBucketName" = google_storage_bucket.youtube_fetcher_cache.name },
-          { "metadataBucketName" = google_storage_bucket.youtube_fetcher_metadata.name }
-        ]
-      }
-    }
-  ]
+  workflow_env_vars = {
+    CHANNEL_ID           = local.channel_id,
+    CACHE_BUCKET_NAME    = google_storage_bucket.youtube_fetcher_cache.name,
+    METADATA_BUCKET_NAME = google_storage_bucket.youtube_fetcher_metadata.name
+  }
 }
 
 resource "google_workflows_workflow" "fetch_latest_search_list" {
@@ -66,11 +60,8 @@ resource "google_workflows_workflow" "fetch_latest_search_list" {
   project         = var.project_id
   region          = "asia-east1"
   service_account = google_service_account.youtube_fetcher_workflow.email
-  source_contents = format(
-    "%s\n%s",
-    yamlencode(local.workflow_constants),
-    file("${path.module}/workflows/fetch-latest-search-list.yaml")
-  )
+  user_env_vars   = local.workflow_env_vars
+  source_contents = file("${path.module}/workflows/fetch-latest-search-list.yaml")
 }
 
 resource "google_workflows_workflow" "fetch_all_search_list" {
@@ -78,11 +69,8 @@ resource "google_workflows_workflow" "fetch_all_search_list" {
   project         = var.project_id
   region          = "asia-east1"
   service_account = google_service_account.youtube_fetcher_workflow.email
-  source_contents = format(
-    "%s\n%s",
-    yamlencode(local.workflow_constants),
-    file("${path.module}/workflows/fetch-all-search-list.yaml")
-  )
+  user_env_vars   = local.workflow_env_vars
+  source_contents = file("${path.module}/workflows/fetch-all-search-list.yaml")
 }
 
 resource "google_workflows_workflow" "fetch_all_videos_list" {
@@ -90,11 +78,8 @@ resource "google_workflows_workflow" "fetch_all_videos_list" {
   project         = var.project_id
   region          = "asia-east1"
   service_account = google_service_account.youtube_fetcher_workflow.email
-  source_contents = format(
-    "%s\n%s",
-    yamlencode(local.workflow_constants),
-    file("${path.module}/workflows/fetch-all-videos-list.yaml")
-  )
+  user_env_vars   = local.workflow_env_vars
+  source_contents = file("${path.module}/workflows/fetch-all-videos-list.yaml")
 }
 
 resource "google_service_account" "youtube_fetcher" {
