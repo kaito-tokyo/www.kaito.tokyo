@@ -1,64 +1,14 @@
 import { type Request, type Response } from "@google-cloud/functions-framework";
 import { type GaxiosResponse } from "gaxios";
-import { google, type youtube_v3 } from "googleapis";
-import { GoogleAuth } from "google-auth-library";
-import { Storage } from "@google-cloud/storage";
+import { type youtube_v3 } from "googleapis";
 
-const service = google.youtube("v3");
-const auth = new GoogleAuth({
-	scopes: ["https://www.googleapis.com/auth/youtube.readonly"]
-});
+import { googleAuth, storage, youtubeService } from "./constants.js";
 
-const storage = new Storage();
-
-function listSearch(
-	params: youtube_v3.Params$Resource$Search$List
-): Promise<GaxiosResponse<youtube_v3.Schema$SearchListResponse> | null | undefined> {
-	return new Promise((resolve, reject) => {
-		service.search.list(params, (err, response) => {
-			if (err) {
-				reject(err);
-			} else {
-				resolve(response);
-			}
-		});
-	});
-}
-
-export async function handleListSearch(req: Request, res: Response) {
-	const { channelId, pageToken } = req.query;
-
-	if (typeof channelId !== "string") {
-		throw new Error("channelId is invalid!");
-	}
-
-	if (typeof pageToken !== "undefined" && typeof pageToken !== "string") {
-		throw new Error("pageToken is invalid!");
-	}
-
-	const params: youtube_v3.Params$Resource$Search$List = {
-		auth,
-		part: ["snippet"],
-		channelId,
-		maxResults: 50,
-		order: "date",
-		type: ["video"]
-	};
-
-	if (pageToken) {
-		params.pageToken = pageToken;
-	}
-
-	const response = await listSearch(params);
-
-	res.send(response?.data);
-}
-
-function listVideos(
+export function listVideos(
 	params: youtube_v3.Params$Resource$Videos$List
 ): Promise<GaxiosResponse<youtube_v3.Schema$VideoListResponse> | null | undefined> {
 	return new Promise((resolve, reject) => {
-		service.videos.list(params, (err, response) => {
+		youtubeService.videos.list(params, (err, response) => {
 			if (err) {
 				reject(err);
 			} else {
@@ -66,6 +16,25 @@ function listVideos(
 			}
 		});
 	});
+}
+
+export async function handleGenerateListVideosQueries(req: Request, res: Response) {
+    const { bucket, matchGlob } = req.query;
+
+    if (typeof bucket !== "string" || typeof matchGlob !== "string") {
+        throw new Error("Query is invalid!");
+    }
+
+    if (typeof req.query.itemsPerRequest !== "string") {
+        throw new Error("itemsPerRequest is invalid!");
+    }
+
+    // const itemsPerRequest = parseInt(req.query.itemsPerRequest, 10);
+
+    const [files] = await storage.bucket(bucket).getFiles({ matchGlob });
+    const ids = files.map(f => f.name);
+
+    res.send(ids)
 }
 
 export interface YouTubeSaveListVideosRequest {
@@ -91,7 +60,7 @@ export async function handleSaveListVideos(req: Request, res: Response) {
 	}
 
 	const response = await listVideos({
-		auth,
+		auth: googleAuth,
 		part: [
 			"contentDetails",
 			"id",

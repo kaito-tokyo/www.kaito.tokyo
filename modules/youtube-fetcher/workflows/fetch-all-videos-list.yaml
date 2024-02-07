@@ -3,8 +3,6 @@
       - channelId: '${sys.get_env("CHANNEL_ID")}'
       - cacheBucketName: '${sys.get_env("CACHE_BUCKET_NAME")}'
       - metadataBucketName: '${sys.get_env("METADATA_BUCKET_NAME")}'
-- CalculateCachedResponsePrefix:
-    assign:
       - today: '${text.split(time.format(sys.now()), "T")[0]}'
       - cachedReponsePrefix: '${channelId + "/videos/" + today}'
 - ListAllSearchItems:
