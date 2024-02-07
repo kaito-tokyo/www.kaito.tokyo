@@ -38,7 +38,7 @@ export async function handleGenerateListVideosQueries(req: Request, res: Respons
 	const [files] = await storage.bucket(bucket).getFiles({ matchGlob });
 	const ids = files.map((f) => f.name.split(/[ .]/)[1]);
 
-	const numRequests = Math.floor(files.length / itemsPerRequest);
+	const numRequests = Math.ceil(files.length + itemsPerRequest / itemsPerRequest);
 	const requests: GenerateListVideosQueriesResultItem[] = [];
 	for (let i = 0; i < numRequests; i++) {
 		requests.push({
