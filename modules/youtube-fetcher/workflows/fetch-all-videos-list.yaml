@@ -1,0 +1,60 @@
+- SetConstants:
+    assign:
+      - channelId: '${sys.get_env("CHANNEL_ID")}'
+      - cacheBucketName: '${sys.get_env("CACHE_BUCKET_NAME")}'
+      - metadataBucketName: '${sys.get_env("METADATA_BUCKET_NAME")}'
+      - today: '${text.split(time.format(sys.now()), "T")[0]}'
+      - cachedVideosListPrefix: '${channelId + "/videos/" + today}'
+      - metadataVideosListPrefix: '${channelId + "/videos"}'
+- GetListVideosQueries:
+    call: "http.get"
+    args:
+      url: "https://asia-east1-www-kaito-tokyo.cloudfunctions.net/youtube-fetcher-generate-list-videos-queries"
+      query:
+        bucket: "${metadataBucketName}"
+        matchGlob: '${channelId + "/search/*.json"}'
+        itemsPerRequest: 50
+      auth:
+        type: "OIDC"
+    result: "listVideosQueries"
+- IterateForListVideosQueries:
+    for:
+      value: "query"
+      in: "${listVideosQueries.body}"
+      steps:
+        - GetQueryHash:
+            call: "http.post"
+            args:
+              url: "https://asia-east1-www-kaito-tokyo.cloudfunctions.net/youtube-fetcher-digest"
+              headers:
+                "Content-Type": "application/json"
+              body: "${query}"
+              auth:
+                type: "OIDC"
+            result: "queryHash"
+        - AssignCachedVideosListName:
+            assign:
+              - cachedVideosListName: '${cachedVideosListPrefix + "/" + queryHash.body + ".json"}'
+        - SaveVideosList:
+            call: "http.post"
+            args:
+              url: "https://asia-east1-www-kaito-tokyo.cloudfunctions.net/youtube-fetcher-save-list-videos"
+              headers:
+                "Content-Type": "application/json"
+              body:
+                id: "${query.id}"
+                bucket: "${cacheBucketName}"
+                object: "${cachedVideosListName}"
+              auth:
+                type: "OIDC"
+        - SplitVideosList:
+            call: "http.get"
+            args:
+              url: "https://asia-east1-www-kaito-tokyo.cloudfunctions.net/youtube-fetcher-split-list-videos"
+              query:
+                inputBucket: "${cacheBucketName}"
+                inputObject: "${cachedVideosListName}"
+                outputBucket: "${metadataBucketName}"
+                outputDirectory: "${metadataVideosListPrefix}"
+              auth:
+                type: "OIDC"

@@ -1,5 +1,8 @@
-- CalculateCachedObjectName:
+- SetConstants:
     assign:
+      - channelId: '${sys.get_env("CHANNEL_ID")}'
+      - cacheBucketName: '${sys.get_env("CACHE_BUCKET_NAME")}'
+      - metadataBucketName: '${sys.get_env("METADATA_BUCKET_NAME")}'
       - today: '${text.split(time.format(sys.now()), "T")[0]}'
       - cachedObjectName: '${channelId + "/youtube-list-search/" + today + ".json"}'
 - CheckIfCachedSearchListExists:
@@ -36,14 +39,14 @@
       object: "${text.url_encode(cachedObjectName)}"
       alt: "media"
     result: "searchList"
-- EachSearchItem:
+- IterateForAllSearchItems:
     for:
       value: "item"
       in: "${searchList.body.items}"
       steps:
         - AssignMetadataObjectName:
             assign:
-              - metadataObjectName: '${channelId + "/videos/" + item.snippet.publishedAt + "-" + item.id.videoId + ".json"}'
+              - metadataObjectName: '${channelId + "/search/" + item.snippet.publishedAt + " " + item.id.videoId + ".json"}'
         - SaveSearchItem:
             call: "googleapis.storage.v1.objects.insert"
             args:

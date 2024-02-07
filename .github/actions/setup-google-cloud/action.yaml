@@ -1,0 +1,27 @@
+name: "Setup Google Cloud"
+
+inputs:
+  project-number:
+    required: true
+    type: "string"
+  pool-id:
+    required: true
+    type: "string"
+  provider-id:
+    required: true
+    type: "string"
+  service-account:
+    required: true
+    type: "string"
+
+runs:
+  using: "composite"
+  steps:
+    - name: "Authenticate to Google Cloud"
+      uses: "google-github-actions/auth@v2"
+      with:
+        workload_identity_provider: "projects/${{ inputs.project-number }}/locations/global/workloadIdentityPools/${{ inputs.pool-id }}/providers/${{ inputs.provider-id }}"
+        service_account: "${{ inputs.service-account }}"
+
+    - name: "Set up Cloud SDK"
+      uses: "google-github-actions/setup-gcloud@v2"
