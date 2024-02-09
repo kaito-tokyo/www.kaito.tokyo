@@ -1,5 +1,6 @@
 locals {
   channel_id = "UCfhyVWrxCmdUpst-5n7Kz_Q"
+  cloudflare_pages_builder_sa_email = "cloudflare-pages-builder@www-kaito-tokyo.iam.gserviceaccount.com"
 }
 
 resource "google_service_account" "youtube_fetcher_workflow" {
@@ -45,6 +46,12 @@ resource "google_storage_bucket_iam_member" "youtube_fetcher_workflow_youtube_fe
   bucket = google_storage_bucket.youtube_fetcher_metadata.name
   role   = "roles/storage.objectUser"
   member = "serviceAccount:${google_service_account.youtube_fetcher_workflow.email}"
+}
+
+resource "google_storage_bucket_iam_member" "cloudflare_youtube_fetcher_metadata_object_viewer" {
+  bucket = google_storage_bucket.youtube_fetcher_metadata.name
+  role   = "roles/storage.objectViewer"
+  member = "serviceAccount:${local.cloudflare_pages_builder_sa_email}"
 }
 
 locals {
