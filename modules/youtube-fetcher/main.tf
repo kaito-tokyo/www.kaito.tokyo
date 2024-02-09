@@ -1,5 +1,5 @@
 locals {
-  channel_id = "UCfhyVWrxCmdUpst-5n7Kz_Q"
+  channel_id                        = "UCfhyVWrxCmdUpst-5n7Kz_Q"
   cloudflare_pages_builder_sa_email = "cloudflare-pages-builder@www-kaito-tokyo.iam.gserviceaccount.com"
 }
 
