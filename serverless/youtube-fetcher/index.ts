@@ -2,10 +2,10 @@ import { http } from "@google-cloud/functions-framework";
 import { handleDigest } from "./handlers/digest.js";
 import { handleListSearch } from "./handlers/list-search.js";
 import {
-	handleComposeVideoList
+	handleComposeVideoList,
 	handleGenerateListVideosQueries,
 	handleSaveListVideos,
-	handleSplitListVideos,
+	handleSplitListVideos
 } from "./handlers/list-videos.js";
 
 http("youtube-fetcher-digest", handleDigest);
