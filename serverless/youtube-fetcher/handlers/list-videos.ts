@@ -159,6 +159,9 @@ export async function handleComposeVideoList(req: Request, res: Response) {
 
 	const outputFile = storage.bucket(outputBucket).file(outputObject);
 	await outputFile.save(JSON.stringify(videoList));
+	await outputFile.setMetadata({
+		cacheControl: "public, max-age=60"
+	});
 
 	res.send({
 		outputUrl: outputFile.publicUrl
