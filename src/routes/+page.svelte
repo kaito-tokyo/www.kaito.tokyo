@@ -20,7 +20,7 @@
 </svelte:head>
 
 <main>
-	<section id="illustration-grid">
+	<section id="illustration-grid" class="grid">
 		{#each data.articles as article (article._id)}
 			<a href={`illustrations/${article.slug}`}>
 				<article>
@@ -31,10 +31,21 @@
 			</a>
 		{/each}
 	</section>
+	<section id="youtube-video-grid" class="grid">
+		{#each data.youtubeVideos as video (video.id)}
+			<a href={`illustrations/${video.id}`}>
+				<article>
+					<Image src={video.snippet.thumbnails.default.url} width={100} height={100} />
+					<p class="title">{video.snippet.title}</p>
+					<p class="publishedAt">{formatDate(video.snippet.publishedAt)}</p>
+				</article>
+			</a>
+		{/each}
+	</section>
 </main>
 
 <style>
-	#illustration-grid {
+	.grid {
 		display: grid;
 		column-gap: 20px;
 		row-gap: 20px;
@@ -42,12 +53,12 @@
 	}
 
 	@media (min-width: 720px) {
-		#illustration-grid {
+		.grid {
 			grid-template-columns: 1fr 1fr 1fr;
 		}
 	}
 
-	#illustration-grid article {
+	.grid article {
 		font-family: "Zen Kaku Gothic New", serif;
 		padding: 1vw;
 		background: hsl(none none 98%);
@@ -56,11 +67,11 @@
 		border-radius: 10px;
 	}
 
-	#illustration-grid article:hover {
+	.grid article:hover {
 		transform: scale(1.05);
 	}
 
-	#illustration-grid p {
+	.grid p {
 		margin: 0;
 		padding: 0;
 	}
