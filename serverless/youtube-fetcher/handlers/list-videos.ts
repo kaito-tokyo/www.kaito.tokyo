@@ -134,7 +134,7 @@ export async function handleSplitListVideos(req: Request, res: Response) {
 	res.status(204).send("");
 }
 
-export async function handleComposeVideosList(req: Request, res: Response) {
+export async function handleComposeVideoList(req: Request, res: Response) {
 	const { inputBucket, inputPrefix, outputBucket, outputObject } = req.query;
 
 	if (
@@ -150,13 +150,13 @@ export async function handleComposeVideosList(req: Request, res: Response) {
 		prefix: inputPrefix
 	});
 
-	const videosList = inputFiles.map(async (file) => {
+	const videoList = inputFiles.map(async (file) => {
 		const [contents] = await file.download();
 		return JSON.parse(contents.toString());
 	});
 
 	const outputFile = storage.bucket(outputBucket).file(outputObject);
-	await outputFile.save(JSON.stringify(videosList));
+	await outputFile.save(JSON.stringify(videoList));
 
 	res.send({
 		outputUrl: outputFile.publicUrl
