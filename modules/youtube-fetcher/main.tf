@@ -39,6 +39,7 @@ locals {
     CHANNEL_ID           = "UCfhyVWrxCmdUpst-5n7Kz_Q",
     CACHE_BUCKET_NAME    = google_storage_bucket.youtube_fetcher_cache.name,
     METADATA_BUCKET_NAME = google_storage_bucket.youtube_fetcher_metadata.name
+    PUBLIC_BUCKET_NAME   = google_storage_bucket.youtube_fetcher_public.name
   }
 }
 
