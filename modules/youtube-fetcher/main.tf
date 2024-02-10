@@ -119,3 +119,9 @@ resource "google_storage_bucket_iam_member" "youtube_fetcher_workflow_youtube_fe
   role   = "roles/storage.objectUser"
   member = "serviceAccount:${google_service_account.youtube_fetcher_workflow.email}"
 }
+
+resource "google_storage_bucket_iam_member" "youtube_fetcher_workflow_youtube_fetcher_public_object_user" {
+  bucket = google_storage_bucket.youtube_fetcher_public.name
+  role   = "roles/storage.objectUser"
+  member = "serviceAccount:${google_service_account.youtube_fetcher_workflow.email}"
+}

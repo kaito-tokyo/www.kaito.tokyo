@@ -73,8 +73,6 @@
       auth:
         type: "OIDC"
     result: "composedVideoList"
-- RRR:
-    return: "${composedVideoList}"
 - UpdatePublicVideoListIndexMedia:
     call: "googleapis.storage.v1.objects.insert"
     args:
