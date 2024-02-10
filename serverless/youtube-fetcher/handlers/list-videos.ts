@@ -150,10 +150,12 @@ export async function handleComposeVideoList(req: Request, res: Response) {
 		prefix: inputPrefix
 	});
 
-	const videoList = inputFiles.map(async (file) => {
-		const [contents] = await file.download();
-		return JSON.parse(contents.toString());
-	});
+	const videoList = await Promise.all(
+		inputFiles.map(async (file) => {
+			const [contents] = await file.download();
+			return JSON.parse(contents.toString());
+		})
+	);
 
 	const outputFile = storage.bucket(outputBucket).file(outputObject);
 	await outputFile.save(JSON.stringify(videoList));
