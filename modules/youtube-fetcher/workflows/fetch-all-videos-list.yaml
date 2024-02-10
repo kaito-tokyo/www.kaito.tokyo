@@ -66,9 +66,8 @@
       url: "https://asia-east1-www-kaito-tokyo.cloudfunctions.net/youtube-fetcher-compose-video-list"
       query:
         inputBucket: "${metadataBucketName}"
-        inputPrefix: '${metadataVideosListPrefix}'
+        inputPrefix: "${metadataVideosListPrefix}"
         outputBucket: "${publicBucketName}"
         outputObject: "${publicVideoListName}"
       auth:
         type: "OIDC"
-      
