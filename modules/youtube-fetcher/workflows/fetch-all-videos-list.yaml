@@ -8,6 +8,7 @@
       - cachedVideosListPrefix: '${channelId + "/videos/" + today}'
       - metadataVideosListPrefix: '${channelId + "/videos"}'
       - publicVideoListName: '${channelId + "/videos/" + today + ".json"}'
+      - publicVideoIndexName: '${channelId + "/videos/index.json"}'
 - GetListVideosQueries:
     call: "http.get"
     args:
@@ -71,3 +72,19 @@
         outputObject: "${publicVideoListName}"
       auth:
         type: "OIDC"
+    result: "composedVideoList"
+- UpdatePublicVideoListIndexMedia:
+    call: "googleapis.storage.v1.objects.insert"
+    args:
+      bucket: "${publicBucketName}"
+      uploadType: "media"
+      name: "${publicVideoIndexName}"
+      body:
+        url: "${composedVideoList.outputUrl}"
+- UpdatePublicVideoListIndexMetadata:
+    call: "googleapis.storage.v1.objects.insert"
+    args:
+      bucket: "${publicBucketName}"
+      name: "${publicVideoIndexName}"
+      body:
+        cacheControl: "public, max-age=60"
