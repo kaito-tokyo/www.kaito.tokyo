@@ -82,9 +82,9 @@
       body:
         url: "${composedVideoList.body.outputUrl}"
 - UpdatePublicVideoListIndexMetadata:
-    call: "googleapis.storage.v1.objects.insert"
+    call: "googleapis.storage.v1.objects.patch"
     args:
       bucket: "${publicBucketName}"
-      name: "${publicVideoIndexName}"
+      object: "${text.url_encode(publicVideoIndexName)}"
       body:
         cacheControl: "public, max-age=60"
