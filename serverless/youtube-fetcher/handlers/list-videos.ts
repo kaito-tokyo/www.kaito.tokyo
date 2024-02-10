@@ -164,6 +164,6 @@ export async function handleComposeVideoList(req: Request, res: Response) {
 	});
 
 	res.send({
-		outputUrl: outputFile.publicUrl
+		outputUrl: outputFile.publicUrl()
 	});
 }

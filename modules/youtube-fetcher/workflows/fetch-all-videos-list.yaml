@@ -73,6 +73,8 @@
       auth:
         type: "OIDC"
     result: "composedVideoList"
+- RRR:
+    return: "${composedVideoList}"
 - UpdatePublicVideoListIndexMedia:
     call: "googleapis.storage.v1.objects.insert"
     args:
@@ -80,7 +82,7 @@
       uploadType: "media"
       name: "${publicVideoIndexName}"
       body:
-        url: "${composedVideoList.outputUrl}"
+        url: "${composedVideoList.body.outputUrl}"
 - UpdatePublicVideoListIndexMetadata:
     call: "googleapis.storage.v1.objects.insert"
     args:
