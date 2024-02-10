@@ -39,6 +39,7 @@ locals {
     CHANNEL_ID           = "UCfhyVWrxCmdUpst-5n7Kz_Q",
     CACHE_BUCKET_NAME    = google_storage_bucket.youtube_fetcher_cache.name,
     METADATA_BUCKET_NAME = google_storage_bucket.youtube_fetcher_metadata.name
+    PUBLIC_BUCKET_NAME   = google_storage_bucket.youtube_fetcher_public.name
   }
 }
 
@@ -83,6 +84,12 @@ resource "google_project_iam_member" "youtube_fetcher_workflow_log_writer" {
 }
 
 // Cloud Storage IAM Bindings
+resource "google_storage_bucket_iam_member" "youtube_fetcher_public_allusers_viewer" {
+  bucket = google_storage_bucket.youtube_fetcher_public.name
+  role   = "roles/storage.objectViewer"
+  member = "allUsers"
+}
+
 resource "google_storage_bucket_iam_member" "youtube_fetcher_cache_object_user" {
   bucket = google_storage_bucket.youtube_fetcher_cache.name
   role   = "roles/storage.objectUser"
@@ -109,6 +116,12 @@ resource "google_storage_bucket_iam_member" "youtube_fetcher_workflow_youtube_fe
 
 resource "google_storage_bucket_iam_member" "youtube_fetcher_workflow_youtube_fetcher_metadata_object_user" {
   bucket = google_storage_bucket.youtube_fetcher_metadata.name
+  role   = "roles/storage.objectUser"
+  member = "serviceAccount:${google_service_account.youtube_fetcher_workflow.email}"
+}
+
+resource "google_storage_bucket_iam_member" "youtube_fetcher_workflow_youtube_fetcher_public_object_user" {
+  bucket = google_storage_bucket.youtube_fetcher_public.name
   role   = "roles/storage.objectUser"
   member = "serviceAccount:${google_service_account.youtube_fetcher_workflow.email}"
 }

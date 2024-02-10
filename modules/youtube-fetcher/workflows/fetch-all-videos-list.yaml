@@ -3,9 +3,12 @@
       - channelId: '${sys.get_env("CHANNEL_ID")}'
       - cacheBucketName: '${sys.get_env("CACHE_BUCKET_NAME")}'
       - metadataBucketName: '${sys.get_env("METADATA_BUCKET_NAME")}'
+      - publicBucketName: '${sys.get_env("PUBLIC_BUCKET_NAME")}'
       - today: '${text.split(time.format(sys.now()), "T")[0]}'
       - cachedVideosListPrefix: '${channelId + "/videos/" + today}'
       - metadataVideosListPrefix: '${channelId + "/videos"}'
+      - publicVideoListName: '${channelId + "/videos/" + today + ".json"}'
+      - publicVideoIndexName: '${channelId + "/videos/index.json"}'
 - GetListVideosQueries:
     call: "http.get"
     args:
@@ -58,3 +61,30 @@
                 outputDirectory: "${metadataVideosListPrefix}"
               auth:
                 type: "OIDC"
+- ComposeVideoList:
+    call: "http.get"
+    args:
+      url: "https://asia-east1-www-kaito-tokyo.cloudfunctions.net/youtube-fetcher-compose-video-list"
+      query:
+        inputBucket: "${metadataBucketName}"
+        inputPrefix: "${metadataVideosListPrefix}"
+        outputBucket: "${publicBucketName}"
+        outputObject: "${publicVideoListName}"
+      auth:
+        type: "OIDC"
+    result: "composedVideoList"
+- UpdatePublicVideoListIndexMedia:
+    call: "googleapis.storage.v1.objects.insert"
+    args:
+      bucket: "${publicBucketName}"
+      uploadType: "media"
+      name: "${publicVideoIndexName}"
+      body:
+        url: "${composedVideoList.body.outputUrl}"
+- UpdatePublicVideoListIndexMetadata:
+    call: "googleapis.storage.v1.objects.patch"
+    args:
+      bucket: "${publicBucketName}"
+      object: "${text.url_encode(publicVideoIndexName)}"
+      body:
+        cacheControl: "public, max-age=60"

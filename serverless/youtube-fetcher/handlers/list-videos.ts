@@ -113,7 +113,7 @@ export async function handleSplitListVideos(req: Request, res: Response) {
 		typeof outputBucket !== "string" ||
 		typeof outputDirectory !== "string"
 	) {
-		throw new Error("Request body is invalid!");
+		throw new Error("Request query is invalid!");
 	}
 
 	const response = await storage.bucket(inputBucket).file(inputObject).download();
@@ -132,4 +132,38 @@ export async function handleSplitListVideos(req: Request, res: Response) {
 	}
 
 	res.status(204).send("");
+}
+
+export async function handleComposeVideoList(req: Request, res: Response) {
+	const { inputBucket, inputPrefix, outputBucket, outputObject } = req.query;
+
+	if (
+		typeof inputBucket !== "string" ||
+		typeof inputPrefix !== "string" ||
+		typeof outputBucket !== "string" ||
+		typeof outputObject !== "string"
+	) {
+		throw new Error("Request query is invalid!");
+	}
+
+	const [inputFiles] = await storage.bucket(inputBucket).getFiles({
+		prefix: inputPrefix
+	});
+
+	const videoList = await Promise.all(
+		inputFiles.map(async (file) => {
+			const [contents] = await file.download();
+			return JSON.parse(contents.toString());
+		})
+	);
+
+	const outputFile = storage.bucket(outputBucket).file(outputObject);
+	await outputFile.save(JSON.stringify(videoList));
+	await outputFile.setMetadata({
+		cacheControl: "public, max-age=60"
+	});
+
+	res.send({
+		outputUrl: outputFile.publicUrl()
+	});
 }
