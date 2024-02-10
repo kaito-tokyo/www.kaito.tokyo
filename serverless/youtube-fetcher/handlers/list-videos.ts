@@ -155,7 +155,7 @@ export async function handleComposeVideosList(req: Request, res: Response) {
 		return JSON.parse(contents.toString());
 	});
 
-	const outputFile = storage.bucket(outputBucket).file(outputObject)
+	const outputFile = storage.bucket(outputBucket).file(outputObject);
 	await outputFile.save(JSON.stringify(videosList));
 
 	res.send({
