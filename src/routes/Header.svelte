@@ -1,13 +1,14 @@
 <script>
+	import { base } from '$app/paths';
 	import { page } from "$app/stores";
-	import logo from "$lib/images/svelte-logo.svg";
+	import logo from "$lib/images/umireon-logo.png";
 	import github from "$lib/images/github.svg";
 </script>
 
 <header>
 	<div class="corner">
-		<a href="https://kit.svelte.dev">
-			<img src={logo} alt="SvelteKit" />
+		<a href="https://x.com/umireon">
+			<img src={logo} alt="X）" />
 		</a>
 	</div>
 
@@ -16,8 +17,14 @@
 			<path d="M0,0 L1,2 C1.5,3 1.5,3 2,3 L2,0 Z" />
 		</svg>
 		<ul>
-			<li aria-current={$page.url.pathname === "/" ? "page" : undefined}>
-				<a href="/">Home</a>
+			<li aria-current={$page.url.pathname === `${base}/` ? "page" : undefined}>
+				<a href="{base}/">トップ</a>
+			</li>
+			<li aria-current={$page.url.pathname.startsWith(`${base}/illustrations`) ? "page" : undefined}>
+				<a href="{base}/illustrations">イラスト</a>
+			</li>
+			<li aria-current={$page.url.pathname.startsWith(`${base}/youtube`) ? "page" : undefined}>
+				<a href="{base}/youtube">YouTube</a>
 			</li>
 		</ul>
 		<svg viewBox="0 0 2 3" aria-hidden="true">
@@ -26,7 +33,7 @@
 	</nav>
 
 	<div class="corner">
-		<a href="https://github.com/sveltejs/kit">
+		<a href="https://github.com/umireon/www.kaito.tokyo">
 			<img src={github} alt="GitHub" />
 		</a>
 	</div>
@@ -55,6 +62,7 @@
 		width: 2em;
 		height: 2em;
 		object-fit: contain;
+		border-radius:50%;
 	}
 
 	nav {
@@ -109,9 +117,8 @@
 		align-items: center;
 		padding: 0 0.5rem;
 		color: var(--color-text);
-		font-weight: 700;
+		font-weight: 900;
 		font-size: 0.8rem;
-		text-transform: uppercase;
 		letter-spacing: 0.1em;
 		text-decoration: none;
 		transition: color 0.2s linear;
