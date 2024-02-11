@@ -31,7 +31,7 @@ export async function getYouTubeVideoUrl(indexUrl: string = INDEX_URL): Promise<
 
 export async function getYouTubeVideoList(url: string): Promise<youtube_v3.Schema$Video[]> {
 	if (youtubeVideoListCache.length > 0) {
-		return youtubeVideoListCache;
+		return Array.from(youtubeVideoListCache);
 	}
 
 	const response = await fetch(url);
