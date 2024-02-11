@@ -12,7 +12,7 @@
 - GetListVideosQueries:
     call: "http.get"
     args:
-      url: "https://asia-east1-www-kaito-tokyo.cloudfunctions.net/youtube-fetcher-generate-list-videos-queries"
+      url: "https://asia-east1-www-kaito-tokyo.cloudfunctions.net/youtube-fetcher-generate-video-list-queries"
       query:
         bucket: "${metadataBucketName}"
         matchGlob: '${channelId + "/search/*.json"}'
@@ -41,7 +41,7 @@
         - SaveVideosList:
             call: "http.post"
             args:
-              url: "https://asia-east1-www-kaito-tokyo.cloudfunctions.net/youtube-fetcher-save-list-videos"
+              url: "https://asia-east1-www-kaito-tokyo.cloudfunctions.net/youtube-fetcher-save-video-list"
               headers:
                 "Content-Type": "application/json"
               body:
@@ -53,7 +53,7 @@
         - SplitVideosList:
             call: "http.get"
             args:
-              url: "https://asia-east1-www-kaito-tokyo.cloudfunctions.net/youtube-fetcher-split-list-videos"
+              url: "https://asia-east1-www-kaito-tokyo.cloudfunctions.net/youtube-fetcher-split-video-list"
               query:
                 inputBucket: "${cacheBucketName}"
                 inputObject: "${cachedVideosListName}"
