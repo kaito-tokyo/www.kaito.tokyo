@@ -52,7 +52,7 @@ export async function handleSaveSearchList(req: Request, res: Response) {
 
 	const response = await listSearch(params);
 
-	storage.bucket(outputBucket).file(outputObject).save(JSON.stringify(response?.data));
+	await storage.bucket(outputBucket).file(outputObject).save(JSON.stringify(response?.data));
 
 	res.send({
 		nextPageToken: response?.data.nextPageToken

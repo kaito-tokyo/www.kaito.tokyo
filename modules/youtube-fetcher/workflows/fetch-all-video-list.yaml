@@ -5,7 +5,7 @@
       - metadataBucketName: '${sys.get_env("METADATA_BUCKET_NAME")}'
       - publicBucketName: '${sys.get_env("PUBLIC_BUCKET_NAME")}'
       - today: '${text.split(time.format(sys.now()), "T")[0]}'
-      - cachedVideosListPrefix: '${channelId + "/videos/" + today}'
+      - cachedVideosListPrefix: '${channelId + "/save-video-list/" + today}'
       - metadataVideosListPrefix: '${channelId + "/videos"}'
       - publicVideoListName: '${channelId + "/videos/" + today + ".json"}'
       - publicVideoIndexName: '${channelId + "/videos/index.json"}'
