@@ -16,13 +16,15 @@
 			return [];
 		}
 
-		return [{
-			title: video.snippet?.title ?? "（タイトルなし）",
-			id: video.id,
-			thumbnail:  video.snippet?.thumbnails?.standard ?? {},
-			publishedAt: video.snippet?.publishedAt ?? ""
-		}];
-	})
+		return [
+			{
+				title: video.snippet?.title ?? "（タイトルなし）",
+				id: video.id,
+				thumbnail: video.snippet?.thumbnails?.standard ?? {},
+				publishedAt: video.snippet?.publishedAt ?? ""
+			}
+		];
+	});
 </script>
 
 <svelte:head>
@@ -53,7 +55,12 @@
 		{#each youtubeVideoList as video (video.id)}
 			<a href={`${base}/youtube/${video.id}`}>
 				<article>
-					<img src={video.thumbnail?.url} width={video.thumbnail?.width} height={video.thumbnail?.height} alt="{video.title}" />
+					<img
+						src={video.thumbnail?.url}
+						width={video.thumbnail?.width}
+						height={video.thumbnail?.height}
+						alt={video.title}
+					/>
 					<p class="title">{video.title}</p>
 					<p class="publishedAt">{formatDate(video.publishedAt)}</p>
 				</article>

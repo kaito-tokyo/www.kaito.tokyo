@@ -14,7 +14,7 @@ export const load = (async () => {
 		}
 	});
 	const youtubeVideoList = await getYouTubeVideoList(await getYouTubeVideoUrl());
-	youtubeVideoList.reverse()
+	youtubeVideoList.reverse();
 	return {
 		articles,
 		youtubeVideoList: youtubeVideoList
