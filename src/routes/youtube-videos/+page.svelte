@@ -20,17 +20,6 @@
 </svelte:head>
 
 <main>
-	<section id="illustration-grid" class="grid">
-		{#each data.articles as article (article._id)}
-			<a href={`illustrations/${article.slug}`}>
-				<article>
-					<Image src={article.images[0].src} width={500} height={500} />
-					<p class="title">{article.title}</p>
-					<p class="publishedAt">{formatDate(article.publishedAt)}</p>
-				</article>
-			</a>
-		{/each}
-	</section>
 	<section id="youtube-video-grid" class="grid">
 		{#each data.youtubeVideoList as video (video.id)}
 			<a href={`youtube-videos/${video.id}`}>
