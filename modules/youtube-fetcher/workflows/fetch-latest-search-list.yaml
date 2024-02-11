@@ -4,8 +4,8 @@
       - cacheBucketName: '${sys.get_env("CACHE_BUCKET_NAME")}'
       - metadataBucketName: '${sys.get_env("METADATA_BUCKET_NAME")}'
       - today: '${text.split(time.format(sys.now()), "T")[0]}'
-      - cachedSearchListObject: '${channelId + "/youtube-search-list/" + today + ".json"}'
-      - metadataSearchListDirectory: '${channelId + "/youtube-search-list"}'
+      - cachedSearchListObject: '${channelId + "/save-search-list/" + today + ".json"}'
+      - metadataSearchListDirectory: '${channelId + "/search"}'
 - SaveSearchList:
     call: "http.get"
     args:

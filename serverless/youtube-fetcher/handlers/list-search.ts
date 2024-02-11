@@ -77,10 +77,10 @@ export async function handleSplitSearchList(req: Request, res: Response) {
 
 	const outputStorageBucket = storage.bucket(outputBucket);
 	for (const item of json.items) {
-		if (!item.id || !item.snippet?.publishedAt) {
+		if (!item.id?.videoId || !item.snippet?.publishedAt) {
 			throw new Error("Item format is invalid");
 		}
-		const outputObject = `${outputDirectory}/${item.snippet.publishedAt} ${item.id}.json`;
+		const outputObject = `${outputDirectory}/${item.snippet.publishedAt} ${item.id.videoId}.json`;
 		await outputStorageBucket.file(outputObject).save(JSON.stringify(item));
 	}
 
