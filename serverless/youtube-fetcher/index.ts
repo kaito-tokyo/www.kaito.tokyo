@@ -1,9 +1,6 @@
 import { http } from "@google-cloud/functions-framework";
 import { handleDigest } from "./handlers/digest.js";
-import {
-	handleSaveSearchList,
-	handleSplitSearchList
-} from "./handlers/list-search.js";
+import { handleSaveSearchList, handleSplitSearchList } from "./handlers/list-search.js";
 import {
 	handleComposeVideoList,
 	handleGenerateVideoListQueries,
