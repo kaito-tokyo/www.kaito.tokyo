@@ -54,7 +54,9 @@ export async function handleSaveSearchList(req: Request, res: Response) {
 
 	storage.bucket(outputBucket).file(outputObject).save(JSON.stringify(response?.data));
 
-	res.status(204).send("");
+	res.send({
+		nextPageToken: response?.data.nextPageToken
+	});
 }
 
 export async function handleSplitSearchList(req: Request, res: Response) {
