@@ -2,6 +2,8 @@
 	import { formatInTimeZone } from "date-fns-tz";
 	import { Image } from "@unpic/svelte";
 
+	import { base } from "$app/paths";
+
 	import type { PageData } from "./$types";
 	export let data: PageData;
 
@@ -15,7 +17,7 @@
 	<meta name="description" content="Svelte demo app" />
 	<link
 		rel="stylesheet"
-		href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300"
+		href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;900"
 	/>
 </svelte:head>
 
@@ -33,7 +35,7 @@
 	</section>
 	<section id="youtube-video-grid" class="grid">
 		{#each data.youtubeVideoList as video (video.id)}
-			<a href={`youtube-videos/${video.id}`}>
+			<a href={`${base}/youtube/${video.id}`}>
 				<article>
 					<Image src={video.snippet.thumbnails.default.url} width={100} height={100} />
 					<p class="title">{video.snippet.title}</p>
