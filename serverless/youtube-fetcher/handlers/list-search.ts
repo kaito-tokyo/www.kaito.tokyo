@@ -18,7 +18,7 @@ function listSearch(
 	});
 }
 
-export async function handleListSearch(req: Request, res: Response) {
+export async function handleSaveSearchList(req: Request, res: Response) {
 	const { channelId, pageToken, outputBucket, outputObject } = req.query;
 
 	if (
@@ -28,6 +28,13 @@ export async function handleListSearch(req: Request, res: Response) {
 		typeof outputObject !== "string"
 	) {
 		throw new Error("Query is invalid!");
+	}
+
+	const [outputExists] = await storage.bucket(outputBucket).file(outputObject).exists();
+
+	if (outputExists) {
+		res.status(204).send("");
+		return;
 	}
 
 	const params: youtube_v3.Params$Resource$Search$List = {
@@ -46,6 +53,36 @@ export async function handleListSearch(req: Request, res: Response) {
 	const response = await listSearch(params);
 
 	storage.bucket(outputBucket).file(outputObject).save(JSON.stringify(response?.data));
+
+	res.status(204).send("");
+}
+
+export async function handleSplitSearchList(req: Request, res: Response) {
+	const { inputBucket, inputObject, outputBucket, outputDirectory } = req.query;
+
+	if (
+		typeof inputBucket !== "string" ||
+		typeof inputObject !== "string" ||
+		typeof outputBucket !== "string" ||
+		typeof outputDirectory !== "string"
+	) {
+		throw new Error("Request query is invalid!");
+	}
+
+	const [response] = await storage.bucket(inputBucket).file(inputObject).download();
+	const json: youtube_v3.Schema$SearchListResponse = JSON.parse(response.toString());
+	if (!json.items) {
+		throw new Error("Input format is invalid!");
+	}
+
+	const outputStorageBucket = storage.bucket(outputBucket);
+	for (const item of json.items) {
+		if (!item.id || !item.snippet?.publishedAt) {
+			throw new Error("Item format is invalid");
+		}
+		const outputObject = `${outputDirectory}/${item.snippet.publishedAt} ${item.id}.json`;
+		await outputStorageBucket.file(outputObject).save(JSON.stringify(item));
+	}
 
 	res.status(204).send("");
 }

@@ -5,40 +5,16 @@
       - metadataBucketName: '${sys.get_env("METADATA_BUCKET_NAME")}'
       - today: '${text.split(time.format(sys.now()), "T")[0]}'
       - cachedObjectName: '${channelId + "/youtube-list-search/" + today + ".json"}'
-- CheckIfCachedSearchListExists:
-    call: googleapis.storage.v1.objects.list
-    args:
-      bucket: "${cacheBucketName}"
-      matchGlob: "${cachedObjectName}"
-    result: cachedResponseExists
-- DetermineIfRequestSearchList:
-    switch:
-      - condition: '${"items" in cachedResponseExists}'
-        next: "GetSearchList"
-    next: "RequestSearchList"
-- RequestSearchList:
+- GetSearchList:
     call: "http.get"
     args:
       url: "https://asia-east1-www-kaito-tokyo.cloudfunctions.net/youtube-list-search"
       query:
         channelId: "${channelId}"
+        outputBucket: "${cacheBucketName}"
+        outputObject: "${cachedObjectName}"
       auth:
         type: "OIDC"
-    result: "requestedSearchList"
-- SaveSearchList:
-    call: "googleapis.storage.v1.objects.insert"
-    args:
-      bucket: "${cacheBucketName}"
-      uploadType: "media"
-      name: "${cachedObjectName}"
-      body: "${requestedSearchList}"
-- GetSearchList:
-    call: "googleapis.storage.v1.objects.get"
-    args:
-      bucket: "${cacheBucketName}"
-      object: "${text.url_encode(cachedObjectName)}"
-      alt: "media"
-    result: "searchList"
 - IterateForAllSearchItems:
     for:
       value: "item"
