@@ -11,8 +11,8 @@ export const load = (async () => {
 			select: ["_id", "title", "slug", "images", "publishedAt"]
 		}
 	});
-    const youtubeVideoList = await getYouTubeVideoList(await getYouTubeVideoUrl());
-	youtubeVideoList.reverse()
+	const youtubeVideoList = await getYouTubeVideoList(await getYouTubeVideoUrl());
+	youtubeVideoList.reverse();
 	return {
 		articles,
 		youtubeVideoList

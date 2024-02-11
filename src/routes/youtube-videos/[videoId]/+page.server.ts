@@ -4,9 +4,9 @@ import { getYouTubeVideoList, getYouTubeVideoUrl } from "$lib/youtube-videos/vid
 import type { PageServerLoad } from "./$types";
 
 export const load = (async ({ params }) => {
-    const youtubeVideoList = await getYouTubeVideoList(await getYouTubeVideoUrl());
-	const youtubeVideo = youtubeVideoList.find(video => video.id === params.videoId);
+	const youtubeVideoList = await getYouTubeVideoList(await getYouTubeVideoUrl());
+	const youtubeVideo = youtubeVideoList.find((video) => video.id === params.videoId);
 	return {
 		youtubeVideo
-	}
+	};
 }) satisfies PageServerLoad;
