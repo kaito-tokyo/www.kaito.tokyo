@@ -2,7 +2,7 @@
 	import { formatInTimeZone } from "date-fns-tz";
 	import { Image } from "@unpic/svelte";
 
-	import { base } from '$app/paths';
+	import { base } from "$app/paths";
 
 	import type { PageData } from "./$types";
 	export let data: PageData;

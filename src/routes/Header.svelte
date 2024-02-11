@@ -1,5 +1,5 @@
 <script>
-	import { base } from '$app/paths';
+	import { base } from "$app/paths";
 	import { page } from "$app/stores";
 	import logo from "$lib/images/umireon-logo.png";
 	import github from "$lib/images/github.svg";
@@ -20,7 +20,9 @@
 			<li aria-current={$page.url.pathname === `${base}/` ? "page" : undefined}>
 				<a href="{base}/">トップ</a>
 			</li>
-			<li aria-current={$page.url.pathname.startsWith(`${base}/illustrations`) ? "page" : undefined}>
+			<li
+				aria-current={$page.url.pathname.startsWith(`${base}/illustrations`) ? "page" : undefined}
+			>
 				<a href="{base}/illustrations">イラスト</a>
 			</li>
 			<li aria-current={$page.url.pathname.startsWith(`${base}/youtube`) ? "page" : undefined}>
@@ -62,7 +64,7 @@
 		width: 2em;
 		height: 2em;
 		object-fit: contain;
-		border-radius:50%;
+		border-radius: 50%;
 	}
 
 	nav {
