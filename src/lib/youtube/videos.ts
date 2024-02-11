@@ -4,11 +4,18 @@ const CHANNEL_ID = "UCfhyVWrxCmdUpst-5n7Kz_Q";
 const PUBLIC_BUCKET_NAME = "www-kaito-tokyo-youtube-fetcher-public";
 const INDEX_URL = `https://storage.googleapis.com/${PUBLIC_BUCKET_NAME}/${CHANNEL_ID}/videos/index.json`;
 
+let youtubeVideoUrlCache: string = "";
+let youtubeVideoListCache: youtube_v3.Schema$Video[] = [];
+
 interface YouTubeVideoIndex {
 	readonly url: string;
 }
 
 export async function getYouTubeVideoUrl(indexUrl: string = INDEX_URL): Promise<string> {
+	if (youtubeVideoUrlCache.length > 0) {
+		return youtubeVideoUrlCache;
+	}
+
 	const response = await fetch(indexUrl);
 
 	if (!response.ok) {
@@ -17,10 +24,16 @@ export async function getYouTubeVideoUrl(indexUrl: string = INDEX_URL): Promise<
 
 	const { url } = (await response.json()) as YouTubeVideoIndex;
 
+	youtubeVideoUrlCache = url;
+
 	return url;
 }
 
 export async function getYouTubeVideoList(url: string): Promise<youtube_v3.Schema$Video[]> {
+	if (youtubeVideoListCache.length > 0) {
+		return youtubeVideoListCache;
+	}
+
 	const response = await fetch(url);
 
 	if (!response.ok) {
@@ -28,6 +41,8 @@ export async function getYouTubeVideoList(url: string): Promise<youtube_v3.Schem
 	}
 
 	const json = (await response.json()) as youtube_v3.Schema$Video[];
+
+	youtubeVideoListCache = json;
 
 	return json;
 }

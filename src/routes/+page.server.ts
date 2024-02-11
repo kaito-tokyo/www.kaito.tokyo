@@ -2,7 +2,7 @@ export const prerender = true;
 
 import { newtClient } from "$lib/server/newt";
 import type { IllustrationArticle } from "$lib/server/newt";
-import { getYouTubeVideoList, getYouTubeVideoUrl } from "$lib/youtube-videos/videos";
+import { getYouTubeVideoList, getYouTubeVideoUrl } from "$lib/youtube/videos";
 import type { PageServerLoad } from "./$types";
 
 export const load = (async () => {
