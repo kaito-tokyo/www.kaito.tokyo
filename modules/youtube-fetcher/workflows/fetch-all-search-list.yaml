@@ -4,7 +4,7 @@
       - cacheBucketName: '${sys.get_env("CACHE_BUCKET_NAME")}'
       - metadataBucketName: '${sys.get_env("METADATA_BUCKET_NAME")}'
       - today: '${text.split(time.format(sys.now()), "T")[0]}'
-      - cachedSearchListPrefix: '${channelId + "/save-search-list/" + today}'
+      - cachedSearchListPrefix: '${channelId + "/save-search-list-all/" + today}'
       - metadataSearchListDirectory: '${channelId + "/search"}'
 - IterateForAllPages:
     for:
