@@ -34,3 +34,20 @@ jobs:
       wif-pool-id: "github-umireon"
       wif-provider-id: "actions-githubusercontent-com"
       wif-service-account: "gha-www-kaito-tokyo@www-kaito-tokyo.iam.gserviceaccount.com"
+
+  DeployNewtStorage:
+    permissions:
+      contents: "read"
+      id-token: "write"
+    if: "github.event_name == 'push' || contains(github.event.pull_request.labels.*.name, 'infra')"
+    uses: "./.github/workflows/newt-storage.yaml"
+    with:
+      infra-manager-service-account: "infra-manager@www-kaito-tokyo.iam.gserviceaccount.com"
+      function-service-account: "youtube-fetcher@www-kaito-tokyo.iam.gserviceaccount.com"
+      region: "asia-east1"
+    secrets:
+      project-id: "www-kaito-tokyo"
+      project-number: "641342314523"
+      wif-pool-id: "github-umireon"
+      wif-provider-id: "actions-githubusercontent-com"
+      wif-service-account: "gha-www-kaito-tokyo@www-kaito-tokyo.iam.gserviceaccount.com"
