@@ -1,0 +1,53 @@
+name: "Newt Storage"
+
+on:
+  workflow_call:
+    inputs:
+      infra-manager-service-account:
+        required: true
+        type: "string"
+      function-service-account:
+        required: true
+        type: "string"
+      region:
+        required: true
+        type: "string"
+    secrets:
+      project-id:
+        required: true
+      project-number:
+        required: true
+      wif-pool-id:
+        required: true
+      wif-provider-id:
+        required: true
+      wif-service-account:
+        required: true
+
+jobs:
+  DeployYouTubeFetcherInfra:
+    runs-on: "ubuntu-latest"
+
+    permissions:
+      contents: "read"
+      id-token: "write"
+
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v4"
+
+      - name: "Setup Google Cloud"
+        uses: "./.github/actions/setup-google-cloud"
+        with:
+          project-number: "${{ secrets.project-number }}"
+          pool-id: "${{ secrets.wif-pool-id }}"
+          provider-id: "${{ secrets.wif-provider-id }}"
+          service-account: "${{ secrets.wif-service-account }}"
+
+      - name: "Deploy Infra Manager"
+        uses: "./.github/actions/deploy-infra-manager"
+        with:
+          name: "newt-storage"
+          project-id: "${{ secrets.project-id }}"
+          infra-manager-service-account: "${{ inputs.infra-manager-service-account }}"
+          region: "${{ inputs.region }}"
