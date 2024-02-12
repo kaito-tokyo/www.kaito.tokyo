@@ -22,7 +22,7 @@ export interface GenerateListVideosQueriesResultItem {
 	readonly id: string[];
 }
 
-export async function handleGenerateListVideosQueries(req: Request, res: Response) {
+export async function handleGenerateVideoListQueries(req: Request, res: Response) {
 	const { bucket, matchGlob } = req.query;
 
 	if (typeof bucket !== "string" || typeof matchGlob !== "string") {
@@ -49,16 +49,8 @@ export async function handleGenerateListVideosQueries(req: Request, res: Respons
 	res.send(requests);
 }
 
-export interface YouTubeSaveListVideosRequest {
-	readonly id?: string[];
-	readonly bucket?: string;
-	readonly object?: string;
-}
-
-export async function handleSaveListVideos(req: Request, res: Response) {
-	const body: YouTubeSaveListVideosRequest = req.body;
-
-	const { id, bucket, object } = body;
+export async function handleSaveVideoList(req: Request, res: Response) {
+	const { id, bucket, object } = req.body;
 
 	if (!id || !bucket || !object) {
 		throw new Error("Request body is invalid!");
@@ -97,14 +89,7 @@ export async function handleSaveListVideos(req: Request, res: Response) {
 	res.status(204).send("");
 }
 
-export interface YouTubeSplitListVideosRequest {
-	readonly inputBucket?: string;
-	readonly inputObject?: string;
-	readonly outputBucket?: string;
-	readonly outputDirectory?: string;
-}
-
-export async function handleSplitListVideos(req: Request, res: Response) {
+export async function handleSplitVideoList(req: Request, res: Response) {
 	const { inputBucket, inputObject, outputBucket, outputDirectory } = req.query;
 
 	if (

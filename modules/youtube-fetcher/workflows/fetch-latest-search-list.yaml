@@ -4,53 +4,26 @@
       - cacheBucketName: '${sys.get_env("CACHE_BUCKET_NAME")}'
       - metadataBucketName: '${sys.get_env("METADATA_BUCKET_NAME")}'
       - today: '${text.split(time.format(sys.now()), "T")[0]}'
-      - cachedObjectName: '${channelId + "/youtube-list-search/" + today + ".json"}'
-- CheckIfCachedSearchListExists:
-    call: googleapis.storage.v1.objects.list
-    args:
-      bucket: "${cacheBucketName}"
-      matchGlob: "${cachedObjectName}"
-    result: cachedResponseExists
-- DetermineIfRequestSearchList:
-    switch:
-      - condition: '${"items" in cachedResponseExists}'
-        next: "GetSearchList"
-    next: "RequestSearchList"
-- RequestSearchList:
+      - cachedSearchListObject: '${channelId + "/save-search-list/" + today + ".json"}'
+      - metadataSearchListDirectory: '${channelId + "/search"}'
+- SaveSearchList:
     call: "http.get"
     args:
-      url: "https://asia-east1-www-kaito-tokyo.cloudfunctions.net/youtube-list-search"
+      url: "https://asia-east1-www-kaito-tokyo.cloudfunctions.net/youtube-fetcher-save-search-list"
       query:
         channelId: "${channelId}"
+        outputBucket: "${cacheBucketName}"
+        outputObject: "${cachedSearchListObject}"
       auth:
         type: "OIDC"
-    result: "requestedSearchList"
-- SaveSearchList:
-    call: "googleapis.storage.v1.objects.insert"
+- SplitSearchList:
+    call: "http.get"
     args:
-      bucket: "${cacheBucketName}"
-      uploadType: "media"
-      name: "${cachedObjectName}"
-      body: "${requestedSearchList}"
-- GetSearchList:
-    call: "googleapis.storage.v1.objects.get"
-    args:
-      bucket: "${cacheBucketName}"
-      object: "${text.url_encode(cachedObjectName)}"
-      alt: "media"
-    result: "searchList"
-- IterateForAllSearchItems:
-    for:
-      value: "item"
-      in: "${searchList.body.items}"
-      steps:
-        - AssignMetadataObjectName:
-            assign:
-              - metadataObjectName: '${channelId + "/search/" + item.snippet.publishedAt + " " + item.id.videoId + ".json"}'
-        - SaveSearchItem:
-            call: "googleapis.storage.v1.objects.insert"
-            args:
-              bucket: "${metadataBucketName}"
-              uploadType: "media"
-              name: "${metadataObjectName}"
-              body: "${item}"
+      url: "https://asia-east1-www-kaito-tokyo.cloudfunctions.net/youtube-fetcher-split-search-list"
+      query:
+        inputBucket: "${cacheBucketName}"
+        inputObject: "${cachedSearchListObject}"
+        outputBucket: "${metadataBucketName}"
+        outputDirectory: "${metadataSearchListDirectory}"
+      auth:
+        type: "OIDC"

@@ -5,14 +5,14 @@
       - metadataBucketName: '${sys.get_env("METADATA_BUCKET_NAME")}'
       - publicBucketName: '${sys.get_env("PUBLIC_BUCKET_NAME")}'
       - today: '${text.split(time.format(sys.now()), "T")[0]}'
-      - cachedVideosListPrefix: '${channelId + "/videos/" + today}'
+      - cachedVideoListPrefix: '${channelId + "/save-video-list/" + today}'
       - metadataVideosListPrefix: '${channelId + "/videos"}'
       - publicVideoListName: '${channelId + "/videos/" + today + ".json"}'
       - publicVideoIndexName: '${channelId + "/videos/index.json"}'
 - GetListVideosQueries:
     call: "http.get"
     args:
-      url: "https://asia-east1-www-kaito-tokyo.cloudfunctions.net/youtube-fetcher-generate-list-videos-queries"
+      url: "https://asia-east1-www-kaito-tokyo.cloudfunctions.net/youtube-fetcher-generate-video-list-queries"
       query:
         bucket: "${metadataBucketName}"
         matchGlob: '${channelId + "/search/*.json"}'
@@ -35,28 +35,28 @@
               auth:
                 type: "OIDC"
             result: "queryHash"
-        - AssignCachedVideosListName:
+        - AssignCachedVideoListName:
             assign:
-              - cachedVideosListName: '${cachedVideosListPrefix + "/" + queryHash.body + ".json"}'
+              - cachedVideoListName: '${cachedVideoListPrefix + "/" + queryHash.body + ".json"}'
         - SaveVideosList:
             call: "http.post"
             args:
-              url: "https://asia-east1-www-kaito-tokyo.cloudfunctions.net/youtube-fetcher-save-list-videos"
+              url: "https://asia-east1-www-kaito-tokyo.cloudfunctions.net/youtube-fetcher-save-video-list"
               headers:
                 "Content-Type": "application/json"
               body:
                 id: "${query.id}"
                 bucket: "${cacheBucketName}"
-                object: "${cachedVideosListName}"
+                object: "${cachedVideoListName}"
               auth:
                 type: "OIDC"
         - SplitVideosList:
             call: "http.get"
             args:
-              url: "https://asia-east1-www-kaito-tokyo.cloudfunctions.net/youtube-fetcher-split-list-videos"
+              url: "https://asia-east1-www-kaito-tokyo.cloudfunctions.net/youtube-fetcher-split-video-list"
               query:
                 inputBucket: "${cacheBucketName}"
-                inputObject: "${cachedVideosListName}"
+                inputObject: "${cachedVideoListName}"
                 outputBucket: "${metadataBucketName}"
                 outputDirectory: "${metadataVideosListPrefix}"
               auth:
