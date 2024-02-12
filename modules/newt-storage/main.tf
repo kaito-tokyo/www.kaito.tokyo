@@ -28,7 +28,7 @@ resource "google_storage_bucket_iam_member" "newt_storage_www_kaito_tokyo_alluse
 }
 
 resource "google_storage_bucket_iam_member" "newt_storage_www_kaito_tokyo_object_user" {
-  bucket = google_storage_bucket.youtube_fetcher_cache.name
+  bucket = google_storage_bucket.newt_storage_www_kaito_tokyo.name
   role   = "roles/storage.admin"
   member = "serviceAccount:${google_service_account.newt_storage_www_kaito_tokyo.email}"
 }
