@@ -10,7 +10,7 @@
 	"dependencies": {
 		"@google-cloud/functions-framework": "^3.3.0",
 		"@google-cloud/storage": "^7.7.0",
-		"googleapis": "^131.0.0"
+		"googleapis": "^133.0.0"
 	},
 	"devDependencies": {
 		"@swc/cli": "^0.3.9",
