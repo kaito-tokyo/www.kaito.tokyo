@@ -9,7 +9,7 @@
 - IterateForAllPages:
     for:
       value: "i"
-      range: [0, 30]
+      range: [0, 10]
       steps:
         - SaveSearchList:
             call: "http.get"
