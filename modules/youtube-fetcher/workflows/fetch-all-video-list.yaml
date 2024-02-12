@@ -35,9 +35,9 @@
               auth:
                 type: "OIDC"
             result: "queryHash"
-        - AssignCachedVideosListName:
+        - AssignCachedVideoListName:
             assign:
-              - cachedVideosListName: '${cachedVideosListPrefix + "/" + queryHash.body + ".json"}'
+              - cachedVideoListName: '${cachedVideoListPrefix + "/" + queryHash.body + ".json"}'
         - SaveVideosList:
             call: "http.post"
             args:
