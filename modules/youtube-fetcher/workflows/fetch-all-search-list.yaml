@@ -22,6 +22,8 @@
               auth:
                 type: "OIDC"
             result: "saveSearchListResponse"
+        - Return:
+            return: "${saveSearchListResponse}"
         - DetermineHasNextPage:
             switch:
               - condition: '${"nextPageToken" in saveSearchListResponse.body}'
@@ -47,7 +49,7 @@
               url: "https://asia-east1-www-kaito-tokyo.cloudfunctions.net/youtube-fetcher-split-search-list"
               query:
                 inputBucket: "${cacheBucketName}"
-                inputObject: "${text.url_encode(object.name)}"
+                inputObject: "${object.name}"
                 outputBucket: "${metadataBucketName}"
                 outputDirectory: "${metadataSearchListDirectory}"
               auth:
