@@ -1,0 +1,19 @@
+{
+	"name": "www.kaito.tokyo-youtube-fetcher",
+	"version": "1.0.0",
+	"main": "index.js",
+	"scripts": {
+		"gcp-build": "tsc"
+	},
+	"license": "MIT",
+	"private": true,
+	"dependencies": {
+		"@google-cloud/functions-framework": "^3.3.0",
+		"@google-cloud/storage": "^7.7.0",
+		"googleapis": "^133.0.0"
+	},
+	"devDependencies": {
+		"typescript": "^5.3.3"
+	},
+	"type": "module"
+}
