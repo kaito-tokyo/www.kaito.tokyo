@@ -6,6 +6,9 @@
       - today: '${text.split(time.format(sys.now()), "T")[0]}'
       - cachedSearchListPrefix: '${channelId + "/save-search-list-all/" + today}'
       - metadataSearchListDirectory: '${channelId + "/search"}'
+- InitializeNextPageToken:
+    assign:
+      - nextPageToken: ""
 - IterateForAllPages:
     for:
       value: "i"
@@ -19,6 +22,7 @@
                 channelId: "${channelId}"
                 outputBucket: "${cacheBucketName}"
                 outputObject: '${cachedSearchListPrefix + "-" + i + ".json"}'
+                pageToken: "${nextPageToken}"
               auth:
                 type: "OIDC"
             result: "saveSearchListResponse"
@@ -31,7 +35,7 @@
             next: "break"
         - SetNextPageToken:
             assign:
-              - pageToken: "${saveSearchListResponse.body.nextPageToken}"
+              - nextPageToken: "${saveSearchListResponse.body.nextPageToken}"
 - GetAllSearchLists:
     call: "googleapis.storage.v1.objects.list"
     args:
