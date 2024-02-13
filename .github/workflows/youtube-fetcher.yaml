@@ -78,7 +78,7 @@ jobs:
         uses: "./.github/actions/deploy-cloud-function"
         with:
           name: "youtube-fetcher-digest"
-          working-directory: "serverless/youtube-fetcher"
+          working-directory: "."
           region: "${{ inputs.region }}"
           function-service-account: "${{ inputs.function-service-account }}"
 
@@ -108,7 +108,7 @@ jobs:
         uses: "./.github/actions/deploy-cloud-function"
         with:
           name: "youtube-fetcher-save-search-list"
-          working-directory: "serverless/youtube-fetcher"
+          working-directory: "."
           region: "${{ inputs.region }}"
           function-service-account: "${{ inputs.function-service-account }}"
 
@@ -138,7 +138,7 @@ jobs:
         uses: "./.github/actions/deploy-cloud-function"
         with:
           name: "youtube-fetcher-split-search-list"
-          working-directory: "serverless/youtube-fetcher"
+          working-directory: "."
           region: "${{ inputs.region }}"
           function-service-account: "${{ inputs.function-service-account }}"
 
@@ -168,7 +168,7 @@ jobs:
         uses: "./.github/actions/deploy-cloud-function"
         with:
           name: "youtube-fetcher-generate-video-list-queries"
-          working-directory: "serverless/youtube-fetcher"
+          working-directory: "."
           region: "${{ inputs.region }}"
           function-service-account: "${{ inputs.function-service-account }}"
 
@@ -198,7 +198,7 @@ jobs:
         uses: "./.github/actions/deploy-cloud-function"
         with:
           name: "youtube-fetcher-save-video-list"
-          working-directory: "serverless/youtube-fetcher"
+          working-directory: "."
           region: "${{ inputs.region }}"
           function-service-account: "${{ inputs.function-service-account }}"
 
@@ -228,7 +228,7 @@ jobs:
         uses: "./.github/actions/deploy-cloud-function"
         with:
           name: "youtube-fetcher-split-video-list"
-          working-directory: "serverless/youtube-fetcher"
+          working-directory: "."
           region: "${{ inputs.region }}"
           function-service-account: "${{ inputs.function-service-account }}"
 
@@ -258,6 +258,6 @@ jobs:
         uses: "./.github/actions/deploy-cloud-function"
         with:
           name: "youtube-fetcher-compose-video-list"
-          working-directory: "serverless/youtube-fetcher"
+          working-directory: "."
           region: "${{ inputs.region }}"
           function-service-account: "${{ inputs.function-service-account }}"
