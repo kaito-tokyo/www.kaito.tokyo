@@ -2,6 +2,7 @@
 	"name": "www.kaito.tokyo",
 	"version": "1.0.0",
 	"description": "The portfolio site of umireon",
+  "main": "index.js",
 	"scripts": {
 		"gcp-build": "npm run gcp-build --workspaces"
 	},
