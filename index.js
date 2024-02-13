@@ -1,12 +1,14 @@
 import { http } from "@google-cloud/functions-framework";
-import { handleDigest } from "./handlers/digest.js";
-import { handleSaveSearchList, handleSplitSearchList } from "./handlers/list-search.js";
+
 import {
-	handleComposeVideoList,
+	handleDigest,
+	handleSaveSearchList,
+	handleSplitSearchList,
 	handleGenerateVideoListQueries,
 	handleSaveVideoList,
-	handleSplitVideoList
-} from "./handlers/list-videos.js";
+	handleSplitVideoList,
+	handleComposeVideoList
+} from "www.kaito.tokyo-youtube-fetcher";
 
 http("youtube-fetcher-digest", handleDigest);
 

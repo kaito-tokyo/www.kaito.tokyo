@@ -23,26 +23,29 @@ export interface GenerateListVideosQueriesResultItem {
 }
 
 export async function handleGenerateVideoListQueries(req: Request, res: Response) {
-	const { bucket, matchGlob } = req.query;
+	const { bucket, matchGlob, itemsPerRequest } = req.query;
 
 	if (typeof bucket !== "string" || typeof matchGlob !== "string") {
 		throw new Error("Query is invalid!");
 	}
 
-	if (typeof req.query.itemsPerRequest !== "string") {
+	if (typeof itemsPerRequest !== "string") {
 		throw new Error("itemsPerRequest is invalid!");
 	}
 
-	const itemsPerRequest = parseInt(req.query.itemsPerRequest, 10);
+	const itemsPerRequestInt = parseInt(itemsPerRequest, 10);
 
 	const [files] = await storage.bucket(bucket).getFiles({ matchGlob });
-	const ids = files.map((f) => f.name.split(/[ .]/)[1]);
+	const ids = files.flatMap((f) => {
+		const id = f.name.split(/[ .]/)[1];
+		return id ? [id] : [];
+	});
 
-	const numRequests = Math.ceil(files.length / itemsPerRequest);
+	const numRequests = Math.ceil(files.length / itemsPerRequestInt);
 	const requests: GenerateListVideosQueriesResultItem[] = [];
 	for (let i = 0; i < numRequests; i++) {
 		requests.push({
-			id: ids.slice(i * itemsPerRequest, (i + 1) * itemsPerRequest)
+			id: ids.slice(i * itemsPerRequestInt, (i + 1) * itemsPerRequestInt)
 		});
 	}
 
