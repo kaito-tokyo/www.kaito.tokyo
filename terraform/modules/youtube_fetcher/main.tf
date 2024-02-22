@@ -9,7 +9,7 @@ resource "google_service_account" "youtube_fetcher_functions" {
   account_id = "yf-functions"
 }
 
-resource "google_service_account" "cloudbuild_youtube_fetcher_functions_main" {
+resource "google_service_account" "youtube_fetcher_functions_cloudbuild_main" {
   project    = var.project_id
   account_id = "yf-functions-cb-main"
 }
@@ -26,7 +26,7 @@ resource "google_cloudbuild_trigger" "youtube_fetcher_functions_main" {
     }
   }
   filename           = ".cloudbuild/workflows/youtube-fetcher-cloud-functions-main.yaml"
-  service_account    = google_service_account.cloudbuild_youtube_fetcher_functions_main.id
+  service_account    = google_service_account.youtube_fetcher_functions_cloudbuild_main.id
   include_build_logs = "INCLUDE_BUILD_LOGS_WITH_STATUS"
 }
 
@@ -102,6 +102,18 @@ resource "google_project_iam_member" "youtube_fetcher_workflow_log_writer" {
   project = var.project_id
   role    = "roles/logging.logWriter"
   member  = "serviceAccount:${google_service_account.youtube_fetcher_workflow.email}"
+}
+
+resource "google_project_iam_member" "youtube_fetcher_functions_cloudbuild_log_writer" {
+  project = var.project_id
+  role    = "roles/logging.logWriter"
+  member  = "serviceAccount:${google_service_account.youtube_fetcher_functions_cloudbuild_main}"
+}
+
+resource "google_project_iam_member" "youtube_fetcher_functions_cloudbuild_functions_service_agent" {
+  project = var.project_id
+  role    = "roles/cloudfunctions.serviceAgent"
+  member  = "serviceAccount:${google_service_account.youtube_fetcher_functions_cloudbuild_main}"
 }
 
 // Cloud Storage IAM Bindings
