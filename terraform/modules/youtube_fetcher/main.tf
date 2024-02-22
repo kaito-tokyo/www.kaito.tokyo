@@ -19,7 +19,7 @@ resource "google_cloudbuild_trigger" "youtube_fetcher_functions_main" {
   location = "asia-east1"
   project  = var.project_id
   repository_event_config {
-    repository = "kaito-tokyo-www.kaito.tokyo"
+    repository = "projects/${var.project_id}/locations/asia-east1/connections/umireon/repositories/kaito-tokyo-www.kaito.tokyo"
     push {
       branch = "^main$"
     }
