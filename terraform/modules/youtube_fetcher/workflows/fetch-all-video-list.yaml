@@ -1,5 +1,6 @@
 - SetConstants:
     assign:
+      - functionBaseUrl: '${"https://asia-east1-" + sys.get_env("GOOGLE_CLOUD_PROJECT_ID") + ".cloudfunctions.net"}'
       - channelId: '${sys.get_env("CHANNEL_ID")}'
       - cacheBucketName: '${sys.get_env("CACHE_BUCKET_NAME")}'
       - metadataBucketName: '${sys.get_env("METADATA_BUCKET_NAME")}'
@@ -12,7 +13,7 @@
 - GetListVideosQueries:
     call: "http.get"
     args:
-      url: "https://asia-east1-www-kaito-tokyo.cloudfunctions.net/youtube-fetcher-generate-video-list-queries"
+      url: '${functionBaseUrl + "/youtube-fetcher-generate-video-list-queries"}'
       query:
         bucket: "${metadataBucketName}"
         matchGlob: '${channelId + "/search/*.json"}'
@@ -28,7 +29,7 @@
         - GetQueryHash:
             call: "http.post"
             args:
-              url: "https://asia-east1-www-kaito-tokyo.cloudfunctions.net/youtube-fetcher-digest"
+              url: '${functionBaseUrl + "/youtube-fetcher-digest"}'
               headers:
                 "Content-Type": "application/json"
               body: "${query}"
@@ -41,7 +42,7 @@
         - SaveVideosList:
             call: "http.post"
             args:
-              url: "https://asia-east1-www-kaito-tokyo.cloudfunctions.net/youtube-fetcher-save-video-list"
+              url: '${functionBaseUrl + "/youtube-fetcher-save-video-list"}'
               headers:
                 "Content-Type": "application/json"
               body:
@@ -53,7 +54,7 @@
         - SplitVideosList:
             call: "http.get"
             args:
-              url: "https://asia-east1-www-kaito-tokyo.cloudfunctions.net/youtube-fetcher-split-video-list"
+              url: '${functionBaseUrl + "/youtube-fetcher-split-video-list"}'
               query:
                 inputBucket: "${cacheBucketName}"
                 inputObject: "${cachedVideoListName}"
@@ -64,7 +65,7 @@
 - ComposeVideoList:
     call: "http.get"
     args:
-      url: "https://asia-east1-www-kaito-tokyo.cloudfunctions.net/youtube-fetcher-compose-video-list"
+      url: '${functionBaseUrl + "/youtube-fetcher-compose-video-list"}'
       query:
         inputBucket: "${metadataBucketName}"
         inputPrefix: "${metadataVideosListPrefix}"
