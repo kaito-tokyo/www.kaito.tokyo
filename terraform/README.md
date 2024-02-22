@@ -51,3 +51,10 @@ gcloud builds triggers create github \
   --service-account=projects/$PROJECT_ID/serviceAccounts/$SERVICE_ACCOUNT_NAME@$PROJECT_ID.iam.gserviceaccount.com \
   --include-logs-with-status
 ```
+
+# Enable APIs required for Terraform
+
+```
+gcloud services enable cloudresourcemanager.googleapis.com
+gcloud services enable workflows.googleapis.com
+```
