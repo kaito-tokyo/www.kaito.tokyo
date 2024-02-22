@@ -1,7 +1,7 @@
 import type { youtube_v3 } from "googleapis";
 
 const CHANNEL_ID = "UCfhyVWrxCmdUpst-5n7Kz_Q";
-const PUBLIC_BUCKET_NAME = "www-kaito-tokyo-youtube-fetcher-public";
+const PUBLIC_BUCKET_NAME = "www-kaito-tokyo-1-svc-my1a-youtube-fetcher-public";
 const INDEX_URL = `https://storage.googleapis.com/${PUBLIC_BUCKET_NAME}/${CHANNEL_ID}/videos/index.json`;
 
 let youtubeVideoUrlCache: string = "";
