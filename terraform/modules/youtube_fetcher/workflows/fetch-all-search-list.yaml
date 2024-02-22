@@ -27,10 +27,10 @@
               auth:
                 type: "OIDC"
             result: "saveSearchListResponse"
-        - Return:
-            return: "${saveSearchListResponse}"
         - DetermineHasNextPage:
             switch:
+              - condition: "${saveSearchListResponse.code == 204}"
+                next: "break"
               - condition: '${"nextPageToken" in saveSearchListResponse.body}'
                 next: "SetNextPageToken"
             next: "break"
