@@ -2,17 +2,17 @@ options:
   logging: "CLOUD_LOGGING_ONLY"
 steps:
   - name: "hashicorp/terraform:1.7.3"
-    dir: "organization-terraform"
+    dir: "terraform/environments/prod1"
     args:
       - "init"
       - "-no-color"
   - name: "hashicorp/terraform:1.7.3"
-    dir: "organization-terraform"
+    dir: "terraform/environments/prod1"
     args:
       - "plan"
       - "-no-color"
   - name: "hashicorp/terraform:1.7.3"
-    dir: "organization-terraform"
+    dir: "terraform/environments/prod1"
     args:
       - "apply"
       - "-no-color"

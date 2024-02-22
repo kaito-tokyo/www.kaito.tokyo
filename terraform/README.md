@@ -18,6 +18,7 @@ gcloud storage buckets update "gs://$BUCKET_NAME" --versioning
 ```
 gcloud services enable cloudbuild.googleapis.com
 gcloud services enable secretmanager.googleapis.com
+gcloud services enable iam.googleapis.com
 ```
 
 Add a connection for GitHub on Cloud Build first.
