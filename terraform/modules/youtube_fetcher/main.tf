@@ -1,17 +1,17 @@
 // Service accounts
 resource "google_service_account" "youtube_fetcher_workflow" {
   project    = var.project_id
-  account_id = "youtube-fetcher-workflow"
+  account_id = "yf-workflow"
 }
 
 resource "google_service_account" "youtube_fetcher_functions" {
   project    = var.project_id
-  account_id = "youtube-fetcher-functions"
+  account_id = "yf-functions"
 }
 
 resource "google_service_account" "cloudbuild_youtube_fetcher_functions_main" {
   project    = var.project_id
-  account_id = "cloudbuild-youtube-fetcher-functions-main"
+  account_id = "yf-functions-cb-main"
 }
 
 // Cloud Build Triggers
