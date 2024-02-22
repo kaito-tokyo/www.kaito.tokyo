@@ -25,20 +25,23 @@ Add a connection for GitHub on Cloud Build first.
 ```
 PROJECT_ID=www-kaito-tokyo-1-svc-my1a
 SERVICE_ACCOUNT_NAME=cloudbuild-terraform-main
+TRIGGER_NAME=terraform-main
+WORKFLOW_PATH=".cloudbuild/workflows/$TRIGGER_NAME.yaml"
+REPOSITORY="projects/$PROJECT_ID/locations/asia-east1/connections/kaito-tokyo/repositories/kaito-tokyo-www.kaito.tokyo"
 
 gcloud iam service-accounts create "$SERVICE_ACCOUNT_NAME"
 
-gcloud project add-iam-policy-binding "$PROJECT_ID" \
+gcloud projects add-iam-policy-binding "$PROJECT_ID" \
   --member="serviceAccount:$SERVICE_ACCOUNT_NAME@$PROJECT_ID.iam.gserviceaccount.com" \
   --role=roles/logging.logWriter \
   --condition=None
 
 gcloud builds triggers create github \
-  --name=organization-terraform-main \
+  --name="$TRIGGER_NAME" \
   --region=asia-east1 \
-  --repository=projects/$PROJECT_ID/locations/asia-east1/connections/umireon/repositories/kaito-tokyo-www.kaito.tokyo \
+  --repository="$REPOSITORY" \
   --branch-pattern="^main$" \
-  --build-config=".cloudbuild/workflows/terraform-main.yaml" \
-  --service-account=projects/$PROJECT_ID/serviceAccounts/cloudbuild-terraform-main@$PROJECT_ID.gserviceaccount.com \
+  --build-config="$WORKFLOW_PATH" \
+  --service-account=projects/$PROJECT_ID/serviceAccounts/$SERVICE_ACCOUNT_NAME@$PROJECT_ID.iam.gserviceaccount.com \
   --include-logs-with-status
 ```
