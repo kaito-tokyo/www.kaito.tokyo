@@ -4,9 +4,9 @@ resource "google_service_account" "youtube_fetcher_workflow" {
   account_id = "youtube-fetcher-workflow"
 }
 
-resource "google_service_account" "youtube_fetcher" {
+resource "google_service_account" "youtube_fetcher_functions" {
   project    = var.project_id
-  account_id = "youtube-fetcher"
+  account_id = "youtube-fetcher-functions"
 }
 
 // Cloud Storage Buckets
@@ -87,19 +87,19 @@ resource "google_project_iam_member" "youtube_fetcher_workflow_log_writer" {
 resource "google_storage_bucket_iam_member" "youtube_fetcher_cache_object_user" {
   bucket = google_storage_bucket.youtube_fetcher_cache.name
   role   = "roles/storage.objectUser"
-  member = "serviceAccount:${google_service_account.youtube_fetcher.email}"
+  member = "serviceAccount:${google_service_account.youtube_fetcher_functions.email}"
 }
 
 resource "google_storage_bucket_iam_member" "youtube_fetcher_metadata_object_user" {
   bucket = google_storage_bucket.youtube_fetcher_metadata.name
   role   = "roles/storage.objectUser"
-  member = "serviceAccount:${google_service_account.youtube_fetcher.email}"
+  member = "serviceAccount:${google_service_account.youtube_fetcher_functions.email}"
 }
 
 resource "google_storage_bucket_iam_member" "youtube_fetcher_public_object_user" {
   bucket = google_storage_bucket.youtube_fetcher_public.name
   role   = "roles/storage.objectUser"
-  member = "serviceAccount:${google_service_account.youtube_fetcher.email}"
+  member = "serviceAccount:${google_service_account.youtube_fetcher_functions.email}"
 }
 
 resource "google_storage_bucket_iam_member" "youtube_fetcher_workflow_youtube_fetcher_cache_object_user" {
