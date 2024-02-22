@@ -38,7 +38,7 @@ gcloud projects add-iam-policy-binding "$PROJECT_ID" \
   --condition=None
 
 gcloud storage buckets add-iam-policy-binding gs://$PROJECT_ID-tfstate \
-  --member="serviceAccount:organization-terraform-main@$PROJECT_ID.iam.gserviceaccount.com" \
+  --member="serviceAccount:$SERVICE_ACCOUNT_NAME@$PROJECT_ID.iam.gserviceaccount.com" \
   --role=roles/storage.objectAdmin \
   --condition=None
 
