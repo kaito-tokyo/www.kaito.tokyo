@@ -114,13 +114,13 @@ resource "google_project_iam_member" "youtube_fetcher_functions_cloudbuild_log_w
   member  = "serviceAccount:${google_service_account.youtube_fetcher_functions_cloudbuild_main.email}"
 }
 
-resource "google_project_iam_member" "youtube_fetcher_functions_cloudbuild_functions_service_agent" {
+resource "google_project_iam_member" "youtube_fetcher_functions_cloudbuild_functions_admin" {
   project = var.project_id
   role    = "roles/cloudfunctions.admin"
   member  = "serviceAccount:${google_service_account.youtube_fetcher_functions_cloudbuild_main.email}"
 }
 
-resource "google_project_iam_member" "youtube_fetcher_functions_cloudbuild_functions_service_agent" {
+resource "google_project_iam_member" "youtube_fetcher_functions_cloudbuild_run_admin" {
   project = var.project_id
   role    = "roles/run.admin"
   member  = "serviceAccount:${google_service_account.youtube_fetcher_functions_cloudbuild_main.email}"
