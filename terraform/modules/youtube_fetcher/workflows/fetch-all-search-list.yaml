@@ -1,5 +1,6 @@
 - SetConstants:
     assign:
+      - functionBaseUrl: '${"https://asia-east1-" + sys.get_env("GOOGLE_CLOUD_PROJECT_ID") + ".cloudfunctions.net"}'
       - channelId: '${sys.get_env("CHANNEL_ID")}'
       - cacheBucketName: '${sys.get_env("CACHE_BUCKET_NAME")}'
       - metadataBucketName: '${sys.get_env("METADATA_BUCKET_NAME")}'
@@ -17,7 +18,7 @@
         - SaveSearchList:
             call: "http.get"
             args:
-              url: "https://asia-east1-www-kaito-tokyo.cloudfunctions.net/youtube-fetcher-save-search-list"
+              url: '${functionBaseUrl + "/youtube-fetcher-save-search-list"}'
               query:
                 channelId: "${channelId}"
                 outputBucket: "${cacheBucketName}"
@@ -50,7 +51,7 @@
         - SplitSearchList:
             call: "http.get"
             args:
-              url: "https://asia-east1-www-kaito-tokyo.cloudfunctions.net/youtube-fetcher-split-search-list"
+              url: '${functionBaseUrl + "/youtube-fetcher-split-search-list"}'
               query:
                 inputBucket: "${cacheBucketName}"
                 inputObject: "${object.name}"
