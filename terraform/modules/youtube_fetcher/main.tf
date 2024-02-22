@@ -9,6 +9,25 @@ resource "google_service_account" "youtube_fetcher_functions" {
   account_id = "youtube-fetcher-functions"
 }
 
+resource "google_service_account" "cloudbuild_youtube_fetcher_functions_main" {
+  project    = var.project_id
+  account_id = "cloudbuild-youtube-fetcher-functions-main"
+}
+
+// Cloud Build Triggers
+resource "google_cloudbuild_trigger" "youtube_fetcher_functions_main" {
+  location = "asia-east1"
+  repository_event_config {
+    repository = "kaito-tokyo-www.kaito.tokyo"
+    push {
+      branch = "^main$"
+    }
+  }
+  filename = ".cloudbuild/workflows/youtube-fetcher-cloud-functions-main.yaml"
+  service_account = google_service_account.cloudbuild_youtube_fetcher_functions_main.email
+  include_build_logs = "INCLUDE_BUILD_LOGS_WITH_STATUS"
+}
+
 // Cloud Storage Buckets
 resource "google_storage_bucket" "youtube_fetcher_cache" {
   name                        = "${var.project_id}-youtube-fetcher-cache"
