@@ -17,6 +17,7 @@ resource "google_service_account" "cloudbuild_youtube_fetcher_functions_main" {
 // Cloud Build Triggers
 resource "google_cloudbuild_trigger" "youtube_fetcher_functions_main" {
   location = "asia-east1"
+  project  = var.project_id
   repository_event_config {
     repository = "kaito-tokyo-www.kaito.tokyo"
     push {
