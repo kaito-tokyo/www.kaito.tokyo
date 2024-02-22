@@ -116,7 +116,13 @@ resource "google_project_iam_member" "youtube_fetcher_functions_cloudbuild_log_w
 
 resource "google_project_iam_member" "youtube_fetcher_functions_cloudbuild_functions_service_agent" {
   project = var.project_id
-  role    = "roles/cloudfunctions.serviceAgent"
+  role    = "roles/cloudfunctions.admin"
+  member  = "serviceAccount:${google_service_account.youtube_fetcher_functions_cloudbuild_main.email}"
+}
+
+resource "google_project_iam_member" "youtube_fetcher_functions_cloudbuild_functions_service_agent" {
+  project = var.project_id
+  role    = "roles/run.admin"
   member  = "serviceAccount:${google_service_account.youtube_fetcher_functions_cloudbuild_main.email}"
 }
 
