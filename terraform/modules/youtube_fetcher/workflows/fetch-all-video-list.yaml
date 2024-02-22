@@ -1,0 +1,90 @@
+- SetConstants:
+    assign:
+      - channelId: '${sys.get_env("CHANNEL_ID")}'
+      - cacheBucketName: '${sys.get_env("CACHE_BUCKET_NAME")}'
+      - metadataBucketName: '${sys.get_env("METADATA_BUCKET_NAME")}'
+      - publicBucketName: '${sys.get_env("PUBLIC_BUCKET_NAME")}'
+      - today: '${text.split(time.format(sys.now()), "T")[0]}'
+      - cachedVideoListPrefix: '${channelId + "/save-video-list/" + today}'
+      - metadataVideosListPrefix: '${channelId + "/videos"}'
+      - publicVideoListName: '${channelId + "/videos/" + today + ".json"}'
+      - publicVideoIndexName: '${channelId + "/videos/index.json"}'
+- GetListVideosQueries:
+    call: "http.get"
+    args:
+      url: "https://asia-east1-www-kaito-tokyo.cloudfunctions.net/youtube-fetcher-generate-video-list-queries"
+      query:
+        bucket: "${metadataBucketName}"
+        matchGlob: '${channelId + "/search/*.json"}'
+        itemsPerRequest: 50
+      auth:
+        type: "OIDC"
+    result: "listVideosQueries"
+- IterateForListVideosQueries:
+    for:
+      value: "query"
+      in: "${listVideosQueries.body}"
+      steps:
+        - GetQueryHash:
+            call: "http.post"
+            args:
+              url: "https://asia-east1-www-kaito-tokyo.cloudfunctions.net/youtube-fetcher-digest"
+              headers:
+                "Content-Type": "application/json"
+              body: "${query}"
+              auth:
+                type: "OIDC"
+            result: "queryHash"
+        - AssignCachedVideoListName:
+            assign:
+              - cachedVideoListName: '${cachedVideoListPrefix + "/" + queryHash.body + ".json"}'
+        - SaveVideosList:
+            call: "http.post"
+            args:
+              url: "https://asia-east1-www-kaito-tokyo.cloudfunctions.net/youtube-fetcher-save-video-list"
+              headers:
+                "Content-Type": "application/json"
+              body:
+                id: "${query.id}"
+                bucket: "${cacheBucketName}"
+                object: "${cachedVideoListName}"
+              auth:
+                type: "OIDC"
+        - SplitVideosList:
+            call: "http.get"
+            args:
+              url: "https://asia-east1-www-kaito-tokyo.cloudfunctions.net/youtube-fetcher-split-video-list"
+              query:
+                inputBucket: "${cacheBucketName}"
+                inputObject: "${cachedVideoListName}"
+                outputBucket: "${metadataBucketName}"
+                outputDirectory: "${metadataVideosListPrefix}"
+              auth:
+                type: "OIDC"
+- ComposeVideoList:
+    call: "http.get"
+    args:
+      url: "https://asia-east1-www-kaito-tokyo.cloudfunctions.net/youtube-fetcher-compose-video-list"
+      query:
+        inputBucket: "${metadataBucketName}"
+        inputPrefix: "${metadataVideosListPrefix}"
+        outputBucket: "${publicBucketName}"
+        outputObject: "${publicVideoListName}"
+      auth:
+        type: "OIDC"
+    result: "composedVideoList"
+- UpdatePublicVideoListIndexMedia:
+    call: "googleapis.storage.v1.objects.insert"
+    args:
+      bucket: "${publicBucketName}"
+      uploadType: "media"
+      name: "${publicVideoIndexName}"
+      body:
+        url: "${composedVideoList.body.outputUrl}"
+- UpdatePublicVideoListIndexMetadata:
+    call: "googleapis.storage.v1.objects.patch"
+    args:
+      bucket: "${publicBucketName}"
+      object: "${text.url_encode(publicVideoIndexName)}"
+      body:
+        cacheControl: "public, max-age=60"
