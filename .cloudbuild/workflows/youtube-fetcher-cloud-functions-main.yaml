@@ -1,8 +1,5 @@
 options:
   logging: "CLOUD_LOGGING_ONLY"
-substitutions:
-  _RUN_SERVICE_ACCOUNT: "youtube-fetcher-functions@www-kaito-tokyo-1-svc-my1a.iam.gserviceaccount.com"
-  _SERVICE_ACCOUNT: "youtube-fetcher-functions@www-kaito-tokyo-1-svc-my1a.iam.gserviceaccount.com"
 steps:
   - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
     args:

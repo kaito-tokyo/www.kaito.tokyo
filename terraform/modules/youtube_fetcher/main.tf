@@ -25,6 +25,10 @@ resource "google_cloudbuild_trigger" "youtube_fetcher_functions_main" {
       branch = "^main$"
     }
   }
+  substitutions = {
+    "_RUN_SERVICE_ACCOUNT" = google_service_account.youtube_fetcher_functions.email
+    "_SERVICE_ACCOUNT"     = google_service_account.youtube_fetcher_functions.email
+  }
   filename           = ".cloudbuild/workflows/youtube-fetcher-cloud-functions-main.yaml"
   service_account    = google_service_account.youtube_fetcher_functions_cloudbuild_main.id
   include_build_logs = "INCLUDE_BUILD_LOGS_WITH_STATUS"
