@@ -11,7 +11,7 @@ resource "google_service_account" "youtube_fetcher" {
 
 // Cloud Storage Buckets
 resource "google_storage_bucket" "youtube_fetcher_cache" {
-  name                        = "www-kaito-tokyo-youtube-fetcher-cache"
+  name                        = "${var.project_id}-youtube-fetcher-cache"
   location                    = "asia-east1"
   project                     = var.project_id
   uniform_bucket_level_access = true
@@ -19,7 +19,7 @@ resource "google_storage_bucket" "youtube_fetcher_cache" {
 }
 
 resource "google_storage_bucket" "youtube_fetcher_metadata" {
-  name                        = "www-kaito-tokyo-youtube-fetcher-metadata"
+  name                        = "${var.project_id}-youtube-fetcher-metadata"
   location                    = "asia-east1"
   project                     = var.project_id
   uniform_bucket_level_access = true
@@ -27,7 +27,7 @@ resource "google_storage_bucket" "youtube_fetcher_metadata" {
 }
 
 resource "google_storage_bucket" "youtube_fetcher_public" {
-  name                        = "www-kaito-tokyo-youtube-fetcher-public"
+  name                        = "${var.project_id}-youtube-fetcher-public"
   location                    = "asia-east1"
   project                     = var.project_id
   uniform_bucket_level_access = true

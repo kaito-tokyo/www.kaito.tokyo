@@ -34,7 +34,7 @@ gcloud iam service-accounts create "$SERVICE_ACCOUNT_NAME"
 
 gcloud projects add-iam-policy-binding "$PROJECT_ID" \
   --member="serviceAccount:$SERVICE_ACCOUNT_NAME@$PROJECT_ID.iam.gserviceaccount.com" \
-  --role=roles/logging.logWriter \
+  --role=roles/owner \
   --condition=None
 
 gcloud storage buckets add-iam-policy-binding gs://$PROJECT_ID-tfstate \
