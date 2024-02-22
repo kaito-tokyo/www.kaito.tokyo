@@ -15,12 +15,6 @@ steps:
   - name: "hashicorp/terraform:1.7.3"
     dir: "terraform/environments/prod1"
     args:
-      - "show"
-      - "-no-color"
-      - "tfplan"
-  - name: "hashicorp/terraform:1.7.3"
-    dir: "terraform/environments/prod1"
-    args:
       - "apply"
       - "-no-color"
       - "-auto-approve"

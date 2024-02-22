@@ -84,12 +84,6 @@ resource "google_project_iam_member" "youtube_fetcher_workflow_log_writer" {
 }
 
 // Cloud Storage IAM Bindings
-resource "google_storage_bucket_iam_member" "youtube_fetcher_public_allusers_viewer" {
-  bucket = google_storage_bucket.youtube_fetcher_public.name
-  role   = "roles/storage.objectViewer"
-  member = "allUsers"
-}
-
 resource "google_storage_bucket_iam_member" "youtube_fetcher_cache_object_user" {
   bucket = google_storage_bucket.youtube_fetcher_cache.name
   role   = "roles/storage.objectUser"
