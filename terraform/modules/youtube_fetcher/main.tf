@@ -23,8 +23,8 @@ resource "google_cloudbuild_trigger" "youtube_fetcher_functions_main" {
       branch = "^main$"
     }
   }
-  filename = ".cloudbuild/workflows/youtube-fetcher-cloud-functions-main.yaml"
-  service_account = google_service_account.cloudbuild_youtube_fetcher_functions_main.email
+  filename           = ".cloudbuild/workflows/youtube-fetcher-cloud-functions-main.yaml"
+  service_account    = google_service_account.cloudbuild_youtube_fetcher_functions_main.email
   include_build_logs = "INCLUDE_BUILD_LOGS_WITH_STATUS"
 }
 
