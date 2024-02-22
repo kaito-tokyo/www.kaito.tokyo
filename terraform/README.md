@@ -58,4 +58,5 @@ gcloud builds triggers create github \
 gcloud services enable cloudresourcemanager.googleapis.com
 gcloud services enable workflows.googleapis.com
 gcloud services enable cloudfunctions.googleapis.com
+gcloud services enable run.googleapis.com
 ```

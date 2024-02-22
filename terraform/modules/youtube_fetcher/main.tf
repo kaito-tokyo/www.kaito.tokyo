@@ -116,8 +116,21 @@ resource "google_project_iam_member" "youtube_fetcher_functions_cloudbuild_log_w
 
 resource "google_project_iam_member" "youtube_fetcher_functions_cloudbuild_functions_service_agent" {
   project = var.project_id
-  role    = "roles/cloudfunctions.serviceAgent"
+  role    = "roles/cloudfunctions.admin"
   member  = "serviceAccount:${google_service_account.youtube_fetcher_functions_cloudbuild_main.email}"
+}
+
+resource "google_project_iam_member" "youtube_fetcher_functions_cloudbuild_functions_service_agent" {
+  project = var.project_id
+  role    = "roles/run.admin"
+  member  = "serviceAccount:${google_service_account.youtube_fetcher_functions_cloudbuild_main.email}"
+}
+
+// Service Account IAM Bindings
+resource "google_service_account_iam_member" "youtube_fetcher_functions_cloudbuild_service_account_user" {
+  service_account_id = google_service_account.youtube_fetcher_functions.name
+  role               = "roles/iam.serviceAccountUser"
+  member             = "serviceAccount:${google_service_account.youtube_fetcher_functions_cloudbuild_main.email}"
 }
 
 // Cloud Storage IAM Bindings
