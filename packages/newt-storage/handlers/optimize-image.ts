@@ -12,7 +12,7 @@ export async function handleOptimizeImage(req: Request, res: Response) {
 
 	const [response] = await storage.bucket(bucket).file(object).download();
 
-	const outputNames = [`${object}-optimized/thumbnail.webp`];
+	const outputNames = [`_thumbnail-webp/${object}.webp`];
 
 	const outputBuffers = await Promise.all([
 		sharp(response).resize(400, 400, { fit: "contain" }).toBuffer()
