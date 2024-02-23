@@ -1,3 +1,5 @@
+import { basename, dirname } from "node:path";
+
 import { type Request, type Response } from "@google-cloud/functions-framework";
 import sharp from "sharp";
 
@@ -10,12 +12,19 @@ export async function handleOptimizeImage(req: Request, res: Response) {
 		throw new Error("Query is invalid!");
 	}
 
+	const objectDirname = dirname(object);
+	const objectBasename = basename(object);
+
 	const [response] = await storage.bucket(bucket).file(object).download();
 
-	const outputNames = [`_thumbnail400-webp/${object}.webp`];
+	const outputNames = [
+		`${objectDirname}/_thumbnail400/${objectBasename}.webp`,
+		`${objectDirname}/_thumbnail400/${objectBasename}.png`
+	];
 
 	const outputBuffers = await Promise.all([
-		sharp(response).resize(400, 400, { fit: "contain" }).toBuffer()
+		sharp(response).resize(400, 400, { fit: "contain" }).webp().toBuffer(),
+		sharp(response).resize(400, 400, { fit: "contain" }).png().toBuffer()
 	]);
 
 	await Promise.all(
