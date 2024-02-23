@@ -17,7 +17,7 @@ resource "google_storage_bucket_iam_member" "functions_public_object_user" {
 }
 
 resource "google_storage_bucket_iam_member" "allusers_public_viewer" {
-  bucket = google_storage_bucket.youtube_fetcher_public.name
+  bucket = google_storage_bucket.public.name
   role   = "roles/storage.objectViewer"
   member = "allUsers"
 }
