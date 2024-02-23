@@ -1,2 +1,20 @@
-- Return:
-    return: 0
+main:
+  params:
+    - args
+  steps:
+    - SplitPathComponents:
+        assign:
+          - pathComponents: '${text.split(args.data.name, "/")}'
+    - DetermineIfPathIsDefaultImage:
+        switch:
+          - condition: "${len(pathComponents) == 2}"
+            next: "ExtractObjectName" 
+        next: "ReturnBecauseObjectIsNotDefaultImage"
+    - ReturnBecauseObjectIsNotDefaultImage:
+        return: "Skipping ${args.data.name}!"
+    - ExtractObjectName:
+        assign:
+          - objectName: "${args.data.name}"
+    - Return:
+        return:
+          objectName: "${objectName}"
