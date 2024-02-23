@@ -7,5 +7,5 @@ resource "google_storage_bucket_iam_member" "allusers_www_kaito_tokyo_object_vie
 resource "google_storage_bucket_iam_member" "newt_www_kaito_tokyo_www_kaito_tokyo_object_user" {
   bucket = google_storage_bucket.www_kaito_tokyo.name
   role   = "roles/storage.objectUser"
-  member = "serviceAccount:${google_service_account.www_kaito_tokyo.email}"
+  member = "serviceAccount:${google_service_account.newt_www_kaito_tokyo.email}"
 }
