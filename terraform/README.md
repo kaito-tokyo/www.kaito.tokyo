@@ -60,4 +60,5 @@ gcloud services enable workflows.googleapis.com
 gcloud services enable cloudfunctions.googleapis.com
 gcloud services enable run.googleapis.com
 gcloud services enable youtube.googleapis.com
+gcloud services enable eventarc.googleapis.com
 ```
