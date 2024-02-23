@@ -1,4 +1,4 @@
-resource "google_cloudbuild_trigger" "youtube_fetcher_functions_main" {
+resource "google_cloudbuild_trigger" "functions_main" {
   name     = "newt-storage-functions-main"
   location = "asia-east1"
   project  = var.project_id
