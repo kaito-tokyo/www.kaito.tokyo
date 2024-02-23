@@ -2,19 +2,34 @@ main:
   params:
     - args
   steps:
+    - SetConstants:
+      assign:
+        - functionBaseUrl: '${"https://asia-east1-" + sys.get_env("GOOGLE_CLOUD_PROJECT_ID") + ".cloudfunctions.net"}'
+        - bucket: "${args.data.bucket}"
+
     - SplitPathComponents:
         assign:
           - pathComponents: '${text.split(args.data.name, "/")}'
+
     - DetermineIfPathIsDefaultImage:
         switch:
           - condition: "${len(pathComponents) == 2}"
             next: "ExtractObjectName"
         next: "ReturnBecauseObjectIsNotDefaultImage"
+
     - ReturnBecauseObjectIsNotDefaultImage:
         return: '${"Skipping" + args.data.name + "!"}'
+
     - ExtractObjectName:
         assign:
-          - objectName: "${args.data.name}"
-    - Return:
-        return:
-          objectName: "${objectName}"
+          - object: "${args.data.name}"
+
+    - OptimizeImage:
+        call: "http.get"
+        args:
+          url: '${functionBaseUrl + "/youtube-fetcher-save-search-list"}'
+          query:
+            bucket: "${bucket}"
+            object: "${object}"
+          auth:
+            type: "OIDC"
