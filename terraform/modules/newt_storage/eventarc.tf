@@ -1,4 +1,5 @@
 resource "google_eventarc_trigger" "optimize_and_upload_image_www_kaito_tokyo" {
+  project  = var.project_id
   name     = "optimize-and-upload-image-www-kaito-tokyo"
   location = "asia-east1"
 
