@@ -8,7 +8,7 @@ main:
     - DetermineIfPathIsDefaultImage:
         switch:
           - condition: "${len(pathComponents) == 2}"
-            next: "ExtractObjectName" 
+            next: "ExtractObjectName"
         next: "ReturnBecauseObjectIsNotDefaultImage"
     - ReturnBecauseObjectIsNotDefaultImage:
         return: '${"Skipping" + args.data.name + "!"}'
