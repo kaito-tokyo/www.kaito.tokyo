@@ -17,3 +17,8 @@ resource "google_service_account" "functions_cb_main" {
   project    = var.project_id
   account_id = "ns-functions-cb-main"
 }
+
+resource "google_service_account" "eventarc" {
+  project    = var.project_id
+  account_id = "ns-eventarc"
+}
