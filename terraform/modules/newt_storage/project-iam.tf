@@ -39,3 +39,9 @@ resource "google_project_iam_member" "gs_project_accounts_pubsub_publisher" {
   role    = "roles/pubsub.publisher"
   member  = "serviceAccount:service-${data.google_project.project.number}@gs-project-accounts.iam.gserviceaccount.com"
 }
+
+resource "google_project_iam_member" "workflow_run_invoker" {
+  project = var.project_id
+  role    = "roles/run.invoker"
+  member  = "serviceAccount:${google_service_account.workflow.email}"
+}
