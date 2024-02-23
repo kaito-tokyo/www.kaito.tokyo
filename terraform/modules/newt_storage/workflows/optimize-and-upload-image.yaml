@@ -27,7 +27,7 @@ main:
     - OptimizeImage:
         call: "http.get"
         args:
-          url: '${functionBaseUrl + "/youtube-fetcher-save-search-list"}'
+          url: '${functionBaseUrl + "/newt-storage-optimize-image"}'
           query:
             bucket: "${bucket}"
             object: "${object}"
