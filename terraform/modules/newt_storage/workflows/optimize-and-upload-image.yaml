@@ -11,7 +11,7 @@ main:
             next: "ExtractObjectName" 
         next: "ReturnBecauseObjectIsNotDefaultImage"
     - ReturnBecauseObjectIsNotDefaultImage:
-        return: "Skipping ${args.data.name}!"
+        return: '${"Skipping" + args.data.name + "!"}'
     - ExtractObjectName:
         assign:
           - objectName: "${args.data.name}"
