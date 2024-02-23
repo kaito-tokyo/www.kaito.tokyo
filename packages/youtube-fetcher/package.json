@@ -3,7 +3,8 @@
 	"version": "1.0.0",
 	"main": "index.js",
 	"scripts": {
-		"gcp-build": "tsc"
+		"gcp-build": "tsc",
+		"clean": "tsc --build --clean"
 	},
 	"license": "MIT",
 	"private": true,

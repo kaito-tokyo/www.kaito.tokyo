@@ -10,6 +10,8 @@ import {
 	handleComposeVideoList
 } from "www.kaito.tokyo-youtube-fetcher";
 
+import { handleOptimizeImage } from "www.kaito.tokyo-newt-storage";
+
 http("youtube-fetcher-digest", handleDigest);
 
 http("youtube-fetcher-save-search-list", handleSaveSearchList);
@@ -19,3 +21,5 @@ http("youtube-fetcher-generate-video-list-queries", handleGenerateVideoListQueri
 http("youtube-fetcher-save-video-list", handleSaveVideoList);
 http("youtube-fetcher-split-video-list", handleSplitVideoList);
 http("youtube-fetcher-compose-video-list", handleComposeVideoList);
+
+http("newt-storage-optimize-image", handleOptimizeImage);

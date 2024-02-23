@@ -4,7 +4,8 @@
 	"description": "The portfolio site of umireon",
 	"main": "index.js",
 	"scripts": {
-		"gcp-build": "npm run gcp-build --workspaces"
+		"gcp-build": "npm run gcp-build -ws",
+		"clean": "npm run clean -ws"
 	},
 	"author": "Kaito Udagawa",
 	"license": "MIT",
