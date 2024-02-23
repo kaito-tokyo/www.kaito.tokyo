@@ -17,27 +17,16 @@ export async function handleOptimizeImage(req: Request, res: Response) {
 
 	const [response] = await storage.bucket(bucket).file(object).download();
 
-	const outputNames = [
-		`${objectDirname}/_thumbnail400/${objectBasename}.webp`,
-		`${objectDirname}/_thumbnail400/${objectBasename}.png`
-	];
+	let name: string;
+	let buffer: Buffer;
 
-	const outputBuffers = await Promise.all([
-		sharp(response).resize(400, 400, { fit: "contain" }).webp().toBuffer(),
-		sharp(response).resize(400, 400, { fit: "contain" }).png().toBuffer()
-	]);
+	name = `${objectDirname}/_thumbnail400/${objectBasename}.webp`;
+	buffer = await sharp(response).resize(400, 400, { fit: "contain" }).webp().toBuffer();
+	await storage.bucket(bucket).file(name).save(buffer);
 
-	await Promise.all(
-		outputNames.map(async (name, index) => {
-			const buffer = outputBuffers[index];
-
-			if (!buffer) {
-				return Promise.resolve();
-			}
-
-			await storage.bucket(bucket).file(name).save(buffer);
-		})
-	);
+	name = `${objectDirname}/_thumbnail400/${objectBasename}.png`;
+	buffer = await sharp(response).resize(400, 400, { fit: "contain" }).png().toBuffer();
+	await storage.bucket(bucket).file(name).save(buffer);
 
 	res.status(204).send("");
 }
