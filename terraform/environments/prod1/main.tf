@@ -9,6 +9,7 @@ module "youtube_fetcher" {
 }
 
 module "newt_storage" {
-  source     = "../../modules/newt_storage"
-  project_id = var.project_id
+  source                        = "../../modules/newt_storage"
+  project_id                    = var.project_id
+  cloudbuild_trigger_repository = var.cloudbuild_trigger_repository
 }
