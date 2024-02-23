@@ -29,7 +29,7 @@ resource "google_project_iam_member" "eventarc_workflows_invoker" {
 }
 
 resource "google_project_iam_member" "gcp_sa_pubsub_tokencreator" {
-   project  = data.google_project.project.id
-   role     = "roles/iam.serviceAccountTokenCreator"
-   member   = "serviceAccount:service-${data.google_project.project.number}@gcp-sa-pubsub.iam.gserviceaccount.com"
+  project = data.google_project.project.id
+  role    = "roles/iam.serviceAccountTokenCreator"
+  member  = "serviceAccount:service-${data.google_project.project.number}@gcp-sa-pubsub.iam.gserviceaccount.com"
 }
