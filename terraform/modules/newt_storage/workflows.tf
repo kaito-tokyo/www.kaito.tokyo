@@ -1,6 +1,6 @@
 locals {
   workflow_env_vars = {
-    BUCKET_NAME = google_storage_bucket.newt_storage_www_kaito_tokyo.name
+    BUCKET_NAME = google_storage_bucket.www_kaito_tokyo.name
   }
 }
 
