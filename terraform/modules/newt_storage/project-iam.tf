@@ -33,3 +33,9 @@ resource "google_project_iam_member" "gcp_sa_pubsub_tokencreator" {
   role    = "roles/iam.serviceAccountTokenCreator"
   member  = "serviceAccount:service-${data.google_project.project.number}@gcp-sa-pubsub.iam.gserviceaccount.com"
 }
+
+resource "google_project_iam_member" "gs_project_accounts_pubsub_publisher" {
+  project = data.google_project.project.id
+  role    = "roles/pubsub.publisher"
+  member  = "serviceAccount:service-${data.google_project.project.number}@gs-project-accounts.iam.gserviceaccount.com"
+}
