@@ -29,7 +29,30 @@ main:
         args:
           url: '${functionBaseUrl + "/newt-storage-optimize-image"}'
           query:
-            bucket: "${bucket}"
-            object: "${object}"
+            inputBucket: "${bucket}"
+            inputObject: "${object}"
+            outputBucket: "${bucket}"
           auth:
             type: "OIDC"
+        result: "optimizeImageResult"
+
+    - IterateForOptimizedImages:
+        for:
+          value: "uploadingObjectName"
+          in: "${optimizeImageResult.body.outputObjects}"
+          steps:
+            - LogUploadingObjectName:
+                call: sys.log
+                args:
+                  text: "${uploadingObjectName}"
+
+            - UploadObjectToCdn:
+                call: "http.get"
+                args:
+                  url: '${functionBaseUrl + "/newt-storage-upload-object-to-cdn"}'
+                  query:
+                    inputBucket: "${bucket}"
+                    inputObject: "${uploadingObjectName}"
+                    outputObject: "${uploadingObjectName}"
+                  auth:
+                    type: "OIDC"
