@@ -32,4 +32,5 @@ steps:
       - "--run-service-account=${_RUN_SERVICE_ACCOUNT}"
       - "--runtime=nodejs20"
       - "--service-account=${_SERVICE_ACCOUNT}"
+      - "--env-vars-file=./.cloudbuild/envvars/newt-storage-upload-object-to-cdn.yaml"
       - "--trigger-http"
