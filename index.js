@@ -10,10 +10,7 @@ import {
 	handleComposeVideoList
 } from "www.kaito.tokyo-youtube-fetcher";
 
-import {
-	handleOptimizeImage,
-	handleUploadObjectToCdn
-} from "www.kaito.tokyo-newt-storage";
+import { handleOptimizeImage, handleUploadObjectToCdn } from "www.kaito.tokyo-newt-storage";
 
 http("youtube-fetcher-digest", handleDigest);
 
