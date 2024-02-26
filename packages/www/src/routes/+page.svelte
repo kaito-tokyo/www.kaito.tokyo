@@ -25,6 +25,14 @@
 			}
 		];
 	});
+
+	function getThumbnail400Url(origUrl: string, ext: string) {
+		const url = new URL(origUrl);
+		url.host = "www-img.kaito.tokyo";
+		const [, , id, name] = url.pathname.split("/");
+		url.pathname = `/${id}/_thumbnail400/${name}${ext}`;
+		return url.toString();
+	}
 </script>
 
 <svelte:head>
@@ -42,7 +50,12 @@
 		{#each data.articles as article (article._id)}
 			<a href={`illustrations/${article.slug}`}>
 				<article>
-					<Image src={article.images[0].src} width={500} height={500} />
+					<img
+						src={getThumbnail400Url(article.images[0].src, ".webp")}
+						alt={article.title}
+						width={200}
+						height={200}
+					/>
 					<p class="title">{article.title}</p>
 					<p class="publishedAt">{formatDate(article.publishedAt)}</p>
 				</article>
