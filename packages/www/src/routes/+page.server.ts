@@ -17,6 +17,6 @@ export const load = (async () => {
 	youtubeVideoList.reverse();
 	return {
 		articles,
-		youtubeVideoList: youtubeVideoList
+		youtubeVideoList: youtubeVideoList.slice(0, 3)
 	};
 }) satisfies PageServerLoad;

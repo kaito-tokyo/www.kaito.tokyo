@@ -38,10 +38,6 @@
 <svelte:head>
 	<title>Home</title>
 	<meta name="description" content="Svelte demo app" />
-	<link
-		rel="stylesheet"
-		href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;900"
-	/>
 </svelte:head>
 
 <main>
