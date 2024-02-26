@@ -4,11 +4,11 @@ import { Storage } from "@google-cloud/storage";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 
 import {
-	cdnRegion,
-	cdnEndpoint,
-	cdnBucketName,
-	cdnAccessKeyIdSecretName,
-	cdnSecretAccessKeySecretName
+	getCdnRegion,
+	getCdnEndpoint,
+	getCdnBucketName,
+	getCdnAccessKeyIdSecretName,
+	getCdnSecretAccessKeySecretName
 } from "../lib/env.js";
 
 import { getSecret } from "../lib/secret.js";
@@ -25,12 +25,12 @@ export async function handleUploadObjectToCdn(req: Request, res: Response) {
 	}
 
 	const secretManagerClient = new SecretManagerServiceClient();
-	const accessKeyId = await getSecret(cdnAccessKeyIdSecretName, secretManagerClient);
-	const secretAccessKey = await getSecret(cdnSecretAccessKeySecretName, secretManagerClient);
+	const accessKeyId = await getSecret(getCdnAccessKeyIdSecretName(), secretManagerClient);
+	const secretAccessKey = await getSecret(getCdnSecretAccessKeySecretName(), secretManagerClient);
 
 	const s3 = new S3Client({
-		region: cdnRegion,
-		endpoint: cdnEndpoint,
+		region: getCdnRegion(),
+		endpoint: getCdnEndpoint(),
 		credentials: {
 			accessKeyId,
 			secretAccessKey
@@ -42,7 +42,7 @@ export async function handleUploadObjectToCdn(req: Request, res: Response) {
 
 	await s3.send(
 		new PutObjectCommand({
-			Bucket: cdnBucketName,
+			Bucket: getCdnBucketName(),
 			Key: outputObject,
 			Body: response
 		})
