@@ -1,7 +1,6 @@
 resource "google_secret_manager_secret" "cdn_access_key_id" {
   project   = var.project_id
   secret_id = "cdn-access-key-id"
-
   replication {
     user_managed {
       replicas {
