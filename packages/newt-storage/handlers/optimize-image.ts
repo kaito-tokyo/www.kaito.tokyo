@@ -1,32 +1,40 @@
 import { basename, dirname } from "node:path";
 
 import { type Request, type Response } from "@google-cloud/functions-framework";
+import { Storage } from "@google-cloud/storage";
 import sharp from "sharp";
 
-import { storage } from "./constants.js";
-
 export async function handleOptimizeImage(req: Request, res: Response) {
-	const { bucket, object } = req.query;
+	const { inputBucket, inputObject, outputBucket } = req.query;
 
-	if (typeof bucket !== "string" || typeof object !== "string") {
+	if (
+		typeof inputBucket !== "string" ||
+		typeof inputObject !== "string" ||
+		typeof outputBucket !== "string"
+	) {
 		throw new Error("Query is invalid!");
 	}
 
-	const objectDirname = dirname(object);
-	const objectBasename = basename(object);
+	const storage = new Storage();
 
-	const [response] = await storage.bucket(bucket).file(object).download();
+	const inputObjectDirname = dirname(inputObject);
+	const inputObjectBasename = basename(inputObject);
+
+	const [response] = await storage.bucket(inputBucket).file(inputObject).download();
 
 	let name: string;
 	let buffer: Buffer;
+	const outputObjects: string[] = [];
 
-	name = `${objectDirname}/_thumbnail400/${objectBasename}.webp`;
+	name = `${inputObjectDirname}/_thumbnail400/${inputObjectBasename}.webp`;
 	buffer = await sharp(response).resize(400, 400, { fit: "contain" }).webp().toBuffer();
-	await storage.bucket(bucket).file(name).save(buffer);
+	await storage.bucket(outputBucket).file(name).save(buffer);
+	outputObjects.push(name);
 
-	name = `${objectDirname}/_thumbnail400/${objectBasename}.png`;
+	name = `${inputObjectDirname}/_thumbnail400/${inputObjectDirname}.png`;
 	buffer = await sharp(response).resize(400, 400, { fit: "contain" }).png().toBuffer();
-	await storage.bucket(bucket).file(name).save(buffer);
+	await storage.bucket(outputBucket).file(name).save(buffer);
+	outputObjects.push(name);
 
-	res.status(204).send("");
+	res.send({ outputObjects });
 }

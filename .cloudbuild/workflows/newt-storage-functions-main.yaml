@@ -16,3 +16,20 @@ steps:
       - "--service-account=${_SERVICE_ACCOUNT}"
       - "--trigger-http"
       - "--memory=1024Mi"
+
+  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
+    waitFor:
+      - "-"
+    args:
+      - "gcloud"
+      - "functions"
+      - "deploy"
+      - "newt-storage-upload-object-to-cdn"
+      - "--region=asia-east1"
+      - "--no-allow-unauthenticated"
+      - "--gen2"
+      - "--ingress-settings=internal-only"
+      - "--run-service-account=${_RUN_SERVICE_ACCOUNT}"
+      - "--runtime=nodejs20"
+      - "--service-account=${_SERVICE_ACCOUNT}"
+      - "--trigger-http"
