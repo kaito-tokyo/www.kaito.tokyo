@@ -31,7 +31,7 @@ export async function handleOptimizeImage(req: Request, res: Response) {
 	await storage.bucket(outputBucket).file(name).save(buffer);
 	outputObjects.push(name);
 
-	name = `${inputObjectDirname}/_thumbnail400/${inputObjectDirname}.png`;
+	name = `${inputObjectDirname}/_thumbnail400/${inputObjectBasename}.png`;
 	buffer = await sharp(response).resize(400, 400, { fit: "contain" }).png().toBuffer();
 	await storage.bucket(outputBucket).file(name).save(buffer);
 	outputObjects.push(name);
