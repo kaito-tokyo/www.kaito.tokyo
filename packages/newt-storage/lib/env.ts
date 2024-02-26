@@ -7,13 +7,13 @@ export function getEnv(name: string): string {
 }
 
 export function lazyGetEnv(name: string): () => string {
-    let value: string;
-    return () => {
-        if (!value) {
-            value = getEnv(name);
-        }
-        return value;
-    }
+	let value: string;
+	return () => {
+		if (!value) {
+			value = getEnv(name);
+		}
+		return value;
+	};
 }
 
 export const getCdnRegion = lazyGetEnv("CDN_REGION");
