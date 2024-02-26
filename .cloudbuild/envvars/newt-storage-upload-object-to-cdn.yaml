@@ -1,4 +1,4 @@
-CDN_REGION: "asia-east1"
+CDN_REGION: "auto"
 CDN_ENDPOINT: "https://1169b990c0885e4cfa603c38eef1a9b3.r2.cloudflarestorage.com"
 CDN_BUCKET_NAME: "www-img-kaito-tokyo"
 CDN_ACCESS_KEY_ID_SECRET_NAME: "projects/542391136142/secrets/cdn-access-key-id/versions/latest"
