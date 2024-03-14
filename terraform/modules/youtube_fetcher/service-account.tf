@@ -8,7 +8,7 @@ resource "google_service_account" "functions" {
   account_id = "yf-functions"
 }
 
-resource "google_service_account" "functions_cb_main" {
+resource "google_service_account" "workflows_cb_main" {
   project    = var.project_id
-  account_id = "yf-functions-cb-main"
+  account_id = "yf-workflows-cb-main"
 }
