@@ -13,6 +13,6 @@ resource "google_cloudbuild_trigger" "workflows_main" {
     "_WORKFLOW_SERVICE_ACCOUNT" = google_service_account.workflow.email
   }
   filename           = ".cloudbuild/workflows/youtube-fetcher-workflows-main.yaml"
-  service_account    = google_service_account.workflows_cb_main.id
+  service_account    = google_service_account.workflow_cb_main.id
   include_build_logs = "INCLUDE_BUILD_LOGS_WITH_STATUS"
 }
