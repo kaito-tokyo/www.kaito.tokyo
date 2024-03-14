@@ -3,12 +3,12 @@ resource "google_service_account" "workflow" {
   account_id = "yf-workflow"
 }
 
-resource "google_service_account" "functions" {
+resource "google_service_account" "function" {
   project    = var.project_id
-  account_id = "yf-functions"
+  account_id = "yf-function"
 }
 
-resource "google_service_account" "workflows_cb_main" {
+resource "google_service_account" "workflow_cb_main" {
   project    = var.project_id
-  account_id = "yf-workflows-cb-main"
+  account_id = "yf-workflow-cb-main"
 }

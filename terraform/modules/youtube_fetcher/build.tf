@@ -9,8 +9,8 @@ resource "google_cloudbuild_trigger" "workflows_main" {
     }
   }
   substitutions = {
-    "_RUN_SERVICE_ACCOUNT" = google_service_account.functions.email
-    "_SERVICE_ACCOUNT"     = google_service_account.functions.email
+    "_FUNCTION_SERVICE_ACCOUNT" = google_service_account.function.email
+    "_WORKFLOW_SERVICE_ACCOUNT" = google_service_account.workflow.email
   }
   filename           = ".cloudbuild/workflows/youtube-fetcher-workflows-main.yaml"
   service_account    = google_service_account.workflows_cb_main.id

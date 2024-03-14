@@ -1,5 +1,6 @@
 options:
   logging: "CLOUD_LOGGING_ONLY"
+
 steps:
   - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
     args:
@@ -11,9 +12,9 @@ steps:
       - "--no-allow-unauthenticated"
       - "--gen2"
       - "--ingress-settings=internal-only"
-      - "--run-service-account=${_RUN_SERVICE_ACCOUNT}"
+      - "--run-service-account=${_FUNCTION_SERVICE_ACCOUNT}"
       - "--runtime=nodejs20"
-      - "--service-account=${_SERVICE_ACCOUNT}"
+      - "--service-account=${_FUNCTION_SERVICE_ACCOUNT}"
       - "--trigger-http"
 
   - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
@@ -28,9 +29,9 @@ steps:
       - "--no-allow-unauthenticated"
       - "--gen2"
       - "--ingress-settings=internal-only"
-      - "--run-service-account=${_RUN_SERVICE_ACCOUNT}"
+      - "--run-service-account=${_FUNCTION_SERVICE_ACCOUNT}"
       - "--runtime=nodejs20"
-      - "--service-account=${_SERVICE_ACCOUNT}"
+      - "--service-account=${_FUNCTION_SERVICE_ACCOUNT}"
       - "--trigger-http"
 
   - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
@@ -45,9 +46,9 @@ steps:
       - "--no-allow-unauthenticated"
       - "--gen2"
       - "--ingress-settings=internal-only"
-      - "--run-service-account=${_RUN_SERVICE_ACCOUNT}"
+      - "--run-service-account=${_FUNCTION_SERVICE_ACCOUNT}"
       - "--runtime=nodejs20"
-      - "--service-account=${_SERVICE_ACCOUNT}"
+      - "--service-account=${_FUNCTION_SERVICE_ACCOUNT}"
       - "--trigger-http"
 
   - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
@@ -62,9 +63,9 @@ steps:
       - "--no-allow-unauthenticated"
       - "--gen2"
       - "--ingress-settings=internal-only"
-      - "--run-service-account=${_RUN_SERVICE_ACCOUNT}"
+      - "--run-service-account=${_FUNCTION_SERVICE_ACCOUNT}"
       - "--runtime=nodejs20"
-      - "--service-account=${_SERVICE_ACCOUNT}"
+      - "--service-account=${_FUNCTION_SERVICE_ACCOUNT}"
       - "--trigger-http"
 
   - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
@@ -79,9 +80,9 @@ steps:
       - "--no-allow-unauthenticated"
       - "--gen2"
       - "--ingress-settings=internal-only"
-      - "--run-service-account=${_RUN_SERVICE_ACCOUNT}"
+      - "--run-service-account=${_FUNCTION_SERVICE_ACCOUNT}"
       - "--runtime=nodejs20"
-      - "--service-account=${_SERVICE_ACCOUNT}"
+      - "--service-account=${_FUNCTION_SERVICE_ACCOUNT}"
       - "--trigger-http"
 
   - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
@@ -96,9 +97,9 @@ steps:
       - "--no-allow-unauthenticated"
       - "--gen2"
       - "--ingress-settings=internal-only"
-      - "--run-service-account=${_RUN_SERVICE_ACCOUNT}"
+      - "--run-service-account=${_FUNCTION_SERVICE_ACCOUNT}"
       - "--runtime=nodejs20"
-      - "--service-account=${_SERVICE_ACCOUNT}"
+      - "--service-account=${_FUNCTION_SERVICE_ACCOUNT}"
       - "--trigger-http"
 
   - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
@@ -113,7 +114,43 @@ steps:
       - "--no-allow-unauthenticated"
       - "--gen2"
       - "--ingress-settings=internal-only"
-      - "--run-service-account=${_RUN_SERVICE_ACCOUNT}"
+      - "--run-service-account=${_FUNCTION_SERVICE_ACCOUNT}"
       - "--runtime=nodejs20"
-      - "--service-account=${_SERVICE_ACCOUNT}"
+      - "--service-account=${_FUNCTION_SERVICE_ACCOUNT}"
       - "--trigger-http"
+
+  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
+    waitFor:
+      - "-"
+    args:
+      - "gcloud"
+      - "workflows"
+      - "deploy"
+      - "fetch-latest-search-list"
+      - "--location=asia-east1"
+      - "--service-account=${_WORKFLOW_SERVICE_ACCOUNT}"
+      - "--source=./packages/youtube-fetcher/workflows/fetch-latest-search-list.yaml"
+
+  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
+    waitFor:
+      - "-"
+    args:
+      - "gcloud"
+      - "workflows"
+      - "deploy"
+      - "fetch-all-search-list"
+      - "--location=asia-east1"
+      - "--service-account=${_WORKFLOW_SERVICE_ACCOUNT}"
+      - "--source=./packages/youtube-fetcher/workflows/fetch-all-search-list.yaml"
+
+  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
+    waitFor:
+      - "-"
+    args:
+      - "gcloud"
+      - "workflows"
+      - "deploy"
+      - "fetch-all-video-list"
+      - "--location=asia-east1"
+      - "--service-account=${_WORKFLOW_SERVICE_ACCOUNT}"
+      - "--source=./packages/youtube-fetcher/workflows/fetch-all-video-list.yaml"
