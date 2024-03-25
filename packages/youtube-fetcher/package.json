@@ -14,7 +14,7 @@
 		"googleapis": "^133.0.0"
 	},
 	"devDependencies": {
-		"typescript": "^5.4.2"
+		"typescript": "^5.4.3"
 	},
 	"type": "module"
 }
