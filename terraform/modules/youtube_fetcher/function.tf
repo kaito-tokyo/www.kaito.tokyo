@@ -26,7 +26,7 @@ resource "google_cloudfunctions2_function" "digest" {
   }
 
   service_config {
-    ingress_settings = "ALLOW_INTERNAL_ONLY"
+    ingress_settings      = "ALLOW_INTERNAL_ONLY"
     service_account_email = google_service_account.function.email
   }
 }
