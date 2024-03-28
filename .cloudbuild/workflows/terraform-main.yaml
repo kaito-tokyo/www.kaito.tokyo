@@ -18,6 +18,5 @@ steps:
     args:
       - "apply"
       - "-no-color"
-      - "-var=tmp_dir=/workspace"
       - "-auto-approve"
       - "tfplan"
