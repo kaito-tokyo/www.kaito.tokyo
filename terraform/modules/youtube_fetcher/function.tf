@@ -32,7 +32,7 @@ resource "google_cloudfunctions2_function" "digest" {
 }
 
 resource "google_cloudfunctions2_function" "save_search_list" {
-  name     = "youtube-fetcher-save-serch-list"
+  name     = "youtube-fetcher-save-search-list"
   location = "asia-east1"
 
   build_config {
