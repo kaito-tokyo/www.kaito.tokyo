@@ -58,9 +58,9 @@ GHA_PRINCIPALSET=principalSet://iam.googleapis.com/projects/643615470006/locatio
 
 gcloud iam service-accounts create "$GHA_SERVICE_ACCOUNT_NAME"
 
-gcloud iam service-accounts add-iam-policy-binding "$GHA_SERVICE_ACCOUNT_NAME@$PROJECT_ID.iam.gserviceaccount.com" \
-  --member="$GHA_PRINCIPALSET" \
-  --role=roles/iam.workloadIdentityUser \
+gcloud projects add-iam-policy-binding "$PROJECT_ID" \
+  --member="serviceAccount:$GHA_SERVICE_ACCOUNT_NAME@$PROJECT_ID.iam.gserviceaccount.com" \
+  --role=roles/viewer \
   --condition=None
 
 gcloud storage buckets add-iam-policy-binding gs://$PROJECT_ID-tfstate \
