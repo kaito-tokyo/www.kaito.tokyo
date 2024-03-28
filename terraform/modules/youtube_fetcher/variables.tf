@@ -5,3 +5,7 @@ variable "project_id" {
 variable "cloudbuild_trigger_repository" {
   type = string
 }
+
+variable "tmp_dir" {
+  type = string
+}

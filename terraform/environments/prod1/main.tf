@@ -6,6 +6,7 @@ module "youtube_fetcher" {
   source                        = "../../modules/youtube_fetcher"
   project_id                    = var.project_id
   cloudbuild_trigger_repository = var.cloudbuild_trigger_repository
+  tmp_dir                       = var.tmp_dir
 }
 
 module "newt_storage" {
