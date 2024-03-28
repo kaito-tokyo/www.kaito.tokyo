@@ -1,7 +1,7 @@
 data "archive_file" "function_source" {
-  type        = "zip"
-  source_dir  = "."
-  excludes    = [
+  type       = "zip"
+  source_dir = "."
+  excludes = [
     "terraform"
   ]
   output_path = "/tmp/function-source.zip"
