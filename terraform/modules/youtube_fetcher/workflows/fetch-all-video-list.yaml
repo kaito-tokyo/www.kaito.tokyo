@@ -1,6 +1,6 @@
 - SetConstants:
     assign:
-      - endpoints: '${sys.get_env("ENDPOINTS")}'
+      - endpoints: '${json.decode(sys.get_env("ENDPOINTS"))}'
       - channelId: '${sys.get_env("CHANNEL_ID")}'
       - cacheBucketName: '${sys.get_env("CACHE_BUCKET_NAME")}'
       - metadataBucketName: '${sys.get_env("METADATA_BUCKET_NAME")}'
