@@ -23,7 +23,7 @@ jobs:
       - uses: "google-github-actions/auth@v2"
         with:
           workload_identity_provider: "projects/643615470006/locations/global/workloadIdentityPools/github-kaito-tokyo/providers/actions-githubusercontent-com"
-          service_account_email: "wkt-terraform-gha-pr@www-kaito-tokyo-1-svc-my1a.iam.gserviceaccount.com"
+          service_account: "wkt-terraform-gha-pr@www-kaito-tokyo-1-svc-my1a.iam.gserviceaccount.com"
 
       - name: "Terraform init"
         working-directory: "terraform/environments/prod1"
