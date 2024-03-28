@@ -20,7 +20,7 @@
         - SaveSearchList:
             call: "http.get"
             args:
-              url: "${saveSearchListEndpoint}""
+              url: "${saveSearchListEndpoint}"
               query:
                 channelId: "${channelId}"
                 outputBucket: "${cacheBucketName}"
