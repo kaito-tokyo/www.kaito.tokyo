@@ -20,3 +20,11 @@ resource "google_storage_bucket" "public" {
   project                     = var.project_id
   uniform_bucket_level_access = true
 }
+
+resource "google_storage_bucket" "function_source" {
+  project                     = var.project_id
+  name                        = "function-source-${var.project_id}"
+  location                    = "asia-east1"
+  uniform_bucket_level_access = true
+  public_access_prevention    = "enforced"
+}
