@@ -29,6 +29,7 @@ SERVICE_ACCOUNT_NAME=cloudbuild-terraform-main
 TRIGGER_NAME=terraform-main
 WORKFLOW_PATH=".cloudbuild/workflows/$TRIGGER_NAME.yaml"
 REPOSITORY="projects/$PROJECT_ID/locations/asia-east1/connections/kaito-tokyo/repositories/kaito-tokyo-www.kaito.tokyo"
+PLAN_PRINCIPALSET=principalSet://iam.googleapis.com/projects/643615470006/locations/global/workloadIdentityPools/github-kaito-tokyo/attribute.repository/kaito-tokyo/www.kaito.tokyo
 
 gcloud iam service-accounts create "$SERVICE_ACCOUNT_NAME"
 
@@ -40,6 +41,11 @@ gcloud projects add-iam-policy-binding "$PROJECT_ID" \
 gcloud storage buckets add-iam-policy-binding gs://$PROJECT_ID-tfstate \
   --member="serviceAccount:$SERVICE_ACCOUNT_NAME@$PROJECT_ID.iam.gserviceaccount.com" \
   --role=roles/storage.objectAdmin \
+  --condition=None
+
+gcloud storage buckets add-iam-policy-binding gs://$PROJECT_ID-tfstate \
+  --member="$PLAN_PRINCIPALSET" \
+  --role=roles/storage.objectViewer \
   --condition=None
 
 gcloud builds triggers create github \
