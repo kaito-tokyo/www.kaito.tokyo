@@ -1,6 +1,6 @@
 - SetConstants:
     assign:
-      - functionBaseUrl: '${"https://asia-east1-" + sys.get_env("GOOGLE_CLOUD_PROJECT_ID") + ".cloudfunctions.net"}'
+      - endpoints: '${sys.get_env("ENDPOINTS")}'
       - channelId: '${sys.get_env("CHANNEL_ID")}'
       - cacheBucketName: '${sys.get_env("CACHE_BUCKET_NAME")}'
       - metadataBucketName: '${sys.get_env("METADATA_BUCKET_NAME")}'
@@ -13,7 +13,7 @@
 - GetListVideosQueries:
     call: "http.get"
     args:
-      url: '${functionBaseUrl + "/youtube-fetcher-generate-video-list-queries"}'
+      url: "${endpoints.generateListVideosQueries}"
       query:
         bucket: "${metadataBucketName}"
         matchGlob: '${channelId + "/search/*.json"}'
@@ -29,7 +29,7 @@
         - GetQueryHash:
             call: "http.post"
             args:
-              url: '${functionBaseUrl + "/youtube-fetcher-digest"}'
+              url: "${endpoints.digest}"
               headers:
                 "Content-Type": "application/json"
               body: "${query}"
@@ -42,7 +42,7 @@
         - SaveVideosList:
             call: "http.post"
             args:
-              url: '${functionBaseUrl + "/youtube-fetcher-save-video-list"}'
+              url: "${endpoints.saveVideosList}"
               headers:
                 "Content-Type": "application/json"
               body:
@@ -54,7 +54,7 @@
         - SplitVideosList:
             call: "http.get"
             args:
-              url: '${functionBaseUrl + "/youtube-fetcher-split-video-list"}'
+              url: "${endpoints.splitVideosList}"
               query:
                 inputBucket: "${cacheBucketName}"
                 inputObject: "${cachedVideoListName}"
@@ -65,7 +65,7 @@
 - ComposeVideoList:
     call: "http.get"
     args:
-      url: '${functionBaseUrl + "/youtube-fetcher-compose-video-list"}'
+      url: "${endpoints.composeVideoList}"
       query:
         inputBucket: "${metadataBucketName}"
         inputPrefix: "${metadataVideosListPrefix}"
