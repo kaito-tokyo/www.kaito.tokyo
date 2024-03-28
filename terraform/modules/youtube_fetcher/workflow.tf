@@ -8,6 +8,7 @@ locals {
     "split_video_list"            = google_cloudfunctions2_function.split_video_list.service_config[0].uri,
     "compose_video_list"          = google_cloudfunctions2_function.compose_video_list.service_config[0].uri
   }
+  channel_id = "UCfhyVWrxCmdUpst-5n7Kz_Q"
 }
 
 resource "google_workflows_workflow" "fetch_latest_search_list" {
@@ -16,7 +17,10 @@ resource "google_workflows_workflow" "fetch_latest_search_list" {
   service_account = google_service_account.workflow.email
   source_contents = file("${path.module}/workflows/fetch-latest-search-list.yaml")
   user_env_vars = {
-    "endpoints" = jsonencode(local.endpoints)
+    "ENDPOINTS"            = jsonencode(local.endpoints)
+    "CHANNEL_ID"           = local.channel_id
+    "CACHE_BUCKET_NAME"    = google_storage_bucket.cache.name
+    "METADATA_BUCKET_NAME" = google_storage_bucket.metadata.name
   }
 }
 
@@ -26,7 +30,10 @@ resource "google_workflows_workflow" "fetch_all_search_list" {
   service_account = google_service_account.workflow.email
   source_contents = file("${path.module}/workflows/fetch-all-search-list.yaml")
   user_env_vars = {
-    "endpoints" = jsonencode(local.endpoints)
+    "ENDPOINTS"            = jsonencode(local.endpoints)
+    "CHANNEL_ID"           = local.channel_id
+    "CACHE_BUCKET_NAME"    = google_storage_bucket.cache.name
+    "METADATA_BUCKET_NAME" = google_storage_bucket.metadata.name
   }
 }
 
@@ -36,6 +43,9 @@ resource "google_workflows_workflow" "fetch_all_video_list" {
   service_account = google_service_account.workflow.email
   source_contents = file("${path.module}/workflows/fetch-all-video-list.yaml")
   user_env_vars = {
-    "endpoints" = jsonencode(local.endpoints)
+    "ENDPOINTS"            = jsonencode(local.endpoints)
+    "CHANNEL_ID"           = local.channel_id
+    "CACHE_BUCKET_NAME"    = google_storage_bucket.cache.name
+    "METADATA_BUCKET_NAME" = google_storage_bucket.metadata.name
   }
 }
