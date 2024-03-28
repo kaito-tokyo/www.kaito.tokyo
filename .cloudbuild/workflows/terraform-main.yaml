@@ -11,11 +11,13 @@ steps:
     args:
       - "plan"
       - "-no-color"
+      - "-var=tmp_dir=/workspace"
       - "-out=tfplan"
   - name: "hashicorp/terraform:1.7.3"
     dir: "terraform/environments/prod1"
     args:
       - "apply"
       - "-no-color"
+      - "-var=tmp_dir=/workspace"
       - "-auto-approve"
       - "tfplan"
