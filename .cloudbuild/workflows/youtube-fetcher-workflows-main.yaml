@@ -1,7 +1,8 @@
 options:
   logging: "CLOUD_LOGGING_ONLY"
 
-steps: []
+steps:
+  []
   # - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
   #   args:
   #     - "gcloud"
