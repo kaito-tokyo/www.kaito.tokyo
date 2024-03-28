@@ -4,7 +4,7 @@ data "archive_file" "function_source" {
   excludes = [
     "terraform"
   ]
-  output_path = "${var.tmp_dir}/function-source.zip"
+  output_path = "${var.tmp_dir}/function-source-youtube-fetcher.zip"
 }
 
 resource "google_storage_bucket_object" "function_source" {
