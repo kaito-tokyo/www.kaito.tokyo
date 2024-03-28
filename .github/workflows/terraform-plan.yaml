@@ -30,4 +30,4 @@ jobs:
 
       - name: "Terraform plan"
         working-directory: "terraform/environments/prod1"
-        run: "terraform plan"
+        run: "terraform plan -lock=false"
