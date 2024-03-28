@@ -7,6 +7,8 @@
       - today: '${text.split(time.format(sys.now()), "T")[0]}'
       - cachedSearchListPrefix: '${channelId + "/save-search-list-all/" + today}'
       - metadataSearchListDirectory: '${channelId + "/search"}'
+      - endpoints: '${sys.get_env("ENDPOINTS")}'
+      - saveSearchListEndpoint: "${endpoints.save_search_list}"
 - InitializeNextPageToken:
     assign:
       - nextPageToken: ""
@@ -18,7 +20,7 @@
         - SaveSearchList:
             call: "http.get"
             args:
-              url: '${functionBaseUrl + "/youtube-fetcher-save-search-list"}'
+              url: "${saveSearchListEndpoint}""
               query:
                 channelId: "${channelId}"
                 outputBucket: "${cacheBucketName}"
