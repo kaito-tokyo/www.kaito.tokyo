@@ -7,24 +7,24 @@
       - publicBucketName: '${sys.get_env("PUBLIC_BUCKET_NAME")}'
       - today: '${text.split(time.format(sys.now()), "T")[0]}'
       - cachedVideoListPrefix: '${channelId + "/save-video-list/" + today}'
-      - metadataVideosListPrefix: '${channelId + "/videos"}'
+      - metadataVideoListPrefix: '${channelId + "/videos"}'
       - publicVideoListName: '${channelId + "/videos/" + today + ".json"}'
       - publicVideoIndexName: '${channelId + "/videos/index.json"}'
-- GetListVideosQueries:
+- GetVideoListQueries:
     call: "http.get"
     args:
-      url: "${endpoints.generateListVideosQueries}"
+      url: "${endpoints.generateVideoListQueries}"
       query:
         bucket: "${metadataBucketName}"
         matchGlob: '${channelId + "/search/*.json"}'
         itemsPerRequest: 50
       auth:
         type: "OIDC"
-    result: "listVideosQueries"
-- IterateForListVideosQueries:
+    result: "videoListQueries"
+- IterateForVideoListQueries:
     for:
       value: "query"
-      in: "${listVideosQueries.body}"
+      in: "${videoListQueries.body}"
       steps:
         - GetQueryHash:
             call: "http.post"
@@ -39,10 +39,10 @@
         - AssignCachedVideoListName:
             assign:
               - cachedVideoListName: '${cachedVideoListPrefix + "/" + queryHash.body + ".json"}'
-        - SaveVideosList:
+        - SaveVideoList:
             call: "http.post"
             args:
-              url: "${endpoints.saveVideosList}"
+              url: "${endpoints.saveVideoList}"
               headers:
                 "Content-Type": "application/json"
               body:
@@ -51,15 +51,15 @@
                 object: "${cachedVideoListName}"
               auth:
                 type: "OIDC"
-        - SplitVideosList:
+        - SplitVideoList:
             call: "http.get"
             args:
-              url: "${endpoints.splitVideosList}"
+              url: "${endpoints.splitVideoList}"
               query:
                 inputBucket: "${cacheBucketName}"
                 inputObject: "${cachedVideoListName}"
                 outputBucket: "${metadataBucketName}"
-                outputDirectory: "${metadataVideosListPrefix}"
+                outputDirectory: "${metadataVideoListPrefix}"
               auth:
                 type: "OIDC"
 - ComposeVideoList:
@@ -68,7 +68,7 @@
       url: "${endpoints.composeVideoList}"
       query:
         inputBucket: "${metadataBucketName}"
-        inputPrefix: "${metadataVideosListPrefix}"
+        inputPrefix: "${metadataVideoListPrefix}"
         outputBucket: "${publicBucketName}"
         outputObject: "${publicVideoListName}"
       auth:
