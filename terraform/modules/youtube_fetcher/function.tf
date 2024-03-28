@@ -1,7 +1,7 @@
 data "archive_file" "function_source" {
   type        = "zip"
   source_dir  = "${path.module}/../../.."
-  excludes    = [".git"]
+  excludes    = [".cloudbuild", ".git", ".github", "terraform", "README.md"]
   output_path = "${var.tmp_dir}/function-source-youtube-fetcher.zip"
 }
 
