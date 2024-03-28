@@ -40,7 +40,7 @@ resource "google_cloudfunctions2_function" "save_search_list" {
     source {
       storage_source {
         bucket = google_storage_bucket.function_source.name
-        object = google_storage_bucket_object.function_source.object.name
+        object = google_storage_bucket_object.function_source.name
       }
     }
   }
@@ -60,7 +60,7 @@ resource "google_cloudfunctions2_function" "split_search_list" {
     source {
       storage_source {
         bucket = google_storage_bucket.function_source.name
-        object = google_storage_bucket_object.function_source.object.name
+        object = google_storage_bucket_object.function_source.name
       }
     }
   }
@@ -80,7 +80,7 @@ resource "google_cloudfunctions2_function" "generate_video_list_queries" {
     source {
       storage_source {
         bucket = google_storage_bucket.function_source.name
-        object = google_storage_bucket_object.function_source.object.name
+        object = google_storage_bucket_object.function_source.name
       }
     }
   }
@@ -100,7 +100,7 @@ resource "google_cloudfunctions2_function" "save_video_list" {
     source {
       storage_source {
         bucket = google_storage_bucket.function_source.name
-        object = google_storage_bucket_object.function_source.object.name
+        object = google_storage_bucket_object.function_source.name
       }
     }
   }
@@ -120,7 +120,7 @@ resource "google_cloudfunctions2_function" "split_video_list" {
     source {
       storage_source {
         bucket = google_storage_bucket.function_source.name
-        object = google_storage_bucket_object.function_source.object.name
+        object = google_storage_bucket_object.function_source.name
       }
     }
   }
@@ -140,7 +140,7 @@ resource "google_cloudfunctions2_function" "compose_video_list" {
     source {
       storage_source {
         bucket = google_storage_bucket.function_source.name
-        object = google_storage_bucket_object.function_source.object.name
+        object = google_storage_bucket_object.function_source.name
       }
     }
   }
