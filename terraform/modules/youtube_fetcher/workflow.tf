@@ -47,5 +47,6 @@ resource "google_workflows_workflow" "fetch_all_video_list" {
     "CHANNEL_ID"           = local.channel_id
     "CACHE_BUCKET_NAME"    = google_storage_bucket.cache.name
     "METADATA_BUCKET_NAME" = google_storage_bucket.metadata.name
+    "PUBLIC_BUCKET_NAME"   = google_storage_bucket.public.name
   }
 }
