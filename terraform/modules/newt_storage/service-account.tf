@@ -8,9 +8,9 @@ resource "google_service_account" "workflow" {
   account_id = "ns-workflow"
 }
 
-resource "google_service_account" "functions" {
+resource "google_service_account" "function" {
   project    = var.project_id
-  account_id = "ns-functions"
+  account_id = "ns-function"
 }
 
 resource "google_service_account" "eventarc" {
