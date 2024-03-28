@@ -22,6 +22,7 @@ jobs:
 
       - uses: "google-github-actions/auth@v2"
         with:
+          project_id: "www-kaito-tokyo-1-svc-my1a"
           workload_identity_provider: "projects/643615470006/locations/global/workloadIdentityPools/github-kaito-tokyo/providers/actions-githubusercontent-com"
 
       - name: "Terraform init"
