@@ -20,7 +20,7 @@ resource "google_cloudfunctions2_function" "digest" {
     source {
       storage_source {
         bucket = google_storage_bucket.function_source.name
-        object = google_storage_bucket_object.function_source.object.name
+        object = google_storage_bucket_object.function_source.name
       }
     }
   }
