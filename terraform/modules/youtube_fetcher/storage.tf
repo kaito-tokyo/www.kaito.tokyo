@@ -22,7 +22,6 @@ resource "google_storage_bucket" "public" {
 }
 
 resource "google_storage_bucket" "function_source" {
-  project                     = var.project_id
   name                        = "function-source-yf-${var.project_id}"
   location                    = "asia-east1"
   uniform_bucket_level_access = true
