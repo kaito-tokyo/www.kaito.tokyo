@@ -25,20 +25,20 @@ Add a connection for GitHub on Cloud Build first.
 
 ```
 PROJECT_ID=www-kaito-tokyo-1-svc-my1a
-SERVICE_ACCOUNT_NAME=cloudbuild-terraform-main
-TRIGGER_NAME=terraform-main
+CB_SERVICE_ACCOUNT_NAME=wkt-terraform-cb-main
+TRIGGER_NAME=www-kaito-tokyo-terraform-main
 WORKFLOW_PATH=".cloudbuild/workflows/$TRIGGER_NAME.yaml"
 REPOSITORY="projects/$PROJECT_ID/locations/asia-east1/connections/kaito-tokyo/repositories/kaito-tokyo-www.kaito.tokyo"
 
-gcloud iam service-accounts create "$SERVICE_ACCOUNT_NAME"
+gcloud iam service-accounts create "$CB_SERVICE_ACCOUNT_NAME"
 
 gcloud projects add-iam-policy-binding "$PROJECT_ID" \
-  --member="serviceAccount:$SERVICE_ACCOUNT_NAME@$PROJECT_ID.iam.gserviceaccount.com" \
+  --member="serviceAccount:$CB_SERVICE_ACCOUNT_NAME@$PROJECT_ID.iam.gserviceaccount.com" \
   --role=roles/owner \
   --condition=None
 
 gcloud storage buckets add-iam-policy-binding gs://$PROJECT_ID-tfstate \
-  --member="serviceAccount:$SERVICE_ACCOUNT_NAME@$PROJECT_ID.iam.gserviceaccount.com" \
+  --member="serviceAccount:$CB_SERVICE_ACCOUNT_NAME@$PROJECT_ID.iam.gserviceaccount.com" \
   --role=roles/storage.objectAdmin \
   --condition=None
 
@@ -48,8 +48,40 @@ gcloud builds triggers create github \
   --repository="$REPOSITORY" \
   --branch-pattern="^main$" \
   --build-config="$WORKFLOW_PATH" \
-  --service-account=projects/$PROJECT_ID/serviceAccounts/$SERVICE_ACCOUNT_NAME@$PROJECT_ID.iam.gserviceaccount.com \
+  --service-account=projects/$PROJECT_ID/serviceAccounts/$CB_SERVICE_ACCOUNT_NAME@$PROJECT_ID.iam.gserviceaccount.com \
   --include-logs-with-status
+```
+
+```
+GHA_SERVICE_ACCOUNT_NAME=wkt-terraform-gha-pr
+GHA_PRINCIPALSET=principalSet://iam.googleapis.com/projects/643615470006/locations/global/workloadIdentityPools/github-kaito-tokyo/attribute.repository/kaito-tokyo/www.kaito.tokyo
+
+gcloud iam service-accounts create "$GHA_SERVICE_ACCOUNT_NAME"
+
+gcloud projects add-iam-policy-binding "$PROJECT_ID" \
+  --member="serviceAccount:$GHA_SERVICE_ACCOUNT_NAME@$PROJECT_ID.iam.gserviceaccount.com" \
+  --role=roles/viewer \
+  --condition=None
+
+gcloud projects add-iam-policy-binding "$PROJECT_ID" \
+  --member="serviceAccount:$GHA_SERVICE_ACCOUNT_NAME@$PROJECT_ID.iam.gserviceaccount.com" \
+  --role=roles/storage.insightsCollectorService \
+  --condition=None
+
+gcloud projects add-iam-policy-binding "$PROJECT_ID" \
+  --member="serviceAccount:$GHA_SERVICE_ACCOUNT_NAME@$PROJECT_ID.iam.gserviceaccount.com" \
+  --role=roles/storage.objectViewer \
+  --condition=None
+
+gcloud projects add-iam-policy-binding "$PROJECT_ID" \
+  --member="serviceAccount:$GHA_SERVICE_ACCOUNT_NAME@$PROJECT_ID.iam.gserviceaccount.com" \
+  --role=roles/iam.securityReviewer \
+  --condition=None
+
+gcloud storage buckets add-iam-policy-binding gs://$PROJECT_ID-tfstate \
+  --member="serviceAccount:$GHA_SERVICE_ACCOUNT_NAME@$PROJECT_ID.iam.gserviceaccount.com" \
+  --role=roles/storage.objectViewer \
+  --condition=None
 ```
 
 # Enable APIs required for Terraform
