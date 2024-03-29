@@ -17,7 +17,7 @@ resource "google_cloudfunctions2_function" "optimize_image" {
 
   build_config {
     entry_point = "newt-storage-optimize-image"
-    runtime = "nodejs20"
+    runtime     = "nodejs20"
     source {
       storage_source {
         bucket = google_storage_bucket.function_source.name
@@ -39,7 +39,7 @@ resource "google_cloudfunctions2_function" "upload_object_to_cdn" {
 
   build_config {
     entry_point = "newt-storage-upload-object-to-cdn"
-    runtime = "nodejs20"
+    runtime     = "nodejs20"
     source {
       storage_source {
         bucket = google_storage_bucket.function_source.name

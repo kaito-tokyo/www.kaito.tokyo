@@ -17,7 +17,7 @@ resource "google_cloudfunctions2_function" "digest" {
 
   build_config {
     entry_point = "youtube-fetcher-digest"
-    runtime = "nodejs20"
+    runtime     = "nodejs20"
     source {
       storage_source {
         bucket = google_storage_bucket.function_source.name
@@ -38,7 +38,7 @@ resource "google_cloudfunctions2_function" "save_search_list" {
 
   build_config {
     entry_point = "youtube-fetcher-save-search-list"
-    runtime = "nodejs20"
+    runtime     = "nodejs20"
     source {
       storage_source {
         bucket = google_storage_bucket.function_source.name
@@ -59,7 +59,7 @@ resource "google_cloudfunctions2_function" "split_search_list" {
 
   build_config {
     entry_point = "youtube-fetcher-split-search-list"
-    runtime = "nodejs20"
+    runtime     = "nodejs20"
     source {
       storage_source {
         bucket = google_storage_bucket.function_source.name
@@ -80,7 +80,7 @@ resource "google_cloudfunctions2_function" "generate_video_list_queries" {
 
   build_config {
     entry_point = "youtube-fetcher-generate-video-list-queries"
-    runtime = "nodejs20"
+    runtime     = "nodejs20"
     source {
       storage_source {
         bucket = google_storage_bucket.function_source.name
@@ -101,7 +101,7 @@ resource "google_cloudfunctions2_function" "save_video_list" {
 
   build_config {
     entry_point = "youtube-fetcher-save-video-list"
-    runtime = "nodejs20"
+    runtime     = "nodejs20"
     source {
       storage_source {
         bucket = google_storage_bucket.function_source.name
@@ -122,7 +122,7 @@ resource "google_cloudfunctions2_function" "split_video_list" {
 
   build_config {
     entry_point = "youtube-fetcher-split-video-list"
-    runtime = "nodejs20"
+    runtime     = "nodejs20"
     source {
       storage_source {
         bucket = google_storage_bucket.function_source.name
@@ -143,7 +143,7 @@ resource "google_cloudfunctions2_function" "compose_video_list" {
 
   build_config {
     entry_point = "youtube-fetcher-compose-video-list"
-    runtime = "nodejs20"
+    runtime     = "nodejs20"
     source {
       storage_source {
         bucket = google_storage_bucket.function_source.name
