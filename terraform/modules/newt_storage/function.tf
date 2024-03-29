@@ -16,6 +16,7 @@ resource "google_cloudfunctions2_function" "optimize_image" {
   location = "asia-east1"
 
   build_config {
+    entry_point = "newt-storage-optimize-image"
     runtime = "nodejs20"
     source {
       storage_source {
@@ -37,6 +38,7 @@ resource "google_cloudfunctions2_function" "upload_object_to_cdn" {
   location = "asia-east1"
 
   build_config {
+    entry_point = "newt-storage-upload-object-to-cdn"
     runtime = "nodejs20"
     source {
       storage_source {

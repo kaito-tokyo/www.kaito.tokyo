@@ -16,6 +16,7 @@ resource "google_cloudfunctions2_function" "digest" {
   location = "asia-east1"
 
   build_config {
+    entry_point = "youtube-fetcher-digest"
     runtime = "nodejs20"
     source {
       storage_source {
@@ -36,6 +37,7 @@ resource "google_cloudfunctions2_function" "save_search_list" {
   location = "asia-east1"
 
   build_config {
+    entry_point = "youtube-fetcher-save-search-list"
     runtime = "nodejs20"
     source {
       storage_source {
@@ -56,6 +58,7 @@ resource "google_cloudfunctions2_function" "split_search_list" {
   location = "asia-east1"
 
   build_config {
+    entry_point = "youtube-fetcher-split-search-list"
     runtime = "nodejs20"
     source {
       storage_source {
@@ -76,6 +79,7 @@ resource "google_cloudfunctions2_function" "generate_video_list_queries" {
   location = "asia-east1"
 
   build_config {
+    entry_point = "youtube-fetcher-generate-video-list-queries"
     runtime = "nodejs20"
     source {
       storage_source {
@@ -96,6 +100,7 @@ resource "google_cloudfunctions2_function" "save_video_list" {
   location = "asia-east1"
 
   build_config {
+    entry_point = "youtube-fetcher-save-video-list"
     runtime = "nodejs20"
     source {
       storage_source {
@@ -116,6 +121,7 @@ resource "google_cloudfunctions2_function" "split_video_list" {
   location = "asia-east1"
 
   build_config {
+    entry_point = "youtube-fetcher-split-video-list"
     runtime = "nodejs20"
     source {
       storage_source {
@@ -136,6 +142,7 @@ resource "google_cloudfunctions2_function" "compose_video_list" {
   location = "asia-east1"
 
   build_config {
+    entry_point = "youtube-fetcher-compose-video-list"
     runtime = "nodejs20"
     source {
       storage_source {
