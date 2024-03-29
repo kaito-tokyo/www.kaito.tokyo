@@ -1,3 +1,3 @@
-data "google_project" "project" {
+data "google_project" "main" {
   project_id = var.project_id
 }
