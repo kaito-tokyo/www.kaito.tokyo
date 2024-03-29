@@ -60,12 +60,17 @@ gcloud iam service-accounts create "$GHA_SERVICE_ACCOUNT_NAME"
 
 gcloud projects add-iam-policy-binding "$PROJECT_ID" \
   --member="serviceAccount:$GHA_SERVICE_ACCOUNT_NAME@$PROJECT_ID.iam.gserviceaccount.com" \
-  --role=roles/iam.securityReviewer \
+  --role=roles/viewer \
   --condition=None
 
 gcloud projects add-iam-policy-binding "$PROJECT_ID" \
   --member="serviceAccount:$GHA_SERVICE_ACCOUNT_NAME@$PROJECT_ID.iam.gserviceaccount.com" \
   --role=roles/storage.insightsCollectorService \
+  --condition=None
+
+gcloud projects add-iam-policy-binding "$PROJECT_ID" \
+  --member="serviceAccount:$GHA_SERVICE_ACCOUNT_NAME@$PROJECT_ID.iam.gserviceaccount.com" \
+  --role=roles/storage.objectViewer \
   --condition=None
 
 gcloud storage buckets add-iam-policy-binding gs://$PROJECT_ID-tfstate \
