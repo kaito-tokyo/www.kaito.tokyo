@@ -7,7 +7,7 @@ steps:
       - "${_RUN_REPOSITORY}/www-kaito-tokyo:$COMMIT_SHA"
       - "--builder=gcr.io/buildpacks/builder:latest"
       - "--publish"
-      - "--cache=type=build;format=image;name=${_RUN_REPOSITORY}/www-kaito-tokyo-cache"
+      - "--cache-image=${_RUN_REPOSITORY}/www-kaito-tokyo-cache:latest"
 
   - name: "hashicorp/terraform:1.7.3"
     dir: "terraform/environments/prod1"
