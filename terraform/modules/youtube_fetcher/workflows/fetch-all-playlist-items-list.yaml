@@ -15,8 +15,6 @@
       value: "playlistId"
       in: "${playlistIds}"
       steps:
-        - SetConstants:
-            - cachePrefix: '${"save-playlist-items-list/" + playlistId + " " + today}'
         - IterateForAllPages:
             for:
               value: "i"
