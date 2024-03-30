@@ -1,6 +1,13 @@
 options:
   logging: "CLOUD_LOGGING_ONLY"
 steps:
+  - name: "gcr.io/k8s-skaffold/pack:latest"
+    args:
+      - "build"
+      - "${_RUN_REPOSITORY}/www-kaito-tokyo:$COMMIT_SHA"
+      - "--builder=gcr.io/buildpacks/builder:latest"
+      - "--publish"
+
   - name: "hashicorp/terraform:1.7.3"
     dir: "terraform/environments/prod1"
     args:
