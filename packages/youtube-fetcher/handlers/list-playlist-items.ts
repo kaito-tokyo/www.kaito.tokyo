@@ -58,8 +58,8 @@ export async function handleSavePlaylistItemsList(req: Request, res: Response) {
 }
 
 export interface PlaylistItems {
-    readonly plaulistId: string;
-    readonly items: youtube_v3.Schema$PlaylistItem[];
+	readonly plaulistId: string;
+	readonly items: youtube_v3.Schema$PlaylistItem[];
 }
 
 export async function handleComposePlaylistItemsList(req: Request, res: Response) {
@@ -78,31 +78,34 @@ export async function handleComposePlaylistItemsList(req: Request, res: Response
 		matchGlob: inputMatchGlob
 	});
 
-    const playlistItemsListMap: { [playlistId: string]: youtube_v3.Schema$PlaylistItem[] } = {};
-    for (const file of inputFiles) {
-        const filename = file.name.split("/").at(-1);
-        if (!filename) {
-            throw new Error("Invalid object name!");
-        }
+	const playlistItemsListMap: { [playlistId: string]: youtube_v3.Schema$PlaylistItem[] } = {};
+	for (const file of inputFiles) {
+		const filename = file.name.split("/").at(-1);
+		if (!filename) {
+			throw new Error("Invalid object name!");
+		}
 
-        const [playlistId] = filename.split(" ");
-        if (!playlistId) {
-            throw new Error("Invalid filename!");
-        }
+		const [playlistId] = filename.split(" ");
+		if (!playlistId) {
+			throw new Error("Invalid filename!");
+		}
 
-        const [contents] = await file.download();
-        const { items } = JSON.parse(
-            contents.toString()
-        ) as youtube_v3.Schema$PlaylistItemListResponse;
-        if (!items) {
-            throw new Error("Invalid cached response!");
-        }
+		const [contents] = await file.download();
+		const { items } = JSON.parse(
+			contents.toString()
+		) as youtube_v3.Schema$PlaylistItemListResponse;
+		if (!items) {
+			throw new Error("Invalid cached response!");
+		}
 
-        const origItems = playlistItemsListMap[playlistId] || []
-        playlistItemsListMap[playlistId] = [...origItems, ...items]
-    }
+		const origItems = playlistItemsListMap[playlistId] || [];
+		playlistItemsListMap[playlistId] = [...origItems, ...items];
+	}
 
-    const playlistItemsList = Object.entries(playlistItemsListMap).map(([playlistId, items]) => ({ playlistId, items}));
+	const playlistItemsList = Object.entries(playlistItemsListMap).map(([playlistId, items]) => ({
+		playlistId,
+		items
+	}));
 
 	const outputFile = storage.bucket(outputBucket).file(outputObject);
 	await outputFile.save(JSON.stringify(playlistItemsList));
