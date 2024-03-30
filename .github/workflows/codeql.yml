@@ -1,4 +1,4 @@
-name: "CodeQL"
+name: "codeql"
 
 on:
   push:
@@ -8,12 +8,13 @@ on:
     - cron: "20 23 * * 0"
 
 jobs:
-  analyze:
-    name: "Analyze"
+  AnalyzeCodeQL:
     runs-on: "ubuntu-latest"
+
     timeout-minutes: 360
+
     permissions:
-      security-events: write
+      security-events: "write"
 
     steps:
       - name: "Checkout"

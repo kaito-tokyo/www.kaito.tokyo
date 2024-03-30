@@ -1,21 +1,18 @@
-name: "Prettier"
+name: "prettier"
 
 on:
   push:
     branches:
       - "main"
   pull_request:
-    types:
-      - "opened"
-      - "labeled"
-      - "synchronize"
-      - "auto_merge_enabled"
     branches:
       - "main"
 
 jobs:
   CheckPrettier:
     runs-on: "ubuntu-latest"
+
+    timeout-minutes: 10
 
     steps:
       - name: "Checkout"

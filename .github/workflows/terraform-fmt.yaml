@@ -1,4 +1,4 @@
-name: "Terraform fmt"
+name: "terrafprm-fmt"
 
 on:
   push:
@@ -11,6 +11,8 @@ on:
 jobs:
   CheckTerraformFormat:
     runs-on: "ubuntu-latest"
+
+    timeout-minutes: 10
 
     steps:
       - name: "Install terraform"
