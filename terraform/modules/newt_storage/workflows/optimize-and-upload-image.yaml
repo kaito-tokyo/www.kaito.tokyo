@@ -4,7 +4,7 @@ main:
   steps:
     - SetConstants:
         assign:
-          - functionBaseUrl: '${"https://asia-east1-" + sys.get_env("GOOGLE_CLOUD_PROJECT_ID") + ".cloudfunctions.net"}'
+          - endpoints: '${json.decode(sys.get_env("ENDPOINTS"))}'
           - bucket: "${args.data.bucket}"
 
     - SplitPathComponents:
@@ -27,7 +27,7 @@ main:
     - OptimizeImage:
         call: "http.get"
         args:
-          url: '${functionBaseUrl + "/newt-storage-optimize-image"}'
+          url: "${endpoints.optimizeImage}"
           query:
             inputBucket: "${bucket}"
             inputObject: "${object}"
@@ -49,7 +49,7 @@ main:
             - UploadObjectToCdn:
                 call: "http.get"
                 args:
-                  url: '${functionBaseUrl + "/newt-storage-upload-object-to-cdn"}'
+                  url: "${endpoints.uploadObjectToCdn}"
                   query:
                     inputBucket: "${bucket}"
                     inputObject: "${uploadingObjectName}"
