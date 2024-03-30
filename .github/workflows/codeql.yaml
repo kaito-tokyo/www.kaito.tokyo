@@ -7,6 +7,10 @@ on:
   schedule:
     - cron: "20 23 * * 0"
 
+concurrency:
+  group: "${{ github.workflow }}-${{ github.ref }}"
+  cancel-in-progress: "${{ github.ref != 'refs/heads/main' }}"
+
 jobs:
   CodeQL:
     runs-on: "ubuntu-latest"
