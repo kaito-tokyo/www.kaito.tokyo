@@ -1,0 +1,45 @@
+- SetConstants:
+    assign:
+      - endpoints: '${json.decode(sys.get_env("ENDPOINTS"))}'
+      - buckets: '${json.decode(sys.get_env("BUCKETS"))}'
+      - playlistIds: '${json.decode(sys.get_env("PLAYLIST_IDS"))}'
+      - today: '${text.split(time.format(sys.now()), "T")[0]}'
+
+- DeclareNextPageToken:
+    assign:
+      - nextPageToken: ""
+
+- IterateForAllPlaylistIds:
+    for:
+      value: "playlistId"
+      in: "${playlistIds}"
+      steps:
+        - IterateForAllPages:
+            for:
+              value: "i"
+              range: [0, 10]
+              steps:
+                - SavePlaylistItemsList:
+                    call: "http.get"
+                    args:
+                      url: "${endpoints.savePlaylistItemList}"
+                      query:
+                        playlistId: "${playlistId}"
+                        outputBucket: "${buckets.buckets.cache}"
+                        outputObject: '${"save-playlist-items-list/" + playlistId + "/" + today "-" + i + ".json"}'
+                        pageToken: "${nextPageToken}"
+                      auth:
+                        type: "OIDC"
+                    result: "savePlaylistItemsListResponse"
+
+                - DetermineHasNextPage:
+                    switch:
+                      - condition: "${savePlaylistItemsListResponse.code == 204}"
+                        next: "break"
+                      - condition: '${"nextPageToken" in savePlaylistItemsListResponse.body}'
+                        next: "SetNextPageToken"
+                    next: "break"
+
+                - SetNextPageToken:
+                    assign:
+                      - nextPageToken: "${saveSearchListResponse.body.nextPageToken}"
