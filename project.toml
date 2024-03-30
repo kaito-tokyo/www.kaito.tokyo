@@ -7,9 +7,9 @@ exclude = [
     "/packages/www/",
     "/terraform/",
     "/README.md",
+    "project.toml",
     ".*",
     "!.npmrc",
     "*.js",
     "!index.js",
-    "project.toml",
 ]
