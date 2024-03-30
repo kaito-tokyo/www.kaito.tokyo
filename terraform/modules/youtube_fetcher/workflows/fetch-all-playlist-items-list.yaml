@@ -6,15 +6,15 @@
       - today: '${text.split(time.format(sys.now()), "T")[0]}'
       - publicObject: '${"playlist/" + today + ".json"}'
 
-- DeclareNextPageToken:
-    assign:
-      - nextPageToken: ""
-
 - IterateForAllPlaylistIds:
     for:
       value: "playlistId"
       in: "${playlistIds}"
       steps:
+        - DeclareNextPageToken:
+            assign:
+              - nextPageToken: ""
+
         - IterateForAllPages:
             for:
               value: "i"
@@ -51,7 +51,7 @@
       url: "${endpoints.composePlaylistItemsList}"
       query:
         inputBucket: "${buckets.cache}"
-        inputMatchGlob: '${"save-playlist-items-list/" + today + "/*.json"}&'
+        inputMatchGlob: '${"save-playlist-items-list/" + today + "/*.json"}'
         outputBucket: "${buckets.public}"
         outputObject: '${"playlists/" + today + ".json"}'
       auth:
