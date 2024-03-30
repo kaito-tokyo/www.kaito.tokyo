@@ -1,4 +1,4 @@
-name: "terrafprm-fmt"
+name: "terraform-fmt"
 
 on:
   push:
