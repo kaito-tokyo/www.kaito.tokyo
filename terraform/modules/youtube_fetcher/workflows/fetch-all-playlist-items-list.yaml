@@ -42,4 +42,4 @@
 
                 - SetNextPageToken:
                     assign:
-                      - nextPageToken: "${saveSearchListResponse.body.nextPageToken}"
+                      - nextPageToken: "${savePlaylistItemsListResponse.body.nextPageToken}"
