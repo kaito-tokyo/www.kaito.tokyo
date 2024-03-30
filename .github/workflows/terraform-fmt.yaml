@@ -13,7 +13,7 @@ concurrency:
   cancel-in-progress: "${{ github.ref != 'refs/heads/main' }}"
 
 jobs:
-  erraformFmt:
+  TerraformFmt:
     runs-on: "ubuntu-latest"
 
     timeout-minutes: 10
