@@ -53,12 +53,12 @@ resource "google_cloud_run_v2_service" "upload_object_to_cdn" {
 
       env {
         name  = "CDN_ACCESS_KEY_ID_SECRET_NAME"
-        value = google_secret_manager_secret.cdn_access_key_id.name
+        value = "${google_secret_manager_secret.cdn_access_key_id.name}/versions/latest"
       }
 
       env {
         name  = "CDN_SECRET_ACCESS_KEY_SECRET_NAME"
-        value = google_secret_manager_secret.cdn_secret_access_key.name
+        value = "${google_secret_manager_secret.cdn_secret_access_key.name}/versions/latest"
       }
     }
   }
