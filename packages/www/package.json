@@ -39,6 +39,6 @@
 		"@unpic/svelte": "^0.0.51",
 		"date-fns": "^2.30.0",
 		"date-fns-tz": "^2.0.0",
-		"newt-client-js": "^3.3.0"
+		"newt-client-js": "^3.3.1"
 	}
 }
