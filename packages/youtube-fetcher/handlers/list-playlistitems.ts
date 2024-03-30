@@ -56,33 +56,3 @@ export async function handleSavePlaylistItemsList(req: Request, res: Response) {
 		nextPageToken: response?.data.nextPageToken
 	});
 }
-
-export async function handleSplitSearchList(req: Request, res: Response) {
-	const { inputBucket, inputObject, outputBucket, outputDirectory } = req.query;
-
-	if (
-		typeof inputBucket !== "string" ||
-		typeof inputObject !== "string" ||
-		typeof outputBucket !== "string" ||
-		typeof outputDirectory !== "string"
-	) {
-		throw new Error("Request query is invalid!");
-	}
-
-	const [response] = await storage.bucket(inputBucket).file(inputObject).download();
-	const json: youtube_v3.Schema$SearchListResponse = JSON.parse(response.toString());
-	if (!json.items) {
-		throw new Error("Input format is invalid!");
-	}
-
-	const outputStorageBucket = storage.bucket(outputBucket);
-	for (const item of json.items) {
-		if (!item.id?.videoId || !item.snippet?.publishedAt) {
-			throw new Error("Item format is invalid");
-		}
-		const outputObject = `${outputDirectory}/${item.snippet.publishedAt} ${item.id.videoId}.json`;
-		await outputStorageBucket.file(outputObject).save(JSON.stringify(item));
-	}
-
-	res.status(204).send("");
-}
