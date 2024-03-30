@@ -31,4 +31,4 @@ jobs:
 
       - name: "Terraform plan"
         working-directory: "terraform/environments/prod1"
-        run: "terraform plan -lock=false"
+        run: "terraform plan -var=run_image=invalid -lock=false"
