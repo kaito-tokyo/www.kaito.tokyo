@@ -1,0 +1,30 @@
+name: "npm-gcp-build"
+
+on:
+  push:
+    branches:
+      - "main"
+  pull_request:
+    branches:
+      - "main"
+
+jobs:
+  NpmGcpBuild:
+    runs-on: "ubuntu-latest"
+
+    timeout-minutes: 10
+
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v4"
+
+      - name: "Setup Node.js"
+        uses: "actions/setup-node@v4"
+        with:
+          node-version-file: ".node-version"
+
+      - name: "Install npm depndencies"
+        run: "npm ci"
+
+      - name: "Check prettier"
+        run: "npm run gcp-build"
