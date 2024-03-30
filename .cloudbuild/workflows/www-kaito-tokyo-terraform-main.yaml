@@ -12,12 +12,18 @@ steps:
     args:
       - "plan"
       - "-no-color"
+      - "-var=tmp_dir=/terraform_tmp"
       - "-out=tfplan"
+    volumes:
+      - name: "terraform_tmp"
+        path: "/terraform_tmp"
 
   - name: "hashicorp/terraform:1.7.3"
     dir: "terraform/environments/prod1"
     args:
-      - "apply"
       - "-no-color"
       - "-auto-approve"
       - "tfplan"
+    volumes:
+      - name: "terraform_tmp"
+        path: "/terraform_tmp"
