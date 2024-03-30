@@ -7,6 +7,7 @@ module "youtube_fetcher" {
   project_id                    = var.project_id
   cloudbuild_trigger_repository = var.cloudbuild_trigger_repository
   run_image                     = var.run_image
+  playlist_ids                  = var.playlist_ids
 }
 
 module "newt_storage" {
