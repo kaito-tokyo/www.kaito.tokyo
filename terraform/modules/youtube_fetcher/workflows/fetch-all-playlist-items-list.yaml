@@ -53,9 +53,9 @@
       url: "${endpoints.composePlaylistItemsList}"
       query:
         inputBucket: "${buckets.cache}"
-        inputMatchGlob: "${"save-playlist-items-list/" + today + "/*.json"}"
+        inputMatchGlob: '${"save-playlist-items-list/" + today + "/*.json"}&'
         outputBucket: "${buckets.public}"
-        outputObject: "${"playlists/" + today + ".json"}"
+        outputObject: '${"playlists/" + today + ".json"}'
       auth:
         type: "OIDC"
     result: "composePlaylistItemsListResponse"
