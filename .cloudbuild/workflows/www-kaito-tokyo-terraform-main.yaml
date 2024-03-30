@@ -21,7 +21,7 @@ steps:
   - name: "hashicorp/terraform:1.7.3"
     dir: "terraform/environments/prod1"
     args:
-      - "plan"
+      - "apply"
       - "-no-color"
       - "-auto-approve"
       - "-var=tmp_dir=/terraform_tmp"
