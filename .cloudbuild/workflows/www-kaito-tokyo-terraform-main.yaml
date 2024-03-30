@@ -34,7 +34,7 @@ steps:
     entrypoint: "bash"
     args:
       - "-c"
-      - "pack build $(<run_repository)/newt-storage --path=packages/newt-storage --builder=gcr.io/buildpacks/builder:latest"
+      - "pack build $(<run_repository)/run --path=packages/newt-storage --builder=gcr.io/buildpacks/builder:latest"
 
   - name: "hashicorp/terraform:1.7.3"
     dir: "terraform/environments/prod1"
