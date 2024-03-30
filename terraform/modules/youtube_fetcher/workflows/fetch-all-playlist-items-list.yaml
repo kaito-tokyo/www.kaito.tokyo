@@ -27,7 +27,7 @@
                       query:
                         playlistId: "${playlistId}"
                         outputBucket: "${buckets.cache}"
-                        outputObject: '${"save-playlist-items-list/" + today + "/" + playlistId + " " + text.substring("000" + i, -3, -1) + ".json"}'
+                        outputObject: '${"save-playlist-items-list/" + today + "/" + playlistId + " " + text.substring("000" + i, -3, 6) + ".json"}'
                         pageToken: "${nextPageToken}"
                       auth:
                         type: "OIDC"
