@@ -11,6 +11,12 @@ steps:
     args:
       - "plan"
       - "-no-color"
+      - "-out=ar.tfplan"
+  - name: "hashicorp/terraform:1.7.3"
+    dir: "terraform/environments/prod1"
+    args:
+      - "plan"
+      - "-no-color"
       - "-var=tmp_dir=/terraform_tmp"
       - "-out=tfplan"
     volumes:
