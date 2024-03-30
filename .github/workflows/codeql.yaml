@@ -8,7 +8,7 @@ on:
     - cron: "20 23 * * 0"
 
 jobs:
-  AnalyzeCodeQL:
+  CodeQL:
     runs-on: "ubuntu-latest"
 
     timeout-minutes: 360

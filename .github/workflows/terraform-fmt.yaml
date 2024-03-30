@@ -9,7 +9,7 @@ on:
       - "main"
 
 jobs:
-  CheckTerraformFormat:
+  erraformFmt:
     runs-on: "ubuntu-latest"
 
     timeout-minutes: 10
