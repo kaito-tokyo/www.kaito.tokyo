@@ -1,12 +1,12 @@
 locals {
   endpoints = {
-    digest                   = google_cloudfunctions2_function.digest.uri,
-    saveSearchList           = google_cloudfunctions2_function.save_search_list.uri,
-    splitSearchList          = google_cloudfunctions2_function.split_search_list.uri,
-    generateVideoListQueries = google_cloudfunctions2_function.generate_video_list_queries.uri,
-    saveVideoList            = google_cloudfunctions2_function.save_video_list.uri,
-    splitVideoList           = google_cloudfunctions2_function.split_video_list.uri,
-    composeVideoList         = google_cloudfunctions2_function.compose_video_list.uri
+    digest                   = google_cloud_run_v2_service.digest.uri,
+    saveSearchList           = google_cloud_run_v2_service.save_search_list.uri,
+    splitSearchList          = google_cloud_run_v2_service.split_search_list.uri,
+    generateVideoListQueries = google_cloud_run_v2_service.generate_video_list_queries.uri,
+    saveVideoList            = google_cloud_run_v2_service.save_video_list.uri,
+    splitVideoList           = google_cloud_run_v2_service.split_video_list.uri,
+    composeVideoList         = google_cloud_run_v2_service.compose_video_list.uri
   }
   channel_id = "UCfhyVWrxCmdUpst-5n7Kz_Q"
 }
