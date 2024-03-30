@@ -22,10 +22,10 @@
                 - SavePlaylistItemsList:
                     call: "http.get"
                     args:
-                      url: "${endpoints.savePlaylistItemList}"
+                      url: "${endpoints.savePlaylistItemsList}"
                       query:
                         playlistId: "${playlistId}"
-                        outputBucket: "${buckets.buckets.cache}"
+                        outputBucket: "${buckets.cache}"
                         outputObject: '${"save-playlist-items-list/" + playlistId + "/" + today + "-" + i + ".json"}'
                         pageToken: "${nextPageToken}"
                       auth:

@@ -46,3 +46,10 @@ resource "google_cloud_run_service_iam_member" "workflow_compose_video_list_run_
   role     = "roles/run.invoker"
   member   = "serviceAccount:${google_service_account.workflow.email}"
 }
+
+resource "google_cloud_run_service_iam_member" "workflow_save_playlist_items_list_run_invoker" {
+  location = google_cloud_run_v2_service.save_playlist_items_list.location
+  service  = google_cloud_run_v2_service.save_playlist_items_list.name
+  role     = "roles/run.invoker"
+  member   = "serviceAccount:${google_service_account.workflow.email}"
+}
