@@ -5,8 +5,8 @@ resource "google_cloud_run_v2_service" "optimize_image" {
 
   template {
     containers {
-      image   = var.run_image
-      command = ["--target=newt-storage-optimize-image"]
+      image = var.run_image
+      args  = ["--", "--target=newt-storage-optimize-image"]
 
       resources {
         limits = {
@@ -24,8 +24,8 @@ resource "google_cloud_run_v2_service" "upload_object_to_cdn" {
 
   template {
     containers {
-      image   = var.run_image
-      command = ["--target=newt-storage-upload-object-to-cdn"]
+      image = var.run_image
+      args  = ["--", "--target=newt-storage-optimize-image"]
     }
   }
 }
