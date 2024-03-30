@@ -24,7 +24,6 @@ steps:
       - "apply"
       - "-no-color"
       - "-auto-approve"
-      - "-var=tmp_dir=/terraform_tmp"
       - "tfplan"
     volumes:
       - name: "terraform_tmp"
