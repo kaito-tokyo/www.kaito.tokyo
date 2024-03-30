@@ -6,8 +6,8 @@ resource "google_service_account" "workflow" {
   account_id = "ns-workflow"
 }
 
-resource "google_service_account" "function" {
-  account_id = "ns-function"
+resource "google_service_account" "run" {
+  account_id = "ns-run"
 }
 
 resource "google_service_account" "eventarc" {

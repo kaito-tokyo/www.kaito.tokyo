@@ -4,6 +4,8 @@ resource "google_cloud_run_v2_service" "optimize_image" {
   ingress  = "INGRESS_TRAFFIC_INTERNAL_ONLY"
 
   template {
+    service_account = google_service_account.run.email
+
     containers {
       image = var.run_image
       args  = ["--", "--target=newt-storage-optimize-image"]
@@ -23,6 +25,8 @@ resource "google_cloud_run_v2_service" "upload_object_to_cdn" {
   ingress  = "INGRESS_TRAFFIC_INTERNAL_ONLY"
 
   template {
+    service_account = google_service_account.run.email
+
     containers {
       image = var.run_image
       args  = ["--", "--target=newt-storage-optimize-image"]
