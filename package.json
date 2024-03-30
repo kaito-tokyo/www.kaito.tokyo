@@ -23,5 +23,8 @@
 		"@google-cloud/functions-framework": "^3.3.0",
 		"@google-cloud/secret-manager": "^5.2.0"
 	},
-	"type": "module"
+	"type": "module",
+	"engines": {
+		"node": "20.x.x"
+	}
 }
