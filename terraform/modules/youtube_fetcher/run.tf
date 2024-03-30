@@ -103,3 +103,17 @@ resource "google_cloud_run_v2_service" "compose_video_list" {
   }
 }
 
+resource "google_cloud_run_v2_service" "save_playlist_items_list" {
+  name     = "youtube-fetcher-save-playlist-items-list"
+  location = "asia-east1"
+  ingress  = "INGRESS_TRAFFIC_INTERNAL_ONLY"
+
+  template {
+    service_account = google_service_account.run.email
+
+    containers {
+      image = var.run_image
+      args  = ["--", "--target=youtube-fetcher-save-playlist-items-list"]
+    }
+  }
+}

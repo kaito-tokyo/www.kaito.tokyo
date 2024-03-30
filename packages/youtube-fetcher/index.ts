@@ -6,3 +6,4 @@ export {
 	handleSaveVideoList,
 	handleSplitVideoList
 } from "./handlers/list-videos.js";
+export { handleSavePlaylistItemsList } from "./handlers/list-playlist-items.js";

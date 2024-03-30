@@ -7,6 +7,7 @@ locals {
     saveVideoList            = google_cloud_run_v2_service.save_video_list.uri
     splitVideoList           = google_cloud_run_v2_service.split_video_list.uri
     composeVideoList         = google_cloud_run_v2_service.compose_video_list.uri
+    savePlaylistItemsList    = google_cloud_run_v2_service.save_playlist_items_list.uri
   }
   buckets = {
     cache    = google_storage_bucket.cache.name
