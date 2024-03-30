@@ -4,6 +4,7 @@
       - buckets: '${json.decode(sys.get_env("BUCKETS"))}'
       - playlistIds: '${json.decode(sys.get_env("PLAYLIST_IDS"))}'
       - today: '${text.split(time.format(sys.now()), "T")[0]}'
+      - publicObject: '${"playlist/" + today + ".json"}'
 
 - DeclareNextPageToken:
     assign:
@@ -14,6 +15,8 @@
       value: "playlistId"
       in: "${playlistIds}"
       steps:
+        - SetConstants:
+            - cachePrefix: '${"save-playlist-items-list/" + playlistId + " " + today}'
         - IterateForAllPages:
             for:
               value: "i"
@@ -26,7 +29,7 @@
                       query:
                         playlistId: "${playlistId}"
                         outputBucket: "${buckets.cache}"
-                        outputObject: '${"save-playlist-items-list/" + playlistId + "/" + today + "-" + i + ".json"}'
+                        outputObject: '${"save-playlist-items-list/" + today + "/" + playlistId + " " + text.substring("000" + i, -3, -1) + ".json"}'
                         pageToken: "${nextPageToken}"
                       auth:
                         type: "OIDC"
@@ -43,3 +46,16 @@
                 - SetNextPageToken:
                     assign:
                       - nextPageToken: "${savePlaylistItemsListResponse.body.nextPageToken}"
+
+- ComposePlaylistItemsList:
+    call: "http.get"
+    args:
+      url: "${endpoints.composePlaylistItemsList}"
+      query:
+        inputBucket: "${buckets.cache}"
+        inputMatchGlob: '${"save-playlist-items-list/" + today + "/*.json"}&'
+        outputBucket: "${buckets.public}"
+        outputObject: '${"playlists/" + today + ".json"}'
+      auth:
+        type: "OIDC"
+    result: "composePlaylistItemsListResponse"
