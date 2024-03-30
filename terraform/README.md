@@ -91,8 +91,9 @@ gcloud storage buckets add-iam-policy-binding gs://$PROJECT_ID-tfstate \
 ```
 gcloud services enable artifactregistry.googleapis.com
 
-gcloud artifacts repositories "$PROJECT_SHORT_NAME-run-source-deploy" \
-  --location="$REGION"
+gcloud artifacts repositories create "$PROJECT_SHORT_NAME-run-source-deploy" \
+  --location="$REGION" \
+  --repository-format=DOCKER
 ```
 
 # Enable APIs required for Terraform
