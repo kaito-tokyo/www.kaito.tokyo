@@ -56,11 +56,11 @@ resource "google_workflows_workflow" "fetch_all_video_list" {
   }
 }
 
-resource "google_workflows_workflow" "fetch_all_playlistitems" {
-  name            = "youtube-fetcher-fetch-all-playlistitems"
+resource "google_workflows_workflow" "fetch_all_playlistitem_list" {
+  name            = "youtube-fetcher-fetch-all-playlistitem-list"
   region          = "asia-east1"
   service_account = google_service_account.workflow.email
-  source_contents = file("${path.module}/workflows/fetch-all-playlistitems.yaml")
+  source_contents = file("${path.module}/workflows/fetch-all-playlistitem-list.yaml")
   user_env_vars = {
     "ENDPOINTS"            = jsonencode(local.endpoints)
     "BUCKETS"              = jsonencode(local.buckets)
