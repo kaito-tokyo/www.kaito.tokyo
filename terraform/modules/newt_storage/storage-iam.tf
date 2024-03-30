@@ -13,5 +13,5 @@ resource "google_storage_bucket_iam_member" "newt_www_kaito_tokyo_www_kaito_toky
 resource "google_storage_bucket_iam_member" "functions_www_kaito_tokyo_object_user" {
   bucket = google_storage_bucket.www_kaito_tokyo.name
   role   = "roles/storage.objectUser"
-  member = "serviceAccount:${google_service_account.function.email}"
+  member = "serviceAccount:${google_service_account.run.email}"
 }

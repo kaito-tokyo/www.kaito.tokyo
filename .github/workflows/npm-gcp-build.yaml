@@ -1,4 +1,4 @@
-name: "prettier"
+name: "npm-gcp-build"
 
 on:
   push:
@@ -13,7 +13,7 @@ concurrency:
   cancel-in-progress: "${{ github.ref != 'refs/heads/main' }}"
 
 jobs:
-  Prettier:
+  NpmGcpBuild:
     runs-on: "ubuntu-latest"
 
     timeout-minutes: 10
@@ -31,4 +31,4 @@ jobs:
         run: "npm ci"
 
       - name: "Check prettier"
-        run: "npm exec -- prettier --check ."
+        run: "npm run gcp-build"

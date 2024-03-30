@@ -1,21 +1,32 @@
 options:
   logging: "CLOUD_LOGGING_ONLY"
 steps:
+  - name: "gcr.io/k8s-skaffold/pack:latest"
+    args:
+      - "build"
+      - "${_RUN_REPOSITORY}/www-kaito-tokyo:$COMMIT_SHA"
+      - "--builder=gcr.io/buildpacks/builder:latest"
+      - "--cache-image=${_RUN_REPOSITORY}/www-kaito-tokyo-cache:latest"
+      - "--publish"
+
   - name: "hashicorp/terraform:1.7.3"
     dir: "terraform/environments/prod1"
     args:
       - "init"
       - "-no-color"
+
   - name: "hashicorp/terraform:1.7.3"
     dir: "terraform/environments/prod1"
     args:
       - "plan"
       - "-no-color"
+      - "-var=run_image=${_RUN_REPOSITORY}/www-kaito-tokyo:$COMMIT_SHA"
       - "-var=tmp_dir=/terraform_tmp"
       - "-out=tfplan"
     volumes:
       - name: "terraform_tmp"
         path: "/terraform_tmp"
+
   - name: "hashicorp/terraform:1.7.3"
     dir: "terraform/environments/prod1"
     args:

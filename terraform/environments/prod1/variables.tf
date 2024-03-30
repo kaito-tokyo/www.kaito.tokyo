@@ -21,3 +21,7 @@ variable "cdn_endpoint" {
 variable "cdn_bucket_name" {
   type = string
 }
+
+variable "run_image" {
+  type = string
+}

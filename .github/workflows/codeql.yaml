@@ -1,4 +1,4 @@
-name: "CodeQL"
+name: "codeql"
 
 on:
   push:
@@ -7,13 +7,18 @@ on:
   schedule:
     - cron: "20 23 * * 0"
 
+concurrency:
+  group: "${{ github.workflow }}-${{ github.ref }}"
+  cancel-in-progress: "${{ github.ref != 'refs/heads/main' }}"
+
 jobs:
-  analyze:
-    name: "Analyze"
+  CodeQL:
     runs-on: "ubuntu-latest"
+
     timeout-minutes: 360
+
     permissions:
-      security-events: write
+      security-events: "write"
 
     steps:
       - name: "Checkout"

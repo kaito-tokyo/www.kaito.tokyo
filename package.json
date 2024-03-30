@@ -4,6 +4,7 @@
 	"description": "The portfolio site of umireon",
 	"main": "index.js",
 	"scripts": {
+		"start": "functions-framework",
 		"gcp-build": "npm run gcp-build -ws",
 		"clean": "npm run clean -ws"
 	},
@@ -22,5 +23,8 @@
 		"@google-cloud/functions-framework": "^3.3.0",
 		"@google-cloud/secret-manager": "^5.2.0"
 	},
-	"type": "module"
+	"type": "module",
+	"engines": {
+		"node": "20.x.x"
+	}
 }

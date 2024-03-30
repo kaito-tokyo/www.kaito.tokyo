@@ -1,4 +1,4 @@
-name: "Terraform fmt"
+name: "terraform-fmt"
 
 on:
   push:
@@ -8,9 +8,15 @@ on:
     branches:
       - "main"
 
+concurrency:
+  group: "${{ github.workflow }}-${{ github.ref }}"
+  cancel-in-progress: "${{ github.ref != 'refs/heads/main' }}"
+
 jobs:
-  CheckTerraformFormat:
+  TerraformFmt:
     runs-on: "ubuntu-latest"
+
+    timeout-minutes: 10
 
     steps:
       - name: "Install terraform"

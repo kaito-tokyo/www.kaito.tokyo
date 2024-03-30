@@ -1,0 +1,15 @@
+[_]
+schema-version = "0.2"
+
+[io.buildpacks]
+exclude = [
+    "node_modules/",
+    "/packages/www/",
+    "/terraform/",
+    "/README.md",
+    "project.toml",
+    ".*",
+    "!.npmrc",
+    "*.js",
+    "!index.js",
+]

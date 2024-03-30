@@ -1,10 +1,21 @@
 # The infrastructure codes of www.kaito.tokyo
 
+## Variables
+
+```
+PROJECT_ID=www-kaito-tokyo-1-svc-my1a
+PROJECT_SHORT_NAME=wkt
+REGION=asia-east1
+BUCKET_NAME=www-kaito-tokyo-1-svc-my1a-tfstate
+CB_SERVICE_ACCOUNT_NAME=wkt-terraform-cb-main
+TRIGGER_NAME=www-kaito-tokyo-terraform-main
+WORKFLOW_PATH=".cloudbuild/workflows/$TRIGGER_NAME.yaml"
+REPOSITORY="projects/$PROJECT_ID/locations/asia-east1/connections/kaito-tokyo/repositories/kaito-tokyo-www.kaito.tokyo"
+```
+
 ## Setup tfstate storage
 
 ```
-BUCKET_NAME=www-kaito-tokyo-1-svc-my1a-tfstate
-
 gcloud storage buckets create "gs://$BUCKET_NAME" \
   --location=ASIA-EAST1 \
   --public-access-prevention \
@@ -24,12 +35,6 @@ gcloud services enable iam.googleapis.com
 Add a connection for GitHub on Cloud Build first.
 
 ```
-PROJECT_ID=www-kaito-tokyo-1-svc-my1a
-CB_SERVICE_ACCOUNT_NAME=wkt-terraform-cb-main
-TRIGGER_NAME=www-kaito-tokyo-terraform-main
-WORKFLOW_PATH=".cloudbuild/workflows/$TRIGGER_NAME.yaml"
-REPOSITORY="projects/$PROJECT_ID/locations/asia-east1/connections/kaito-tokyo/repositories/kaito-tokyo-www.kaito.tokyo"
-
 gcloud iam service-accounts create "$CB_SERVICE_ACCOUNT_NAME"
 
 gcloud projects add-iam-policy-binding "$PROJECT_ID" \
@@ -49,8 +54,11 @@ gcloud builds triggers create github \
   --branch-pattern="^main$" \
   --build-config="$WORKFLOW_PATH" \
   --service-account=projects/$PROJECT_ID/serviceAccounts/$CB_SERVICE_ACCOUNT_NAME@$PROJECT_ID.iam.gserviceaccount.com \
-  --include-logs-with-status
+  --include-logs-with-status \
+  --substitutions=_RUN_REPOSITORY="$REGION-docker.pkg.dev/$PROJECT_ID/$PROJECT_SHORT_NAME-run-source-deploy"
 ```
+
+## Setup service account for terraform plan on GitHub Actions
 
 ```
 GHA_SERVICE_ACCOUNT_NAME=wkt-terraform-gha-pr
@@ -70,11 +78,6 @@ gcloud projects add-iam-policy-binding "$PROJECT_ID" \
 
 gcloud projects add-iam-policy-binding "$PROJECT_ID" \
   --member="serviceAccount:$GHA_SERVICE_ACCOUNT_NAME@$PROJECT_ID.iam.gserviceaccount.com" \
-  --role=roles/storage.objectViewer \
-  --condition=None
-
-gcloud projects add-iam-policy-binding "$PROJECT_ID" \
-  --member="serviceAccount:$GHA_SERVICE_ACCOUNT_NAME@$PROJECT_ID.iam.gserviceaccount.com" \
   --role=roles/iam.securityReviewer \
   --condition=None
 
@@ -82,6 +85,16 @@ gcloud storage buckets add-iam-policy-binding gs://$PROJECT_ID-tfstate \
   --member="serviceAccount:$GHA_SERVICE_ACCOUNT_NAME@$PROJECT_ID.iam.gserviceaccount.com" \
   --role=roles/storage.objectViewer \
   --condition=None
+```
+
+## Setup the artifact registry for Cloud Run
+
+```
+gcloud services enable artifactregistry.googleapis.com
+
+gcloud artifacts repositories create "$PROJECT_SHORT_NAME-run-source-deploy" \
+  --location="$REGION" \
+  --repository-format=DOCKER
 ```
 
 # Enable APIs required for Terraform

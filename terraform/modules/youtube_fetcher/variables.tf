@@ -6,6 +6,6 @@ variable "cloudbuild_trigger_repository" {
   type = string
 }
 
-variable "tmp_dir" {
+variable "run_image" {
   type = string
 }
