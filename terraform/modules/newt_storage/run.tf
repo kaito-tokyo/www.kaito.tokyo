@@ -29,7 +29,7 @@ resource "google_cloud_run_v2_service" "upload_object_to_cdn" {
 
     containers {
       image = var.run_image
-      args  = ["--", "--target=newt-storage-optimize-image"]
+      args  = ["--", "--target=newt-storage-upload-object-to-cdn"]
     }
   }
 }
