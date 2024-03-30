@@ -10,7 +10,7 @@ resource "google_workflows_workflow" "optimize_and_upload_image" {
   region          = "asia-east1"
   service_account = google_service_account.workflow.email
   user_env_vars = {
-    ENDPOINTS   = jsonencode(local.encpoints),
+    ENDPOINTS = jsonencode(local.encpoints),
   }
   source_contents = file("${path.module}/workflows/optimize-and-upload-image.yaml")
 }
