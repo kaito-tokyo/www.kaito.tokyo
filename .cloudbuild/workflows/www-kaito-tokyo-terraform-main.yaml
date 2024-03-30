@@ -21,6 +21,7 @@ steps:
       - "plan"
       - "-no-color"
       - "-var=run_image=${_RUN_REPOSITORY}/www-kaito-tokyo:$COMMIT_SHA"
+      - "-var=tmp_dir=/terraform_tmp"
       - "-out=tfplan"
     volumes:
       - name: "terraform_tmp"
