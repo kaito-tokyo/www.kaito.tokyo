@@ -8,7 +8,7 @@ import {
 	handleSaveVideoList,
 	handleSplitVideoList,
 	handleComposeVideoList,
-    handleSavePlaylistItemsList
+	handleSavePlaylistItemsList
 } from "www.kaito.tokyo-youtube-fetcher";
 
 import { handleOptimizeImage, handleUploadObjectToCdn } from "www.kaito.tokyo-newt-storage";
