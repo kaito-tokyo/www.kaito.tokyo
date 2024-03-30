@@ -8,7 +8,7 @@ export function listPlaylistItems(
 	params: youtube_v3.Params$Resource$Playlistitems$List
 ): Promise<GaxiosResponse<youtube_v3.Schema$PlaylistItemListResponse> | null | undefined> {
 	return new Promise((resolve, reject) => {
-        youtubeService.playlistItems.list(params, (err, response) => {
+		youtubeService.playlistItems.list(params, (err, response) => {
 			if (err) {
 				reject(err);
 			} else {
@@ -40,7 +40,7 @@ export async function handleSavePlaylistItemsList(req: Request, res: Response) {
 	const params: youtube_v3.Params$Resource$Playlistitems$List = {
 		auth: googleAuth,
 		part: ["contentDetails", "id", "snippet", "status"],
-        playlistId,
+		playlistId,
 		maxResults: 50
 	};
 
