@@ -8,7 +8,8 @@ import {
 	handleSaveVideoList,
 	handleSplitVideoList,
 	handleComposeVideoList,
-	handleSavePlaylistItemsList
+	handleSavePlaylistItemsList,
+	handleComposePlaylistItemsList
 } from "www.kaito.tokyo-youtube-fetcher";
 
 import { handleOptimizeImage, handleUploadObjectToCdn } from "www.kaito.tokyo-newt-storage";
@@ -24,6 +25,7 @@ http("youtube-fetcher-split-video-list", handleSplitVideoList);
 http("youtube-fetcher-compose-video-list", handleComposeVideoList);
 
 http("youtube-fetcher-save-playlist-items-list", handleSavePlaylistItemsList);
+http("youtube-fetcher-compose-playlist-items-list", handleComposePlaylistItemsList);
 
 http("newt-storage-optimize-image", handleOptimizeImage);
 http("newt-storage-upload-object-to-cdn", handleUploadObjectToCdn);
