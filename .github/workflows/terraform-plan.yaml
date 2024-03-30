@@ -13,6 +13,8 @@ jobs:
       contents: "read"
       id-token: "write"
 
+    timeout-minutes: 10
+
     steps:
       - name: "Install terraform"
         uses: "hashicorp/setup-terraform@v3"
@@ -31,4 +33,4 @@ jobs:
 
       - name: "Terraform plan"
         working-directory: "terraform/environments/prod1"
-        run: "terraform plan -lock=false"
+        run: "terraform plan -var=run_image=invalid -lock=false"
