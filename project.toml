@@ -3,12 +3,13 @@ schema-version = "0.2"
 
 [io.buildpacks]
 exclude = [
-    ".*",
-    "!.npmrc",
-    "*.js",
-    "!index.js",
     "node_modules/",
     "/packages/www/",
     "/terraform/",
     "/README.md",
+    ".*",
+    "!.npmrc",
+    "*.js",
+    "!index.js",
+    "project.toml",
 ]
