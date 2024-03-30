@@ -54,7 +54,8 @@ gcloud builds triggers create github \
   --branch-pattern="^main$" \
   --build-config="$WORKFLOW_PATH" \
   --service-account=projects/$PROJECT_ID/serviceAccounts/$CB_SERVICE_ACCOUNT_NAME@$PROJECT_ID.iam.gserviceaccount.com \
-  --include-logs-with-status
+  --include-logs-with-status \
+  --substitutions=_RUN_REPOSITORY="$REGION-docker.pkg.dev/$PROJECT_ID/$PROJECT_SHORT_NAME-run-source-deploy"
 ```
 
 ## Setup service account for terraform plan on GitHub Actions
