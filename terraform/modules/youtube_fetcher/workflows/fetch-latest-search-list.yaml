@@ -20,7 +20,7 @@
               url: "${endpoints.saveSearchList}"
               query:
                 channelId: "${channelId}"
-                outputBucket: "${buckets.cacge}"
+                outputBucket: "${buckets.cache}"
                 outputObject: "${cachedSearchListObject}"
               auth:
                 type: "OIDC"

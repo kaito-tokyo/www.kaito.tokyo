@@ -1,61 +1,69 @@
-- SetConstants:
+- SetGlobalConstants:
     assign:
       - endpoints: '${json.decode(sys.get_env("ENDPOINTS"))}'
-      - channelId: '${sys.get_env("CHANNEL_ID")}'
-      - cacheBucketName: '${sys.get_env("CACHE_BUCKET_NAME")}'
-      - metadataBucketName: '${sys.get_env("METADATA_BUCKET_NAME")}'
+      - buckets: '${json.decode(sys.get_env("BUCKETS"))}'
+      - channelIds: '${json.decode(sys.get_env("CHANNEL_IDS"))}'
       - today: '${text.split(time.format(sys.now()), "T")[0]}'
-      - cachedSearchListPrefix: '${channelId + "/save-search-list-all/" + today}'
-      - metadataSearchListDirectory: '${channelId + "/search"}'
-- InitializeNextPageToken:
-    assign:
-      - nextPageToken: ""
-- IterateForAllPages:
+
+- IterateForAllChannelIds:
     for:
-      value: "i"
-      range: [0, 10]
+      value: "channelId"
+      in: "${channelIds}"
       steps:
-        - SaveSearchList:
-            call: "http.get"
-            args:
-              url: "${endpoints.saveSearchList}"
-              query:
-                channelId: "${channelId}"
-                outputBucket: "${cacheBucketName}"
-                outputObject: '${cachedSearchListPrefix + "-" + i + ".json"}'
-                pageToken: "${nextPageToken}"
-              auth:
-                type: "OIDC"
-            result: "saveSearchListResponse"
-        - DetermineHasNextPage:
-            switch:
-              - condition: "${saveSearchListResponse.code == 204}"
-                next: "break"
-              - condition: '${"nextPageToken" in saveSearchListResponse.body}'
-                next: "SetNextPageToken"
-            next: "break"
-        - SetNextPageToken:
+        - ResetNextPageToken:
             assign:
-              - nextPageToken: "${saveSearchListResponse.body.nextPageToken}"
-- GetAllSearchLists:
-    call: "googleapis.storage.v1.objects.list"
-    args:
-      bucket: "${cacheBucketName}"
-      matchGlob: '${cachedSearchListPrefix + "-*.json"}'
-    result: "cachedSearchLists"
-- IterateForAllSearchLists:
-    for:
-      value: "object"
-      in: "${cachedSearchLists.items}"
-      steps:
-        - SplitSearchList:
-            call: "http.get"
+              - nextPageToken: ""
+
+        - IterateForAllPages:
+            for:
+              value: "i"
+              range: [0, 10]
+              steps:
+                - SaveSearchList:
+                    call: "http.get"
+                    args:
+                      url: "${endpoints.saveSearchList}"
+                      query:
+                        channelId: "${channelId}"
+                        outputBucket: "${buckets.cache}"
+                        outputObject: '${"save-search-list-all/" + channelId + " " + text.substring("000" + i, -3, 6) + ".json"}'
+                        pageToken: "${nextPageToken}"
+                      auth:
+                        type: "OIDC"
+                    result: "saveSearchListResponse"
+
+                - DetermineHasNextPage:
+                    switch:
+                      - condition: "${saveSearchListResponse.code == 204}"
+                        next: "break"
+                      - condition: '${"nextPageToken" in saveSearchListResponse.body}'
+                        next: "SetNextPageToken"
+                    next: "break"
+
+                - SetNextPageToken:
+                    assign:
+                      - nextPageToken: "${saveSearchListResponse.body.nextPageToken}"
+
+        - GetAllSearchLists:
+            call: "googleapis.storage.v1.objects.list"
             args:
-              url: "${endpoints.splitSearchList}"
-              query:
-                inputBucket: "${cacheBucketName}"
-                inputObject: "${object.name}"
-                outputBucket: "${metadataBucketName}"
-                outputDirectory: "${metadataSearchListDirectory}"
-              auth:
-                type: "OIDC"
+              bucket: "${buckets.cache}"
+              matchGlob: '${"save-search-list-all/" + channelId + " *.json"}'
+            result: "cachedSearchLists"
+
+        - IterateForAllSearchLists:
+            for:
+              value: "object"
+              in: "${cachedSearchLists.items}"
+              steps:
+                - SplitSearchList:
+                    call: "http.get"
+                    args:
+                      url: "${endpoints.splitSearchList}"
+                      query:
+                        inputBucket: "${buckets.cache}"
+                        inputObject: "${object.name}"
+                        outputBucket: "${buckets.metadata}"
+                        outputDirectory: '${"search/" + channelId}'
+                      auth:
+                        type: "OIDC"
