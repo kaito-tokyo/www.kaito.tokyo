@@ -24,10 +24,9 @@ resource "google_workflows_workflow" "fetch_latest_search_list" {
   service_account = google_service_account.workflow.email
   source_contents = file("${path.module}/workflows/fetch-latest-search-list.yaml")
   user_env_vars = {
-    "ENDPOINTS"            = jsonencode(local.endpoints)
-    "CHANNEL_ID"           = local.channel_id
-    "CACHE_BUCKET_NAME"    = google_storage_bucket.cache.name
-    "METADATA_BUCKET_NAME" = google_storage_bucket.metadata.name
+    ENDPOINTS    = jsonencode(local.endpoints)
+    BUCKETS      = jsonencode(local.buckets)
+    CHANNEL_IDS  = jsonencode(var.channel_ids)
   }
 }
 
@@ -40,7 +39,6 @@ resource "google_workflows_workflow" "fetch_all_search_list" {
     ENDPOINTS    = jsonencode(local.endpoints)
     BUCKETS      = jsonencode(local.buckets)
     CHANNEL_IDS  = jsonencode(var.channel_ids)
-    PLAYLIST_IDS = jsonencode(var.playlist_ids)
   }
 }
 
@@ -53,7 +51,6 @@ resource "google_workflows_workflow" "fetch_all_video_list" {
     ENDPOINTS    = jsonencode(local.endpoints)
     BUCKETS      = jsonencode(local.buckets)
     CHANNEL_IDS  = jsonencode(var.channel_ids)
-    PLAYLIST_IDS = jsonencode(var.playlist_ids)
   }
 }
 
@@ -65,7 +62,6 @@ resource "google_workflows_workflow" "fetch_all_playlist_items_list" {
   user_env_vars = {
     ENDPOINTS    = jsonencode(local.endpoints)
     BUCKETS      = jsonencode(local.buckets)
-    CHANNEL_IDS  = jsonencode(var.channel_ids)
     PLAYLIST_IDS = jsonencode(var.playlist_ids)
   }
 }

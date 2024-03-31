@@ -1,30 +1,38 @@
 - SetConstants:
     assign:
       - endpoints: '${json.decode(sys.get_env("ENDPOINTS"))}'
-      - channelId: '${sys.get_env("CHANNEL_ID")}'
-      - cacheBucketName: '${sys.get_env("CACHE_BUCKET_NAME")}'
-      - metadataBucketName: '${sys.get_env("METADATA_BUCKET_NAME")}'
+      - buckets: '${json.decode(sys.get_env("BUCKETS"))}'
+      - channelIds: '${json.decode(sys.get_env("CHANNEL_IDS"))}'
       - today: '${text.split(time.format(sys.now()), "T")[0]}'
-      - cachedSearchListObject: '${channelId + "/save-search-list/" + today + ".json"}'
-      - metadataSearchListDirectory: '${channelId + "/search"}'
-- SaveSearchList:
-    call: "http.get"
-    args:
-      url: "${endpoints.saveSearchList}"
-      query:
-        channelId: "${channelId}"
-        outputBucket: "${cacheBucketName}"
-        outputObject: "${cachedSearchListObject}"
-      auth:
-        type: "OIDC"
-- SplitSearchList:
-    call: "http.get"
-    args:
-      url: "${endpoints.splitSearchList}"
-      query:
-        inputBucket: "${cacheBucketName}"
-        inputObject: "${cachedSearchListObject}"
-        outputBucket: "${metadataBucketName}"
-        outputDirectory: "${metadataSearchListDirectory}"
-      auth:
-        type: "OIDC"
+
+- IterateForAllChannelIds:
+    for:
+      value: "channelId"
+      in: "${channelIds}"
+      steps:
+        - SetAllChannelIdsConstants:
+            assign:
+              - cachedSearchListObject: '${"save-search-list-latest/" + today + "/" + channelId + ".json"}'
+
+        - SaveSearchList:
+            call: "http.get"
+            args:
+              url: "${endpoints.saveSearchList}"
+              query:
+                channelId: "${channelId}"
+                outputBucket: "${buckets.cacge}"
+                outputObject: '${cachedSearchListObject}'
+              auth:
+                type: "OIDC"
+
+        - SplitSearchList:
+            call: "http.get"
+            args:
+              url: "${endpoints.splitSearchList}"
+              query:
+                inputBucket: "${buckets.cache}"
+                inputObject: "${cachedSearchListObject}"
+                outputBucket: "${buckets.metadata}"
+                outputDirectory: '${"search/" + channelId}'
+              auth:
+                type: "OIDC"
