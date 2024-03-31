@@ -1,67 +1,69 @@
 - SetConstants:
     assign:
       - endpoints: '${json.decode(sys.get_env("ENDPOINTS"))}'
-      - channelId: '${sys.get_env("CHANNEL_ID")}'
+      - buckets: '${json.decode(sys.get_env("BUCKETS"))}'
+      - channelIds: '${json.decode(sys.get_env("CHANNEL_ID")}'
       - cacheBucketName: '${sys.get_env("CACHE_BUCKET_NAME")}'
-      - metadataBucketName: '${sys.get_env("METADATA_BUCKET_NAME")}'
-      - publicBucketName: '${sys.get_env("PUBLIC_BUCKET_NAME")}'
       - today: '${text.split(time.format(sys.now()), "T")[0]}'
-      - cachedVideoListPrefix: '${channelId + "/save-video-list/" + today}'
-      - metadataVideoListPrefix: '${channelId + "/videos"}'
-      - publicVideoListName: '${channelId + "/videos/" + today + ".json"}'
-      - publicVideoIndexName: '${channelId + "/videos/index.json"}'
-- GetVideoListQueries:
-    call: "http.get"
-    args:
-      url: "${endpoints.generateVideoListQueries}"
-      query:
-        bucket: "${metadataBucketName}"
-        matchGlob: '${channelId + "/search/*.json"}'
-        itemsPerRequest: 50
-      auth:
-        type: "OIDC"
-    result: "videoListQueries"
-- IterateForVideoListQueries:
+
+- IterateForAllPlaylistIds:
     for:
-      value: "query"
-      in: "${videoListQueries.body}"
+      value: "channelId"
+      in: "${channelIds}"
       steps:
-        - GetQueryHash:
-            call: "http.post"
-            args:
-              url: "${endpoints.digest}"
-              headers:
-                "Content-Type": "application/json"
-              body: "${query}"
-              auth:
-                type: "OIDC"
-            result: "queryHash"
-        - AssignCachedVideoListName:
-            assign:
-              - cachedVideoListName: '${cachedVideoListPrefix + "/" + queryHash.body + ".json"}'
-        - SaveVideoList:
-            call: "http.post"
-            args:
-              url: "${endpoints.saveVideoList}"
-              headers:
-                "Content-Type": "application/json"
-              body:
-                id: "${query.id}"
-                bucket: "${cacheBucketName}"
-                object: "${cachedVideoListName}"
-              auth:
-                type: "OIDC"
-        - SplitVideoList:
+        - GetVideoListQueries:
             call: "http.get"
             args:
-              url: "${endpoints.splitVideoList}"
+              url: "${endpoints.generateVideoListQueries}"
               query:
-                inputBucket: "${cacheBucketName}"
-                inputObject: "${cachedVideoListName}"
-                outputBucket: "${metadataBucketName}"
-                outputDirectory: "${metadataVideoListPrefix}"
+                bucket: "${buckets.metadata}"
+                matchGlob: '${"/search/*.json"}'
+                itemsPerRequest: 50
               auth:
                 type: "OIDC"
+            result: "videoListQueries"
+
+        - IterateForAllVideoListQueries:
+            for:
+              value: "query"
+              in: "${videoListQueries.body}"
+              steps:
+                - GetQueryHash:
+                    call: "http.post"
+                    args:
+                      url: "${endpoints.digest}"
+                      headers:
+                        "Content-Type": "application/json"
+                      body: "${query}"
+                      auth:
+                        type: "OIDC"
+                    result: "queryHash"
+                - AssignCachedVideoListName:
+                    assign:
+                      - cachedVideoListName: '${"/" + queryHash.body + ".json"}'
+                - SaveVideoList:
+                    call: "http.post"
+                    args:
+                      url: "${endpoints.saveVideoList}"
+                      headers:
+                        "Content-Type": "application/json"
+                      body:
+                        id: "${query.id}"
+                        bucket: "${cacheBucketName}"
+                        object: "${cachedVideoListName}"
+                      auth:
+                        type: "OIDC"
+                - SplitVideoList:
+                    call: "http.get"
+                    args:
+                      url: "${endpoints.splitVideoList}"
+                      query:
+                        inputBucket: "${cacheBucketName}"
+                        inputObject: "${cachedVideoListName}"
+                        outputBucket: "${metadataBucketName}"
+                        outputDirectory: "${metadataVideoListPrefix}"
+                      auth:
+                        type: "OIDC"
 - ComposeVideoList:
     call: "http.get"
     args:
