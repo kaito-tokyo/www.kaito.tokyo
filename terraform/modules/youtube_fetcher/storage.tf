@@ -1,19 +1,19 @@
 resource "google_storage_bucket" "cache" {
-  name                        = "${var.project_id}-youtube-fetcher-cache"
+  name                        = "yf-cache-${var.project_id}"
   location                    = "asia-east1"
   uniform_bucket_level_access = true
   public_access_prevention    = "enforced"
 }
 
 resource "google_storage_bucket" "metadata" {
-  name                        = "${var.project_id}-youtube-fetcher-metadata"
+  name                        = "yf-metadata-${var.project_id}"
   location                    = "asia-east1"
   uniform_bucket_level_access = true
   public_access_prevention    = "enforced"
 }
 
 resource "google_storage_bucket" "public" {
-  name                        = "${var.project_id}-youtube-fetcher-public"
+  name                        = "yf-public-${var.project_id}"
   location                    = "asia-east1"
   uniform_bucket_level_access = true
 }
