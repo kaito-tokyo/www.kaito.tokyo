@@ -1,4 +1,4 @@
-- SetConstants:
+- SetGlobalConstants:
     assign:
       - endpoints: '${json.decode(sys.get_env("ENDPOINTS"))}'
       - buckets: '${json.decode(sys.get_env("BUCKETS"))}'
@@ -16,17 +16,17 @@
             args:
               url: "${endpoints.generateVideoListQueries}"
               query:
-                bucket: "${buckets.metadata}"
-                matchGlob: '${"/search/*.json"}'
+                inputBucket: "${buckets.metadata}"
+                inputMatchGlob: '${"search/" + channelId + "/*.json"}'
                 itemsPerRequest: 50
               auth:
                 type: "OIDC"
-            result: "videoListQueries"
+            result: "getVideoListQueriesResponse"
 
         - IterateForAllVideoListQueries:
             for:
               value: "query"
-              in: "${videoListQueries.body}"
+              in: "${getVideoListQueriesResponse.body}"
               steps:
                 - GetQueryHash:
                     call: "http.post"
@@ -37,7 +37,7 @@
                       body: "${query}"
                       auth:
                         type: "OIDC"
-                    result: "queryHash"
+                    result: "getQueryHashResponse"
 
                 - AssignCachedVideoListName:
                     assign:
@@ -52,7 +52,7 @@
                       body:
                         id: "${query.id}"
                         bucket: "${buckets.cache}"
-                        object: "${cachedVideoListName}"
+                        object: '${"save-video-list-all/" + today + "/" + channelId + ".json"}'
                       auth:
                         type: "OIDC"
 
@@ -64,21 +64,22 @@
                         inputBucket: "${buckets.cache}"
                         inputObject: "${cachedVideoListName}"
                         outputBucket: "${buckets.metadata}"
-                        outputDirectory: '${"video/" + channelId}'
+                        outputDirectory: '${"videos/" + channelId}'
                       auth:
                         type: "OIDC"
-# - ComposeVideoList:
-#     call: "http.get"
-#     args:
-#       url: "${endpoints.composeVideoList}"
-#       query:
-#         inputBucket: "${buckets.metadata}"
-#         inputPrefix: "${metadataVideoListPrefix}"
-#         outputBucket: "${buckets.public}"
-#         outputObject: "${publicVideoListName}"
-#       auth:
-#         type: "OIDC"
-#     result: "composedVideoList"
+
+        - ComposeVideoList:
+            call: "http.get"
+            args:
+              url: "${endpoints.composeVideoList}"
+              query:
+                inputBucket: "${buckets.metadata}"
+                inputPrefix: '${"videos/" + channelId}'
+                outputBucket: "${buckets.public}"
+                outputObject: "${"videos/" + channelId + ".json}"
+              auth:
+                type: "OIDC"
+            result: "composeVideoListResponse"
 
 # - UpdatePublicVideoListIndexMedia:
 #     call: "googleapis.storage.v1.objects.insert"

@@ -23,11 +23,15 @@ export interface GenerateListVideosQueriesResultItem {
 }
 
 export async function handleGenerateVideoListQueries(req: Request, res: Response) {
-	const { bucket, matchGlob, itemsPerRequest } = req.query;
+	const { inputBucket, inputMatchGlob, itemsPerRequest } = req.query;
 
-	if (typeof bucket !== "string" || typeof matchGlob !== "string") {
-		throw new Error("Query is invalid!");
-	}
+    if (typeof inputBucket !== "string") {
+        throw new Error("Input bucket is invalid!");
+    }
+
+    if (typeof inputMatchGlob !== "string") {
+        throw new Error("Input match glob is invalid!");
+    }
 
 	if (typeof itemsPerRequest !== "string") {
 		throw new Error("itemsPerRequest is invalid!");
@@ -35,7 +39,7 @@ export async function handleGenerateVideoListQueries(req: Request, res: Response
 
 	const itemsPerRequestInt = parseInt(itemsPerRequest, 10);
 
-	const [files] = await storage.bucket(bucket).getFiles({ matchGlob });
+	const [files] = await storage.bucket(inputBucket).getFiles({ matchGlob: inputMatchGlob });
 	const ids = files.flatMap((f) => {
 		const id = f.name.split(/[ .]/)[1];
 		return id ? [id] : [];

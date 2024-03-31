@@ -26,7 +26,7 @@
                       query:
                         channelId: "${channelId}"
                         outputBucket: "${buckets.cache}"
-                        outputObject: '${"save-search-list-all/" + channelId + " " + text.substring("000" + i, -3, 6) + ".json"}'
+                        outputObject: '${"save-search-list-all/" + today + "/" + channelId + " " + text.substring("000" + i, -3, 6) + ".json"}'
                         pageToken: "${nextPageToken}"
                       auth:
                         type: "OIDC"
@@ -44,17 +44,17 @@
                     assign:
                       - nextPageToken: "${saveSearchListResponse.body.nextPageToken}"
 
-        - GetAllSearchLists:
+        - GetAllSearchListCache:
             call: "googleapis.storage.v1.objects.list"
             args:
               bucket: "${buckets.cache}"
-              matchGlob: '${"save-search-list-all/" + channelId + " *.json"}'
-            result: "cachedSearchLists"
+              matchGlob: '${"save-search-list-all/" + today + "/" + channelId + " *.json"}'
+            result: "getAllSearchListCacheResponse"
 
-        - IterateForAllSearchLists:
+        - IterateForAllSearchListCache:
             for:
               value: "object"
-              in: "${cachedSearchLists.items}"
+              in: "${getAllSearchListCacheResponse.items}"
               steps:
                 - SplitSearchList:
                     call: "http.get"
