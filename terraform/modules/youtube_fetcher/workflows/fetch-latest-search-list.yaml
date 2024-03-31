@@ -21,7 +21,7 @@
               query:
                 channelId: "${channelId}"
                 outputBucket: "${buckets.cacge}"
-                outputObject: '${cachedSearchListObject}'
+                outputObject: "${cachedSearchListObject}"
               auth:
                 type: "OIDC"
 
