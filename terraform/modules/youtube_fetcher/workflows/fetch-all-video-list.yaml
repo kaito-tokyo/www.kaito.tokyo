@@ -38,9 +38,11 @@
                       auth:
                         type: "OIDC"
                     result: "queryHash"
+
                 - AssignCachedVideoListName:
                     assign:
                       - cachedVideoListName: '${"/" + queryHash.body + ".json"}'
+
                 - SaveVideoList:
                     call: "http.post"
                     args:
@@ -49,21 +51,23 @@
                         "Content-Type": "application/json"
                       body:
                         id: "${query.id}"
-                        bucket: "${cacheBucketName}"
+                        bucket: "${buckets.cache}"
                         object: "${cachedVideoListName}"
                       auth:
                         type: "OIDC"
+
                 - SplitVideoList:
                     call: "http.get"
                     args:
                       url: "${endpoints.splitVideoList}"
                       query:
-                        inputBucket: "${cacheBucketName}"
+                        inputBucket: "${buckets.cache}"
                         inputObject: "${cachedVideoListName}"
-                        outputBucket: "${metadataBucketName}"
-                        outputDirectory: "${metadataVideoListPrefix}"
+                        outputBucket: "${buckets.metadata}"
+                        outputDirectory: '${"video/" + channelId}'
                       auth:
                         type: "OIDC"
+
 - ComposeVideoList:
     call: "http.get"
     args:
