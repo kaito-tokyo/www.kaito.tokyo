@@ -76,11 +76,10 @@
                 inputBucket: "${buckets.metadata}"
                 inputPrefix: '${"videos/" + channelId}'
                 outputBucket: "${buckets.public}"
-                outputObject: "${"videos/" + channelId + ".json}"
+                outputObject: '${"videos/" + channelId + ".json}'
               auth:
                 type: "OIDC"
             result: "composeVideoListResponse"
-
 # - UpdatePublicVideoListIndexMedia:
 #     call: "googleapis.storage.v1.objects.insert"
 #     args:

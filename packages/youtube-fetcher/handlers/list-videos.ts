@@ -25,13 +25,13 @@ export interface GenerateListVideosQueriesResultItem {
 export async function handleGenerateVideoListQueries(req: Request, res: Response) {
 	const { inputBucket, inputMatchGlob, itemsPerRequest } = req.query;
 
-    if (typeof inputBucket !== "string") {
-        throw new Error("Input bucket is invalid!");
-    }
+	if (typeof inputBucket !== "string") {
+		throw new Error("Input bucket is invalid!");
+	}
 
-    if (typeof inputMatchGlob !== "string") {
-        throw new Error("Input match glob is invalid!");
-    }
+	if (typeof inputMatchGlob !== "string") {
+		throw new Error("Input match glob is invalid!");
+	}
 
 	if (typeof itemsPerRequest !== "string") {
 		throw new Error("itemsPerRequest is invalid!");
