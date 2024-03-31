@@ -6,7 +6,7 @@
       - cacheBucketName: '${sys.get_env("CACHE_BUCKET_NAME")}'
       - today: '${text.split(time.format(sys.now()), "T")[0]}'
 
-- IterateForAllPlaylistIds:
+- IterateForAllChannelIds:
     for:
       value: "channelId"
       in: "${channelIds}"
@@ -38,9 +38,11 @@
                       auth:
                         type: "OIDC"
                     result: "queryHash"
+
                 - AssignCachedVideoListName:
                     assign:
                       - cachedVideoListName: '${"/" + queryHash.body + ".json"}'
+
                 - SaveVideoList:
                     call: "http.post"
                     args:
@@ -49,45 +51,48 @@
                         "Content-Type": "application/json"
                       body:
                         id: "${query.id}"
-                        bucket: "${cacheBucketName}"
+                        bucket: "${buckets.cache}"
                         object: "${cachedVideoListName}"
                       auth:
                         type: "OIDC"
+
                 - SplitVideoList:
                     call: "http.get"
                     args:
                       url: "${endpoints.splitVideoList}"
                       query:
-                        inputBucket: "${cacheBucketName}"
+                        inputBucket: "${buckets.cache}"
                         inputObject: "${cachedVideoListName}"
-                        outputBucket: "${metadataBucketName}"
-                        outputDirectory: "${metadataVideoListPrefix}"
+                        outputBucket: "${buckets.metadata}"
+                        outputDirectory: '${"video/" + channelId}'
                       auth:
                         type: "OIDC"
-- ComposeVideoList:
-    call: "http.get"
-    args:
-      url: "${endpoints.composeVideoList}"
-      query:
-        inputBucket: "${metadataBucketName}"
-        inputPrefix: "${metadataVideoListPrefix}"
-        outputBucket: "${publicBucketName}"
-        outputObject: "${publicVideoListName}"
-      auth:
-        type: "OIDC"
-    result: "composedVideoList"
-- UpdatePublicVideoListIndexMedia:
-    call: "googleapis.storage.v1.objects.insert"
-    args:
-      bucket: "${publicBucketName}"
-      uploadType: "media"
-      name: "${publicVideoIndexName}"
-      body:
-        url: "${composedVideoList.body.outputUrl}"
-- UpdatePublicVideoListIndexMetadata:
-    call: "googleapis.storage.v1.objects.patch"
-    args:
-      bucket: "${publicBucketName}"
-      object: "${text.url_encode(publicVideoIndexName)}"
-      body:
-        cacheControl: "public, max-age=60"
+# - ComposeVideoList:
+#     call: "http.get"
+#     args:
+#       url: "${endpoints.composeVideoList}"
+#       query:
+#         inputBucket: "${buckets.metadata}"
+#         inputPrefix: "${metadataVideoListPrefix}"
+#         outputBucket: "${buckets.public}"
+#         outputObject: "${publicVideoListName}"
+#       auth:
+#         type: "OIDC"
+#     result: "composedVideoList"
+
+# - UpdatePublicVideoListIndexMedia:
+#     call: "googleapis.storage.v1.objects.insert"
+#     args:
+#       bucket: "${buckets.public}"
+#       uploadType: "media"
+#       name: "${publicVideoIndexName}"
+#       body:
+#         url: "${composedVideoList.body.outputUrl}"
+
+# - UpdatePublicVideoListIndexMetadata:
+#     call: "googleapis.storage.v1.objects.patch"
+#     args:
+#       bucket: "${buckets.public}"
+#       object: "${text.url_encode(publicVideoIndexName)}"
+#       body:
+#         cacheControl: "public, max-age=60"
