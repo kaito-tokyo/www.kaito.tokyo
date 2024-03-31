@@ -2,7 +2,7 @@
     assign:
       - endpoints: '${json.decode(sys.get_env("ENDPOINTS"))}'
       - buckets: '${json.decode(sys.get_env("BUCKETS"))}'
-      - channelIds: '${json.decode(sys.get_env("CHANNEL_ID")}'
+      - channelIds: '${json.decode(sys.get_env("CHANNEL_ID"))}'
       - cacheBucketName: '${sys.get_env("CACHE_BUCKET_NAME")}'
       - today: '${text.split(time.format(sys.now()), "T")[0]}'
 
