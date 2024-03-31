@@ -67,7 +67,6 @@
                         outputDirectory: '${"video/" + channelId}'
                       auth:
                         type: "OIDC"
-
 # - ComposeVideoList:
 #     call: "http.get"
 #     args:
