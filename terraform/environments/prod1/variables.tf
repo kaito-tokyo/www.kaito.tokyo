@@ -26,6 +26,10 @@ variable "cdn_bucket_name" {
   type = string
 }
 
+variable "channel_ids" {
+  type = list(string)
+}
+
 variable "playlist_ids" {
   type = list(string)
 }

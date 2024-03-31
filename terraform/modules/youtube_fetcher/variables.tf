@@ -9,6 +9,9 @@ variable "cloudbuild_trigger_repository" {
 variable "run_image" {
   type = string
 }
+variable "channel_ids" {
+  type = list(string)
+}
 
 variable "playlist_ids" {
   type = list(string)
