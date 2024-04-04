@@ -41,7 +41,7 @@
 
                 - AssignCachedVideoListName:
                     assign:
-                      - cachedVideoListName: '${"/" + getQueryHashResponse.body + ".json"}'
+                      - cachedVideoListName: '${"save-video-list-all/" + today + "/" + channelId + "/" + getQueryHashResponse.body + ".json"}'
 
                 - SaveVideoList:
                     call: "http.post"
@@ -52,7 +52,7 @@
                       body:
                         id: "${query.id}"
                         bucket: "${buckets.cache}"
-                        object: '${"save-video-list-all/" + today + "/" + channelId + ".json"}'
+                        object: "${cachedVideoListName}"
                       auth:
                         type: "OIDC"
 

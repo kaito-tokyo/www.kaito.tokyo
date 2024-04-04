@@ -1,40 +1,17 @@
 import type { youtube_v3 } from "googleapis";
 
 const CHANNEL_ID = "UCfhyVWrxCmdUpst-5n7Kz_Q";
-const PUBLIC_BUCKET_NAME = "www-kaito-tokyo-1-svc-my1a-youtube-fetcher-public";
-const INDEX_URL = `https://storage.googleapis.com/${PUBLIC_BUCKET_NAME}/${CHANNEL_ID}/videos/index.json`;
+const PUBLIC_BUCKET_NAME = "yf-public-www-kaito-tokyo-1-svc-my1a";
+const VIDEOS_URL = `https://storage.googleapis.com/${PUBLIC_BUCKET_NAME}/videos/${CHANNEL_ID}.json`;
 
-let youtubeVideoUrlCache: string = "";
 let youtubeVideoListCache: youtube_v3.Schema$Video[] = [];
 
-interface YouTubeVideoIndex {
-	readonly url: string;
-}
-
-export async function getYouTubeVideoUrl(indexUrl: string = INDEX_URL): Promise<string> {
-	if (youtubeVideoUrlCache.length > 0) {
-		return youtubeVideoUrlCache;
-	}
-
-	const response = await fetch(indexUrl);
-
-	if (!response.ok) {
-		throw new Error("Invalid format of the index file!");
-	}
-
-	const { url } = (await response.json()) as YouTubeVideoIndex;
-
-	youtubeVideoUrlCache = url;
-
-	return url;
-}
-
-export async function getYouTubeVideoList(url: string): Promise<youtube_v3.Schema$Video[]> {
+export async function getYouTubeVideoList(): Promise<youtube_v3.Schema$Video[]> {
 	if (youtubeVideoListCache.length > 0) {
 		return Array.from(youtubeVideoListCache);
 	}
 
-	const response = await fetch(url);
+	const response = await fetch(VIDEOS_URL);
 
 	if (!response.ok) {
 		throw new Error("Invalid format of the index file!");
@@ -44,5 +21,5 @@ export async function getYouTubeVideoList(url: string): Promise<youtube_v3.Schem
 
 	youtubeVideoListCache = json;
 
-	return json;
+	return Array.from(json);
 }
