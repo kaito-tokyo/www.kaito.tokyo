@@ -41,7 +41,7 @@
 
                 - AssignCachedVideoListName:
                     assign:
-                      - cachedVideoListName: '${"/" + queryHash.body + ".json"}'
+                      - cachedVideoListName: '${"/" + getQueryHashResponse.body + ".json"}'
 
                 - SaveVideoList:
                     call: "http.post"
