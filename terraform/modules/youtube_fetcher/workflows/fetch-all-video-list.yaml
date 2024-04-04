@@ -2,7 +2,7 @@
     assign:
       - endpoints: '${json.decode(sys.get_env("ENDPOINTS"))}'
       - buckets: '${json.decode(sys.get_env("BUCKETS"))}'
-      - channelIds: '${json.decode(sys.get_env("CHANNEL_ID"))}'
+      - channelIds: '${json.decode(sys.get_env("CHANNEL_IDS"))}'
       - cacheBucketName: '${sys.get_env("CACHE_BUCKET_NAME")}'
       - today: '${text.split(time.format(sys.now()), "T")[0]}'
 
@@ -41,7 +41,7 @@
 
                 - AssignCachedVideoListName:
                     assign:
-                      - cachedVideoListName: '${"/" + queryHash.body + ".json"}'
+                      - cachedVideoListName: '${"save-video-list-all/" + today + "/" + channelId + "/" + getQueryHashResponse.body + ".json"}'
 
                 - SaveVideoList:
                     call: "http.post"
@@ -52,7 +52,7 @@
                       body:
                         id: "${query.id}"
                         bucket: "${buckets.cache}"
-                        object: '${"save-video-list-all/" + today + "/" + channelId + ".json"}'
+                        object: "${cachedVideoListName}"
                       auth:
                         type: "OIDC"
 
@@ -76,7 +76,7 @@
                 inputBucket: "${buckets.metadata}"
                 inputPrefix: '${"videos/" + channelId}'
                 outputBucket: "${buckets.public}"
-                outputObject: '${"videos/" + channelId + ".json}'
+                outputObject: '${"videos/" + channelId + ".json"}'
               auth:
                 type: "OIDC"
             result: "composeVideoListResponse"
