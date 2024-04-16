@@ -1,5 +1,5 @@
 resource "google_storage_bucket_iam_member" "allusers_www_kaito_tokyo_objectviewer" {
-  bucket = google_storage_bucket.www_kaito_tokyo.name
+  bucket = google_storage_bucket.input_www_kaito_tokyo.name
   role   = "roles/storage.objectViewer"
   member = "allUsers"
 }
