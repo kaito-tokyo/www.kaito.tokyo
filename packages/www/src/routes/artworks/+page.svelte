@@ -41,10 +41,10 @@
 		padding: 20px 25px 0 25px;
 	}
 
-    .grid img {
-        width: 100%;
-        object-fit: cover;
-    }
+	.grid img {
+		width: 100%;
+		object-fit: cover;
+	}
 
 	@media (min-width: 720px) {
 		.grid {

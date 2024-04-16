@@ -13,6 +13,6 @@ export const load = (async () => {
 		}
 	});
 	return {
-		articles,
-    };
+		articles
+	};
 }) satisfies PageServerLoad;
