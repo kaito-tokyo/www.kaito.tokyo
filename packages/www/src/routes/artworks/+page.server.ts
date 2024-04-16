@@ -1,8 +1,7 @@
 export const prerender = true;
 
-import { newtClient } from "$lib/server/newt";
-import type { ArtworkArticle } from "$lib/server/newt";
-import { getYouTubeVideoList } from "$lib/youtube/videos";
+import { type ArtworkArticle, newtClient } from "$lib/server/newt";
+
 import type { PageServerLoad } from "./$types";
 
 export const load = (async () => {
@@ -13,10 +12,7 @@ export const load = (async () => {
 			select: ["_id", "title", "slug", "images", "publishedAt"]
 		}
 	});
-	const youtubeVideoList = await getYouTubeVideoList();
-	youtubeVideoList.reverse();
 	return {
-		articles,
-		youtubeVideoList: youtubeVideoList.slice(0, 3)
+		articles
 	};
 }) satisfies PageServerLoad;

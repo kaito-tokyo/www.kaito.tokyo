@@ -1,10 +1,12 @@
 <script lang="ts">
 	import { formatInTimeZone } from "date-fns-tz";
-	import { Image } from "@unpic/svelte";
 
 	import { base } from "$app/paths";
 
 	import type { PageData } from "./$types";
+
+	import { getThumbnail400URL } from "$lib/newt/images";
+
 	export let data: PageData;
 
 	function formatDate(dateString: string): string {
@@ -25,14 +27,6 @@
 			}
 		];
 	});
-
-	function getThumbnail400Url(origUrl: string, ext: string) {
-		const url = new URL(origUrl);
-		url.host = "www-img.kaito.tokyo";
-		const [, , id, name] = url.pathname.split("/");
-		url.pathname = `/${id}/_thumbnail400/${name}${ext}`;
-		return url.toString();
-	}
 </script>
 
 <svelte:head>
@@ -41,13 +35,13 @@
 </svelte:head>
 
 <main>
-	<a href="{base}/illustrations"><h1>イラスト</h1></a>
+	<a href="{base}/artworks"><h1>イラスト</h1></a>
 	<section id="illustration-grid" class="grid">
 		{#each data.articles as article (article._id)}
-			<a href={`illustrations/${article.slug}`}>
+			<a href={`${base}/artworks/${article.slug}`}>
 				<article>
 					<img
-						src={getThumbnail400Url(article.images[0].src, ".webp")}
+						src={getThumbnail400URL(article.images[0].src, ".webp")}
 						alt={article.title}
 						width={200}
 						height={200}

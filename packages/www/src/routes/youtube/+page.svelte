@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { formatInTimeZone } from "date-fns-tz";
-	import { Image } from "@unpic/svelte";
 
 	import { base } from "$app/paths";
 
@@ -17,7 +16,7 @@
 		{#each data.youtubeVideoList as video (video.id)}
 			<a href={`${base}/youtube/${video.id}`}>
 				<article>
-					<Image src={video.snippet.thumbnails.default.url} width={100} height={100} />
+					<img src={video.snippet.thumbnails.default.url} width={100} height={100} />
 					<p class="title">{video.snippet.title}</p>
 					<p class="publishedAt">{formatDate(video.snippet.publishedAt)}</p>
 				</article>
