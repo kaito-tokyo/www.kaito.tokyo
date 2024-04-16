@@ -5,7 +5,9 @@ main:
     - SetConstants:
         assign:
           - endpoints: '${json.decode(sys.get_env("ENDPOINTS"))}'
-          - bucket: "${args.data.bucket}"
+          - buckets: '${json.decode(sys.get_env("BUCKETS"))}'
+          - inputBucket: "${args.data.bucket}"
+          - inputObject: "${args.data.name}"
 
     - SplitPathComponents:
         assign:
@@ -20,18 +22,14 @@ main:
     - ReturnBecauseObjectIsNotDefaultImage:
         return: '${"Skipping" + args.data.name + "!"}'
 
-    - ExtractObjectName:
-        assign:
-          - object: "${args.data.name}"
-
     - OptimizeImage:
         call: "http.get"
         args:
           url: "${endpoints.optimizeImage}"
           query:
-            inputBucket: "${bucket}"
-            inputObject: "${object}"
-            outputBucket: "${bucket}"
+            inputBucket: "${inputBucket}"
+            inputObject: "${inputObject}"
+            outputBucket: "${buckets.optimized}"
           auth:
             type: "OIDC"
         result: "optimizeImageResult"
@@ -51,7 +49,7 @@ main:
                 args:
                   url: "${endpoints.uploadObjectToCdn}"
                   query:
-                    inputBucket: "${bucket}"
+                    inputBucket: "${buckets.optimized}"
                     inputObject: "${uploadingObjectName}"
                     outputObject: "${uploadingObjectName}"
                   auth:
