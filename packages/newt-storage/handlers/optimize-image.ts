@@ -22,19 +22,39 @@ export async function handleOptimizeImage(req: Request, res: Response) {
 
 	const [response] = await storage.bucket(inputBucket).file(inputObject).download();
 
-	let name: string;
-	let buffer: Buffer;
 	const outputObjects: string[] = [];
 
-	name = `${inputObjectDirname}/_thumbnail400/${inputObjectBasename}.webp`;
-	buffer = await sharp(response).resize(400, 400, { fit: "contain" }).webp().toBuffer();
-	await storage.bucket(outputBucket).file(name).save(buffer);
-	outputObjects.push(name);
+	const addOptimizedImage = async (name: string, image: sharp.Sharp) => {
+		const buffer = await image.toBuffer();
+		await storage.bucket(outputBucket).file(name).save(buffer);
+		outputObjects.push(name);
 
-	name = `${inputObjectDirname}/_thumbnail400/${inputObjectBasename}.png`;
-	buffer = await sharp(response).resize(400, 400, { fit: "contain" }).png().toBuffer();
-	await storage.bucket(outputBucket).file(name).save(buffer);
-	outputObjects.push(name);
+		const metadataName = `${name}.metadata.json`;
+		const metadata = await sharp(buffer).metadata();
+		await storage.bucket(outputBucket).file(metadataName).save(JSON.stringify(metadata));
+
+		outputObjects.concat(name, metadataName);
+	};
+
+	await addOptimizedImage(
+		`${inputObjectDirname}/_thumbnail400/${inputObjectBasename}.webp`,
+		sharp(response).resize(400, 400, { fit: "contain" }).webp()
+	);
+
+	await addOptimizedImage(
+		`${inputObjectDirname}/_thumbnail400/${inputObjectBasename}.png`,
+		sharp(response).resize(400, 400, { fit: "contain" }).png()
+	);
+
+	await addOptimizedImage(
+		`${inputObjectDirname}/_artwork1600/${inputObjectBasename}.webp`,
+		sharp(response).resize(1600, 1600, { fit: "contain" }).webp()
+	);
+
+	await addOptimizedImage(
+		`${inputObjectDirname}/_artwork1600/${inputObjectBasename}.png`,
+		sharp(response).resize(1600, 1600, { fit: "contain" }).png()
+	);
 
 	res.send({ outputObjects });
 }
