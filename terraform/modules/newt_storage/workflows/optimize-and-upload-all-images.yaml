@@ -1,0 +1,53 @@
+main:
+  params:
+    - args
+  steps:
+    - SetConstants:
+        assign:
+          - endpoints: '${json.decode(sys.get_env("ENDPOINTS"))}'
+          - buckets: '${json.decode(sys.get_env("BUCKETS"))}'
+
+    - GetAllImages:
+        call: "googleapis.storage.v1.objects.list"
+        args:
+          bucket: "${buckets.input}"
+          matchGlob: "*/*.{png,jpg,jpeg}"
+        result: "getAllImagesResponse"
+    
+    - IterateForAllImages:
+        for:
+          value: "inputObject"
+          in: "${getAllImagesResponse.items}"
+          steps:
+            - OptimizeImage:
+                call: "http.get"
+                args:
+                  url: "${endpoints.optimizeImage}"
+                  query:
+                    inputBucket: "${buckets.input}"
+                    inputObject: "${inputObject}"
+                    outputBucket: "${buckets.optimized}"
+                  auth:
+                    type: "OIDC"
+                result: "optimizeImageResult"
+
+            - IterateForOptimizedImages:
+                for:
+                  value: "uploadingObjectName"
+                  in: "${optimizeImageResult.body.outputObjects}"
+                  steps:
+                    - LogUploadingObjectName:
+                        call: sys.log
+                        args:
+                          text: "${uploadingObjectName}"
+
+                    - UploadObjectToCdn:
+                        call: "http.get"
+                        args:
+                          url: "${endpoints.uploadObjectToCdn}"
+                          query:
+                            inputBucket: "${buckets.optimized}"
+                            inputObject: "${uploadingObjectName}"
+                            outputObject: "${uploadingObjectName}"
+                          auth:
+                            type: "OIDC"
