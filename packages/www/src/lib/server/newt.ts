@@ -3,20 +3,20 @@ import { NEWT_SPACE_UID, NEWT_CDN_API_TOKEN } from "$env/static/private";
 
 import { createClient } from "newt-client-js";
 
-export interface IllustrationTag {
+export interface ArtworkTag {
 	_id: string;
 	name: string;
 	slug: string;
 }
 
-export interface IllustrationArticle {
+export interface ArtworkArticle {
 	_id: string;
 	title: string;
 	slug: string;
 	images: Image[];
 	publishedAt: string;
 	description: string;
-	tags: IllustrationTag[];
+	tags: ArtworkTag[];
 }
 
 export const newtClient = createClient({
