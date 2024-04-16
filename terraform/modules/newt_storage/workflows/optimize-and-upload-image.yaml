@@ -16,7 +16,7 @@ main:
     - DetermineIfPathIsDefaultImage:
         switch:
           - condition: "${len(pathComponents) == 2}"
-            next: "ExtractObjectName"
+            next: "OptimizeImage"
         next: "ReturnBecauseObjectIsNotDefaultImage"
 
     - ReturnBecauseObjectIsNotDefaultImage:
