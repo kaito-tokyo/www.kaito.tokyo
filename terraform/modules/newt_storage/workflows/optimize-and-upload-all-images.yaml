@@ -13,7 +13,7 @@ main:
           bucket: "${buckets.input}"
           matchGlob: "*/*.{png,jpg,jpeg}"
         result: "getAllImagesResponse"
-    
+
     - IterateForAllImages:
         for:
           value: "inputObject"
