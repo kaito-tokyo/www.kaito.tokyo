@@ -21,11 +21,7 @@ steps:
       - "plan"
       - "-no-color"
       - "-var=run_image=${_RUN_REPOSITORY}/www-kaito-tokyo:$COMMIT_SHA"
-      - "-var=tmp_dir=/terraform_tmp"
       - "-out=tfplan"
-    volumes:
-      - name: "terraform_tmp"
-        path: "/terraform_tmp"
 
   - name: "hashicorp/terraform:1.7.3"
     dir: "terraform/environments/prod1"
@@ -34,6 +30,3 @@ steps:
       - "-no-color"
       - "-auto-approve"
       - "tfplan"
-    volumes:
-      - name: "terraform_tmp"
-        path: "/terraform_tmp"
