@@ -21,9 +21,9 @@
 				<a href="{base}/">トップ</a>
 			</li>
 			<li
-				aria-current={$page.url.pathname.startsWith(`${base}/illustrations`) ? "page" : undefined}
+				aria-current={$page.url.pathname.startsWith(`${base}/artworks`) ? "page" : undefined}
 			>
-				<a href="{base}/illustrations">イラスト</a>
+				<a href="{base}/artworks">イラスト</a>
 			</li>
 			<li aria-current={$page.url.pathname.startsWith(`${base}/youtube`) ? "page" : undefined}>
 				<a href="{base}/youtube">YouTube</a>
