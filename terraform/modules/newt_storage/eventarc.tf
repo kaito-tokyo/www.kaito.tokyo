@@ -1,4 +1,4 @@
-resource "google_eventarc_trigger" "optimize_and_upload_image_www_kaito_tokyo" {
+resource "google_eventarc_trigger" "optimize_and_upload_input_image_www_kaito_tokyo" {
   name     = "optimize-and-upload-image-www-kaito-tokyo"
   location = "asia-east1"
 
@@ -9,7 +9,7 @@ resource "google_eventarc_trigger" "optimize_and_upload_image_www_kaito_tokyo" {
 
   matching_criteria {
     attribute = "bucket"
-    value     = google_storage_bucket.www_kaito_tokyo.name
+    value     = google_storage_bucket.input_www_kaito_tokyo.name
   }
 
   destination {
