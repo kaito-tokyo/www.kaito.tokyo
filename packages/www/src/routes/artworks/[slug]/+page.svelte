@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { Image } from "@unpic/svelte";
 	import type { PageData } from "./$types";
 	import { error } from "@sveltejs/kit";
 	import { formatInTimeZone } from "date-fns-tz";
@@ -31,7 +30,7 @@
 		</div>
 		<div>{@html article.description}</div>
 		{#each article.images as image}
-			<Image src={image.src} layout="constrained" width={1600} height={1600} />
+			<img src={image.src} layout="constrained" width={1600} height={1600} />
 		{/each}
 	</article>
 </section>
