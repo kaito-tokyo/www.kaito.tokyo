@@ -10,10 +10,6 @@ variable "run_image" {
   type = string
 }
 
-variable "tmp_dir" {
-  type = string
-}
-
 variable "cdn_region" {
   type = string
 }
