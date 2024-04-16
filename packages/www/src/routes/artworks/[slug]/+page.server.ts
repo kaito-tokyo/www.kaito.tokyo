@@ -1,12 +1,11 @@
 export const prerender = true;
 
-import { newtClient } from "$lib/server/newt";
-import type { IllustrationArticle } from "$lib/server/newt";
+import { type ArtworkArticle, newtClient } from "$lib/server/newt";
 import type { PageServerLoad } from "./$types";
 
 export const load = (async ({ params }) => {
-	const article = await newtClient.getFirstContent<IllustrationArticle>({
-		appUid: "illustration",
+	const article = await newtClient.getFirstContent<ArtworkArticle>({
+		appUid: "artworks",
 		modelUid: "article",
 		query: {
 			slug: params.slug,
