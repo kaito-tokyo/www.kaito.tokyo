@@ -35,10 +35,10 @@
 </svelte:head>
 
 <main>
-	<a href="{base}/illustrations"><h1>イラスト</h1></a>
+	<a href="{base}/artworks"><h1>イラスト</h1></a>
 	<section id="illustration-grid" class="grid">
 		{#each data.articles as article (article._id)}
-			<a href={`illustrations/${article.slug}`}>
+			<a href={`${base}/artworks/${article.slug}`}>
 				<article>
 					<img
 						src={getThumbnail400URL(article.images[0].src, ".webp")}
