@@ -22,20 +22,20 @@ export const load = (async ({ params }) => {
         throw new Error("Images are missing!");
     }
 
-    const artwork1600WebpMetadataList = await Promise.all(images.map(async ({ src }) => {
-        const artwork1600WebpURL = getArtwork1600URL(src, ".webp");
-        const artwork1600WebpMetadataURL = getMetadataURL(artwork1600WebpURL);
-        console.log(artwork1600WebpMetadataURL);
-        const response = await fetch(artwork1600WebpMetadataURL);
-        if (!response.ok) {
-            throw new Error("Metadata file is missing!");
-        }
-        const json = await response.json() as OptimizedImageMetadata;
-        return json;
-    }))
+    // const artwork1600WebpMetadataList = await Promise.all(images.map(async ({ src }) => {
+    //     const artwork1600WebpURL = getArtwork1600URL(src, ".webp");
+    //     const artwork1600WebpMetadataURL = getMetadataURL(artwork1600WebpURL);
+    //     console.log(artwork1600WebpMetadataURL);
+    //     const response = await fetch(artwork1600WebpMetadataURL);
+    //     if (!response.ok) {
+    //         throw new Error("Metadata file is missing!");
+    //     }
+    //     const json = await response.json() as OptimizedImageMetadata;
+    //     return json;
+    // }))
 
 	return {
 		article,
-        artwork1600WebpMetadataList,
+        // artwork1600WebpMetadataList,
 	};
 }) satisfies PageServerLoad;

@@ -27,8 +27,7 @@
 		</section>
 		<div>{@html article.description}</div>
 		{#each article.images as image, index (image._id)}
-			{@const metadata = artwork1600WebpMetadataList[index]}
-			<img src={image.src} width={metadata.width} height={metadata.height} alt={`${article.title} ${index}`} />
+			<img src={image.src} width={800} height={800} alt={`${article.title} ${index}`} />
 		{/each}
 	</article>
 </section>
