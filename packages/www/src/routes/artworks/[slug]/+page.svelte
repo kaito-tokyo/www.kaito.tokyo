@@ -1,11 +1,9 @@
 <script lang="ts">
-	import { formatInTimeZone } from "date-fns-tz";
-
 	import { error } from "@sveltejs/kit";
 
 	import type { PageData } from "./$types";
 
-	import { formatPublishedAt } from "$lib/newt/images";
+	import { formatPublishedAt, getArtwork1600URL, getMetadataURL } from "$lib/newt/images";
 
 	export let data: PageData;
 
@@ -13,7 +11,7 @@
 		error(404);
 	}
 
-	const { article } = data;
+	const { article, artwork1600WebpMetadataList } = data;
 </script>
 
 <svelte:head>
@@ -28,8 +26,8 @@
 			<p>投稿日：{formatPublishedAt(article.publishedAt)}</p>
 		</section>
 		<div>{@html article.description}</div>
-		{#each article.images as image}
-			<img src={image.src} layout="constrained" width={800} height={800} />
+		{#each article.images as image, index (image._id)}
+			<img src={image.src} width={800} height={800} alt={`${article.title} ${index}`} />
 		{/each}
 	</article>
 </section>
