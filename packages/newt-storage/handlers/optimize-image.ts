@@ -32,8 +32,7 @@ export async function handleOptimizeImage(req: Request, res: Response) {
 		const metadataName = `${name}.metadata.json`;
 		const metadata = await sharp(buffer).metadata();
 		await storage.bucket(outputBucket).file(metadataName).save(JSON.stringify(metadata));
-
-		outputObjects.concat(name, metadataName);
+		outputObjects.push(metadataName);
 	};
 
 	await addOptimizedImage(
