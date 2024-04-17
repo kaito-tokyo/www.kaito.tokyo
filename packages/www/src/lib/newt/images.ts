@@ -17,12 +17,12 @@ export function getArtwork1600URL(origURL: string, ext: string) {
 }
 
 export function getMetadataURL(origURL: string) {
-    return `${origURL}.metadata.json`;
+	return `${origURL}.metadata.json`;
 }
 
 export interface OptimizedImageMetadata {
-    width: number;
-    height: number;
+	width: number;
+	height: number;
 }
 
 export function formatPublishedAt(dateString: string): string {
