@@ -10,7 +10,7 @@
 	"private": true,
 	"dependencies": {
 		"@google-cloud/functions-framework": "^3.4.0",
-		"@google-cloud/storage": "^7.10.2",
+		"@google-cloud/storage": "^7.11.0",
 		"googleapis": "^137.1.0"
 	},
 	"devDependencies": {
