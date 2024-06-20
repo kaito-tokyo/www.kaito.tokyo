@@ -9,8 +9,5 @@ on:
       - "main"
 
 jobs:
-  PushMain:
-    runs-on: "ubuntu-22.04"
-
-    steps:
-      - uses: "./.github/workflows/image-publish-main.yaml"
+  ImagePublishMain:
+    uses: "./.github/workflows/image-publish-main.yaml"
