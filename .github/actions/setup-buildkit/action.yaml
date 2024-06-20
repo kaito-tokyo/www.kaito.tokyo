@@ -6,6 +6,8 @@ runs:
   steps:
     - name: "Download and install buildkit"
       shell: "bash"
+      env:
+        GH_TOKEN: "${{ github.token }}"
       run: |
         gh release download ${{ inputs.version }} -R "moby/buildkit" --pattern "buildkit-*.linux-amd64.tar.gz"
         tar -xzf buildkit-*.linux-amd64.tar.gz -C /usr/local
