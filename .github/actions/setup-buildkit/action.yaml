@@ -10,8 +10,8 @@ runs:
         GH_TOKEN: "${{ github.token }}"
       run: |
         gh release download ${{ inputs.version }} -R "moby/buildkit" --pattern "buildkit-*.linux-amd64.tar.gz"
-        tar -xzf buildkit-*.linux-amd64.tar.gz -C /usr/local
+        sudo tar -xzf buildkit-*.linux-amd64.tar.gz -C /usr/local
     
     - name: "Start buildkitd"
       shell: "bash"
-      run: "buildkitd &"
+      run: "sudo buildkitd &"
