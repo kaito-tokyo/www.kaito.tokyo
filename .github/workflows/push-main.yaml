@@ -1,0 +1,14 @@
+name: "push-main"
+
+on:
+  push:
+    branches:
+      - "main"
+  pull_request:
+    branches:
+      - "main"
+
+jobs:
+  PushMain:
+    steps:
+      - uses: "./.github/workflows/image-publish-main.yaml"
