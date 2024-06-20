@@ -8,9 +8,9 @@ jobs:
     runs-on: "ubuntu-24.04"
 
     steps:
-      - name: "Setup buildkit"
-        uses: "./.github/actions/setup-buildkit"
-
       - name: "Checkout"
         uses: "actions/checkout@v4"
+
+      - name: "Setup buildkit"
+        uses: "./.github/actions/setup-buildkit"
 
