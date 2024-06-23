@@ -16,5 +16,4 @@ runs:
 
     - name: "Configure Docker credential GCP"
       shell: "bash"
-      run: |
-        docker-credential-gcr config
+      run: "docker-credential-gcr configure-docker -include-artifact-registry"
