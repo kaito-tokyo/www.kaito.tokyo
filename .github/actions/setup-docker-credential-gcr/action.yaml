@@ -1,0 +1,19 @@
+name: "setup-docker-credential-gcp"
+
+runs:
+  using: "composite"
+
+  steps:
+    - name: "Download and install buildkit"
+      shell: "bash"
+      env:
+        GH_TOKEN: "${{ github.token }}"
+      working-directory: "/tmp"
+      run: |
+        gh release download ${{ inputs.version }} -R "GoogleCloudPlatform/docker-credential-gcr" --pattern "docker-credential-gcr_linux_amd64-*.tar.gz"
+        tar -xzf docker-credential-gcr_linux_amd64-*.tar.gz
+        sudo mv docker-credential-gcr /usr/local/bin
+
+    - name: "Configure Docker credential GCP"
+      shell: "bash"
+      run: "docker-credential-gcr configure-docker -include-artifact-registry"

@@ -1,0 +1,46 @@
+name: "image-publish-main"
+
+on:
+  workflow_call:
+
+jobs:
+  ImagePublishMain:
+    runs-on: "ubuntu-24.04"
+
+    timeout-minutes: 10
+
+    permissions:
+      contents: "read"
+      id-token: "write"
+
+    steps:
+      - name: "Expose GitHub Runtime"
+        uses: "crazy-max/ghaction-github-runtime@v3"
+
+      - name: "Checkout"
+        uses: "actions/checkout@v4"
+
+      - name: "Setup buildkit"
+        uses: "./.github/actions/setup-buildkit"
+
+      - name: "Setup Docker credential GCR"
+        uses: "./.github/actions/setup-docker-credential-gcr"
+
+      - name: "Authenticate to Google Cloud"
+        uses: "google-github-actions/auth@v2"
+        id: "google-github-actions-auth"
+        with:
+          workload_identity_provider: "projects/643615470006/locations/global/workloadIdentityPools/github-kaito-tokyo/providers/actions-githubusercontent-com"
+          service_account: "yf-publish-image-gha-main@www-kaito-tokyo-1-svc-my1a.iam.gserviceaccount.com"
+
+      - name: "Build image"
+        run: |
+          buildctl build \
+            --frontend=dockerfile.v0 \
+            --local=context=. \
+            --local=dockerfile=. \
+            --opt build-arg:SOURCE_DATE_EPOCH=0 \
+            --secret=id=google-cloud-adc,src="${{ steps.google-github-actions-auth.outputs.credentials_file_path }}" \
+            --export-cache type=gha \
+            --import-cache type=gha \
+            --output=type=image,name=asia-east1-docker.pkg.dev/www-kaito-tokyo-1-svc-my1a/yf-main/yf-main:${{ github.sha }},push=true,rewrite-timestamp=true
