@@ -14,4 +14,4 @@ runs:
 
     - name: "Start buildkitd"
       shell: "bash"
-      run: "sudo buildkitd &"
+      run: "sudo buildkitd --group=docker &"
