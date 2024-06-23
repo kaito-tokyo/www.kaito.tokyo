@@ -22,7 +22,7 @@ jobs:
           buildctl build \
             --frontend=dockerfile.v0 \
             --local=context=. \
-            --local=dockerfile=Dockerfile \
+            --local=dockerfile=. \
             --opt build-arg:SOURCE_DATE_EPOCH=0 \
             --export-cache type=gha \
             --import-cache type=gha \
