@@ -71,7 +71,7 @@ data "google_iam_policy" "bucket_cache_metadata_iam" {
   }
 
   binding {
-    role = "roles/storage.legacyBucketOwner"
+    role = "roles/storage.admin"
     members = [
       "projectEditor:${var.project_id}",
       "projectOwner:${var.project_id}",
@@ -79,22 +79,7 @@ data "google_iam_policy" "bucket_cache_metadata_iam" {
   }
 
   binding {
-    role = "roles/storage.legacyObjectOwner"
-    members = [
-      "projectEditor:${var.project_id}",
-      "projectOwner:${var.project_id}",
-    ]
-  }
-
-  binding {
-    role = "roles/storage.legacyBucketReader"
-    members = [
-      "projectViewer:${var.project_id}",
-    ]
-  }
-
-  binding {
-    role = "roles/storage.legacyBucketReader"
+    role = "roles/storage.objectViewer"
     members = [
       "projectViewer:${var.project_id}",
     ]
@@ -128,7 +113,7 @@ data "google_iam_policy" "bucket_public_iam" {
   }
 
   binding {
-    role = "roles/storage.legacyBucketOwner"
+    role = "roles/storage.admin"
     members = [
       "projectEditor:${var.project_id}",
       "projectOwner:${var.project_id}",
@@ -136,22 +121,7 @@ data "google_iam_policy" "bucket_public_iam" {
   }
 
   binding {
-    role = "roles/storage.legacyObjectOwner"
-    members = [
-      "projectEditor:${var.project_id}",
-      "projectOwner:${var.project_id}",
-    ]
-  }
-
-  binding {
-    role = "roles/storage.legacyBucketReader"
-    members = [
-      "projectViewer:${var.project_id}",
-    ]
-  }
-
-  binding {
-    role = "roles/storage.legacyBucketReader"
+    role = "roles/storage.objectViewer"
     members = [
       "projectViewer:${var.project_id}",
     ]
