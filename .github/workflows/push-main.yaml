@@ -11,3 +11,7 @@ on:
 jobs:
   ImagePublishMain:
     uses: "./.github/workflows/image-publish-main.yaml"
+    permissions:
+      contents: "read"
+      id-token: "write"
+

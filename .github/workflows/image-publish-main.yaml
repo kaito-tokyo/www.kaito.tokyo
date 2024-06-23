@@ -7,11 +7,11 @@ jobs:
   ImagePublishMain:
     runs-on: "ubuntu-24.04"
 
+    timeout-minutes: 10
+
     permissions:
       contents: "read"
       id-token: "write"
-
-    timeout-minutes: 10
 
     steps:
       - name: "Expose GitHub Runtime"
@@ -24,8 +24,8 @@ jobs:
         uses: "./.github/actions/setup-buildkit"
 
       - name: "Authenticate to Google Cloud"
-        id: "google-github-actions-auth"
         uses: "google-github-actions/auth@v2"
+        id: "google-github-actions-auth"
         with:
           workload_identity_provider: "projects/643615470006/locations/global/workloadIdentityPools/github-kaito-tokyo/providers/actions-githubusercontent-com"
           service_account: "wkt-image-publish-gha-main@www-kaito-tokyo-1-svc-my1a.iam.gserviceaccount.com"
