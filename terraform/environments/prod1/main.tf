@@ -3,8 +3,10 @@ module "youtube_fetcher" {
   project_id = var.project_id
   region     = var.region
 
-  youtube_fetcher_channel_ids  = var.youtube_fetcher_channel_ids
-  youtube_fetcher_playlist_ids = var.youtube_fetcher_playlist_ids
+  youtube_fetcher_channel_ids                           = var.youtube_fetcher_channel_ids
+  youtube_fetcher_playlist_ids                          = var.youtube_fetcher_playlist_ids
+  youtube_fetcher_principalset_apply_terraform_gha_main = var.youtube_fetcher_principalset_apply_terraform_gha_main
+  youtube_fetcher_principalset_publish_image_gha_main   = var.youtube_fetcher_principalset_publish_image_gha_main
 
   run_image = var.run_image
 }

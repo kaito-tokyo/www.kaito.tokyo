@@ -37,6 +37,16 @@ variable "youtube_fetcher_playlist_ids" {
   type        = list(string)
 }
 
+variable "youtube_fetcher_principalset_apply_terraform_gha_main" {
+  description = "principal set for the service account to apply terraform"
+  type        = string
+}
+
+variable "youtube_fetcher_principalset_publish_image_gha_main" {
+  description = "principal set for the service account to publish image to GCR"
+  type        = string
+}
+
 // Determined every build
 variable "run_image" {
   description = "image to run the cloud run service"
