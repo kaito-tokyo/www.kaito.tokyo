@@ -43,4 +43,4 @@ jobs:
             --secret=id=google-cloud-adc,src="${{ steps.google-github-actions-auth.outputs.credentials_file_path }}" \
             --export-cache type=gha \
             --import-cache type=gha \
-            --output=type=image,name=asia-east1-docker.pkg.dev/www-kaito-tokyo-1-svc-my1a/wkt-run-source-deploy/www-kaito-tokyo:${{ github.sha }},push=true,rewrite-timestamp=true
+            --output=type=image,name=asia-east1-docker.pkg.dev/www-kaito-tokyo-1-svc-my1a/yf-main/yf-main:${{ github.sha }},push=true,rewrite-timestamp=true
