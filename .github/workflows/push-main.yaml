@@ -9,8 +9,14 @@ on:
       - "main"
 
 jobs:
-  ImagePublishMain:
-    uses: "./.github/workflows/image-publish-main.yaml"
+  # ImagePublishMain:
+  #   uses: "./.github/workflows/image-publish-main.yaml"
+  #   permissions:
+  #     contents: "read"
+  #     id-token: "write"
+
+  ApplyTerraformMain:
+    uses: "./.github/workflows/apply-terraform-main.yaml"
     permissions:
       contents: "read"
       id-token: "write"

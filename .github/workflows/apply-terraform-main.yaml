@@ -1,0 +1,42 @@
+name: "apply-terraform-main"
+
+on:
+  workflow_call:
+    inputs:
+      run_image:
+        required: true
+        type: "string"
+        default: "invalid"
+
+jobs:
+  ApplyTerraformMain:
+    runs-on: "ubuntu-24.04"
+
+    timeout-minutes: 30
+
+    permissions:
+      contents: "read"
+      id-token: "write"
+
+    steps:
+      - name: "Setup OpenTofu"
+        uses: "open-tofu/setup@v1"
+
+      - name: "Checkout"
+        uses: "actions/checkout@v4"
+
+      - name: "Authenticate to Google Cloud"
+        uses: "google-github-actions/auth@v2"
+        id: "google-github-actions-auth"
+        with:
+          workload_identity_provider: "projects/643615470006/locations/global/workloadIdentityPools/github-kaito-tokyo/providers/actions-githubusercontent-com"
+          service_account: "yf-apply-terraform-gha-main@www-kaito-tokyo-1-svc-my1a.iam.gserviceaccount.com"
+
+      - name: "Init Terraform"
+        run: "tofu init"
+
+      - name: "Plan Terraform"
+        run: "tofu plan -input=false -out=tfplan -var=run_image=${{ inputs.run_image }}"
+
+      - name: "Apply Terraform"
+        run: "tofu apply -auto-approve tfplan"
