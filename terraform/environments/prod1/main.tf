@@ -1,14 +1,12 @@
-locals {
-  env = "prod1"
-}
-
 module "youtube_fetcher" {
-  source                        = "../../modules/youtube_fetcher"
-  project_id                    = var.project_id
-  cloudbuild_trigger_repository = var.cloudbuild_trigger_repository
-  run_image                     = var.run_image
-  channel_ids                   = var.channel_ids
-  playlist_ids                  = var.playlist_ids
+  source     = "../../modules/youtube_fetcher"
+  project_id = var.project_id
+  region     = var.region
+
+  youtube_fetcher_channel_ids  = var.youtube_fetcher_channel_ids
+  youtube_fetcher_playlist_ids = var.youtube_fetcher_playlist_ids
+
+  run_image = var.run_image
 }
 
 module "newt_storage" {

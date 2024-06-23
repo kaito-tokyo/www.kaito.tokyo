@@ -13,7 +13,7 @@ variable "youtube_fetcher_channel_ids" {
   type        = list(string)
 }
 
-variable "youtube_fetcherplaylist_ids" {
+variable "youtube_fetcher_playlist_ids" {
   description = "list of playlist ids to fetch"
   type        = list(string)
 }
