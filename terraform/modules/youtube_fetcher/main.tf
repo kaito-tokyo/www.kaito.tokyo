@@ -69,6 +69,36 @@ data "google_iam_policy" "bucket_cache_metadata_iam" {
       "serviceAccount:${google_service_account.workflow.email}",
     ]
   }
+
+  binding {
+    role = "roles/storage.legacyBucketOwner"
+    members = [
+      "projectEditor:${var.project_id}",
+      "projectOwner:${var.project_id}",
+    ]
+  }
+
+  binding {
+    role = "roles/storage.legacyObjectOwner"
+    members = [
+      "projectEditor:${var.project_id}",
+      "projectOwner:${var.project_id}",
+    ]
+  }
+
+  binding {
+    role = "roles/storage.legacyBucketReader"
+    members = [
+      "projectViewer:${var.project_id}",
+    ]
+  }
+
+  binding {
+    role = "roles/storage.legacyBucketReader"
+    members = [
+      "projectViewer:${var.project_id}",
+    ]
+  }
 }
 
 resource "google_storage_bucket_iam_policy" "workflow_cache_objectuser" {
@@ -89,10 +119,41 @@ data "google_iam_policy" "bucket_public_iam" {
       "serviceAccount:${google_service_account.workflow.email}",
     ]
   }
+
   binding {
     role = "roles/storage.objectViewer"
     members = [
       "allUsers",
+    ]
+  }
+
+  binding {
+    role = "roles/storage.legacyBucketOwner"
+    members = [
+      "projectEditor:${var.project_id}",
+      "projectOwner:${var.project_id}",
+    ]
+  }
+
+  binding {
+    role = "roles/storage.legacyObjectOwner"
+    members = [
+      "projectEditor:${var.project_id}",
+      "projectOwner:${var.project_id}",
+    ]
+  }
+
+  binding {
+    role = "roles/storage.legacyBucketReader"
+    members = [
+      "projectViewer:${var.project_id}",
+    ]
+  }
+
+  binding {
+    role = "roles/storage.legacyBucketReader"
+    members = [
+      "projectViewer:${var.project_id}",
     ]
   }
 }
