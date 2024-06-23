@@ -8,6 +8,7 @@ runs:
       shell: "bash"
       env:
         GH_TOKEN: "${{ github.token }}"
+      working-directory: "/tmp"
       run: |
         gh release download ${{ inputs.version }} -R "moby/buildkit" --pattern "buildkit-*.linux-amd64.tar.gz"
         sudo tar -xzf buildkit-*.linux-amd64.tar.gz -C /usr/local

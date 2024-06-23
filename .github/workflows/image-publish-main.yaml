@@ -14,14 +14,17 @@ jobs:
       id-token: "write"
 
     steps:
+      - name: "Setup buildkit"
+        uses: "./.github/actions/setup-buildkit"
+
+      - name: "Setup Docker credential GCR"
+        uses: "./.github/actions/setup-docker-credential-gcr"
+
       - name: "Expose GitHub Runtime"
         uses: "crazy-max/ghaction-github-runtime@v3"
 
       - name: "Checkout"
         uses: "actions/checkout@v4"
-
-      - name: "Setup buildkit"
-        uses: "./.github/actions/setup-buildkit"
 
       - name: "Authenticate to Google Cloud"
         uses: "google-github-actions/auth@v2"
