@@ -20,6 +20,7 @@ steps:
     args:
       - "plan"
       - "-no-color"
+      - "-input=false"
       - "-var=run_image=${_RUN_REPOSITORY}/www-kaito-tokyo:$COMMIT_SHA"
       - "-out=tfplan"
 
