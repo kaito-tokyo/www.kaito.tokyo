@@ -8,11 +8,6 @@ variable "region" {
   type        = string
 }
 
-variable "principalset_publish_image_gha_main" {
-  description = "principal set for the service account to publish image to GCR"
-  type        = string
-}
-
 variable "youtube_fetcher_channel_ids" {
   description = "list of channel ids to fetch"
   type        = list(string)
@@ -21,6 +16,11 @@ variable "youtube_fetcher_channel_ids" {
 variable "youtube_fetcher_playlist_ids" {
   description = "list of playlist ids to fetch"
   type        = list(string)
+}
+
+variable "youtube_fetcher_principalset_publish_image_gha_main" {
+  description = "principal set for the service account to publish image to GCR"
+  type        = string
 }
 
 variable "run_image" {
