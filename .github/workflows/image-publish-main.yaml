@@ -8,8 +8,22 @@ jobs:
     runs-on: "ubuntu-24.04"
 
     steps:
+      - name: "Expose GitHub Runtime"
+        uses: "crazy-max/ghaction-github-runtime@v3"
+
       - name: "Checkout"
         uses: "actions/checkout@v4"
 
       - name: "Setup buildkit"
         uses: "./.github/actions/setup-buildkit"
+
+      - name: "Build image"
+        run: |
+          buildctl build \
+            --frontend=dockerfile.v0 \
+            --local=context=. \
+            --local=dockerfile=Dockerfile \
+            --opt build-arg:SOURCE_DATE_EPOCH=0 \
+            --export-cache type=gha \
+            --import-cache type=gha \
+            --output=type=image,name=asia-east1-docker.pkg.dev/www-kaito-tokyo-1-svc-my1a/wkt-run-source-deploy/www-kaito-tokyo:${{ github.sha }},push=true,rewrite-timestamp=true
