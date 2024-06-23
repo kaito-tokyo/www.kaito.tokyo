@@ -76,7 +76,7 @@ resource "google_storage_bucket_iam_policy" "workflow_cache_objectuser" {
   policy_data = data.google_iam_policy.bucket_cache_metadata_iam.policy_data
 }
 
-resource "google_storage_bucket_iam_poliy" "workflow_metadata_objectuser" {
+resource "google_storage_bucket_iam_policy" "workflow_metadata_objectuser" {
   bucket      = google_storage_bucket.metadata.name
   policy_data = data.google_iam_policy.bucket_cache_metadata_iam.policy_data
 }
@@ -100,6 +100,31 @@ data "google_iam_policy" "bucket_public_iam" {
 resource "google_storage_bucket_iam_policy" "workflow_public_objectuser" {
   bucket      = google_storage_bucket.public.name
   policy_data = data.google_iam_policy.bucket_public_iam.policy_data
+}
+
+resource "google_service_account" "workflow" {
+  account_id = "${var.namespace_short}-workflow"
+}
+
+resource "google_project_iam_member" "workflow_logwriter" {
+  project = var.project_id
+  role    = "roles/logging.logWriter"
+  member  = "serviceAccount:${google_service_account.workflow.email}"
+}
+
+data "google_iam_policy" "workflow_workflow_main" {
+  binding {
+    role = "roles/run.invoker"
+    members = [
+      "serviceAccount:${google_service_account.workflow.email}",
+    ]
+  }
+}
+
+resource "google_cloud_run_service_iam_policy" "workflow_main_run_invoker" {
+  service     = google_cloud_run_v2_service.main.name
+  location    = google_cloud_run_v2_service.main.location
+  policy_data = data.google_iam_policy.workflow_workflow_main.policy_data
 }
 
 locals {
@@ -130,33 +155,8 @@ resource "google_workflows_workflow" "fetch_latest_search_list" {
   user_env_vars = {
     ENDPOINTS   = jsonencode(local.endpoints)
     BUCKETS     = jsonencode(local.buckets)
-    CHANNEL_IDS = jsonencode(var.channel_ids)
+    CHANNEL_IDS = jsonencode(var.youtube_fetcher_channel_ids)
   }
-}
-
-resource "google_service_account" "workflow" {
-  account_id = "${var.namespace_short}-workflow"
-}
-
-resource "google_project_iam_member" "workflow_logwriter" {
-  project = var.project_id
-  role    = "roles/logging.logWriter"
-  member  = "serviceAccount:${google_service_account.workflow.email}"
-}
-
-data "google_iam_policy" "workflow_workflow_main" {
-  binding {
-    role = "roles/run.invoker"
-    members = [
-      "serviceAccount:${google_service_account.workflow.email}",
-    ]
-  }
-}
-
-resource "google_cloud_run_service_iam_policy" "workflow_main_run_invoker" {
-  service     = google_cloud_run_v2_service.main.name
-  location    = google_cloud_run_v2_service.main.location
-  policy_data = data.google_iam_policy.workflow_workflow_main.policy_data
 }
 
 resource "google_workflows_workflow" "fetch_all_search_list" {
@@ -167,7 +167,7 @@ resource "google_workflows_workflow" "fetch_all_search_list" {
   user_env_vars = {
     ENDPOINTS   = jsonencode(local.endpoints)
     BUCKETS     = jsonencode(local.buckets)
-    CHANNEL_IDS = jsonencode(var.channel_ids)
+    CHANNEL_IDS = jsonencode(var.youtube_fetcher_channel_ids)
   }
 }
 
@@ -179,7 +179,7 @@ resource "google_workflows_workflow" "fetch_all_video_list" {
   user_env_vars = {
     ENDPOINTS   = jsonencode(local.endpoints)
     BUCKETS     = jsonencode(local.buckets)
-    CHANNEL_IDS = jsonencode(var.channel_ids)
+    CHANNEL_IDS = jsonencode(var.youtube_fetcher_channel_ids)
   }
 }
 
@@ -191,7 +191,7 @@ resource "google_workflows_workflow" "fetch_all_playlist_items_list" {
   user_env_vars = {
     ENDPOINTS    = jsonencode(local.endpoints)
     BUCKETS      = jsonencode(local.buckets)
-    PLAYLIST_IDS = jsonencode(var.playlist_ids)
+    PLAYLIST_IDS = jsonencode(var.youtube_fetcher_playlist_ids)
   }
 }
 
