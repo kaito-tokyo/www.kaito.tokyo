@@ -2,7 +2,7 @@ name: "setup-buildkit"
 
 runs:
   using: "composite"
-  
+
   steps:
     - name: "Download and install buildkit"
       shell: "bash"
@@ -11,7 +11,7 @@ runs:
       run: |
         gh release download ${{ inputs.version }} -R "moby/buildkit" --pattern "buildkit-*.linux-amd64.tar.gz"
         sudo tar -xzf buildkit-*.linux-amd64.tar.gz -C /usr/local
-    
+
     - name: "Start buildkitd"
       shell: "bash"
       run: "sudo buildkitd &"
