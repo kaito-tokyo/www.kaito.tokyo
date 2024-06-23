@@ -17,6 +17,13 @@ jobs:
       - name: "Setup buildkit"
         uses: "./.github/actions/setup-buildkit"
 
+      - name: "Authenticate to Google Cloud"
+        id: "google-github-actions-auth"
+        uses: "google-github-actions/auth@v2"
+        with:
+          workload_identity_provider: "projects/643615470006/locations/global/workloadIdentityPools/github-kaito-tokyo/providers/actions-githubusercontent-com"
+          service_account: "wkt-image-publish-gha-main@www-kaito-tokyo-1-svc-my1a.iam.gserviceaccount.com"
+
       - name: "Build image"
         run: |
           buildctl build \
@@ -24,6 +31,7 @@ jobs:
             --local=context=. \
             --local=dockerfile=. \
             --opt build-arg:SOURCE_DATE_EPOCH=0 \
+            --secret=id=google-cloud-adc,src="${{ steps.google-github-actions-auth.outputs.credentials_file_path }}" \
             --export-cache type=gha \
             --import-cache type=gha \
             --output=type=image,name=asia-east1-docker.pkg.dev/www-kaito-tokyo-1-svc-my1a/wkt-run-source-deploy/www-kaito-tokyo:${{ github.sha }},push=true,rewrite-timestamp=true
