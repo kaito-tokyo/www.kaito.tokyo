@@ -22,8 +22,8 @@ jobs:
         working-directory: "terraform/environments/prod1"
 
     steps:
-      - name: "Setup OpenTofu"
-        uses: "opentofu/setup-opentofu@v1"
+      - name: "Setup Terraform"
+        uses: "hashicorp/setup-terraform@v3"
 
       - name: "Checkout"
         uses: "actions/checkout@v4"
