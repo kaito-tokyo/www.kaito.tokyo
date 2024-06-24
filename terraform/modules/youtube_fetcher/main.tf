@@ -13,6 +13,10 @@ resource "google_cloud_run_v2_service" "main" {
 
     containers {
       image = var.run_image
+      args = [
+        "node",
+        "packages/youtube-fetcher/index.js"
+      ]
     }
   }
 }
