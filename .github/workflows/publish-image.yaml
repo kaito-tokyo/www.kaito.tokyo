@@ -2,9 +2,18 @@ name: "image-publish-main"
 
 on:
   workflow_call:
+    inputs:
+      repository:
+        description: "The repository to store the built image"
+        required: true
+        type: "string"
+    outputs:
+      run-image:
+        description: "The image name that was deployed"
+        value: "${{ inputs.repository }}:${{ github.sha }}"
 
 jobs:
-  ImagePublishMain:
+  PublishImage:
     runs-on: "ubuntu-24.04"
 
     timeout-minutes: 10
@@ -43,4 +52,4 @@ jobs:
             --secret=id=google-cloud-adc,src="${{ steps.google-github-actions-auth.outputs.credentials_file_path }}" \
             --export-cache type=gha \
             --import-cache type=gha \
-            --output=type=image,name=asia-east1-docker.pkg.dev/www-kaito-tokyo-1-svc-my1a/yf-main/yf-main:${{ github.sha }},push=true,rewrite-timestamp=true
+            --output=type=image,name=${{ inputs.repository }}:${{ github.sha }},push=true,rewrite-timestamp=true

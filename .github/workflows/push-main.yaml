@@ -9,16 +9,20 @@ on:
       - "main"
 
 jobs:
-  # ImagePublishMain:
-  #   uses: "./.github/workflows/image-publish-main.yaml"
-  #   permissions:
-  #     contents: "read"
-  #     id-token: "write"
+  PublishImageYouTubeFetcher:
+    uses: "./.github/workflows/publish-image.yaml"
+    permissions:
+      contents: "read"
+      id-token: "write"
+    with:
+      repository: "asia-east1-docker.pkg.dev/www-kaito-tokyo-1-svc-my1a/yf-main/yf-main"
 
   ApplyTerraformMain:
+    needs:
+      - "ImagePublishMain"
     uses: "./.github/workflows/apply-terraform-main.yaml"
     permissions:
       contents: "read"
       id-token: "write"
     with:
-      run-image: "busybox"
+      run-image: "${{ needs.PublishImageYouTubeFetcher.outputs.run-image }}"
