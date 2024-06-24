@@ -5,9 +5,7 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 COPY --parents packages/*/package.json ./
 
-RUN --mount=type=secret,id=gcloud-adc \
-  GOOGLE_APPLICATION_CREDENTIALS=/run/secrets/gcloud-adc \
-  npm ci
+RUN npm ci
 
 COPY --parents packages/* ./
 RUN npm run gcp-build && npm prune --omit=dev
