@@ -17,6 +17,10 @@ jobs:
       contents: "read"
       id-token: "write"
 
+    defaults:
+      run:
+        working-directory: "terraform/environments/prod1"
+
     steps:
       - name: "Setup OpenTofu"
         uses: "opentofu/setup-opentofu@v1"
