@@ -19,7 +19,7 @@ jobs:
 
   ApplyTerraformMain:
     needs:
-      - "ImagePublishMain"
+      - "PublishImageYouTubeFetcher"
     uses: "./.github/workflows/apply-terraform-main.yaml"
     permissions:
       contents: "read"
