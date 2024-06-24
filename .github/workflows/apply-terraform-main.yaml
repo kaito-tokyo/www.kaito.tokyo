@@ -19,7 +19,7 @@ jobs:
 
     steps:
       - name: "Setup OpenTofu"
-        uses: "open-tofu/setup@v1"
+        uses: "opentofu/setup-opentofu@v1"
 
       - name: "Checkout"
         uses: "actions/checkout@v4"
