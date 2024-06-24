@@ -3,10 +3,9 @@ name: "apply-terraform-main"
 on:
   workflow_call:
     inputs:
-      run_image:
+      run-image:
         required: true
         type: "string"
-        default: "invalid"
 
 jobs:
   ApplyTerraformMain:
@@ -36,7 +35,7 @@ jobs:
         run: "tofu init"
 
       - name: "Plan Terraform"
-        run: "tofu plan -input=false -out=tfplan -var=run_image=${{ inputs.run_image }}"
+        run: "tofu plan -input=false -out=tfplan -var=run_image=${{ inputs.run-image }}"
 
       - name: "Apply Terraform"
         run: "tofu apply -auto-approve tfplan"
