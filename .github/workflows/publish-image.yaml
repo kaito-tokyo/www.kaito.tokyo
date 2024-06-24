@@ -40,7 +40,7 @@ jobs:
         id: "google-github-actions-auth"
         with:
           workload_identity_provider: "projects/643615470006/locations/global/workloadIdentityPools/github-kaito-tokyo/providers/actions-githubusercontent-com"
-          service_account: "yf-publish-image-gha-main@www-kaito-tokyo-1-svc-my1a.iam.gserviceaccount.com"
+          service_account: "yf-push-gha-main@www-kaito-tokyo-1-svc-my1a.iam.gserviceaccount.com"
 
       - name: "Build image"
         run: |
