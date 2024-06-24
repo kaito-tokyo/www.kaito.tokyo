@@ -29,9 +29,3 @@ resource "google_service_account_iam_policy" "push_gha_main" {
   policy_data        = data.google_iam_policy.service_account_push_gha_main_iam.policy_data
 }
 
-resource "terraform_data" "bootstrap" {
-  depends_on = [
-    google_project_iam_member.push_gha_main_owner,
-    google_service_account_iam_policy.push_gha_main,
-  ]
-}
