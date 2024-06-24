@@ -18,7 +18,7 @@ data "google_iam_policy" "service_account_publish_image_gha_main_iam" {
   }
 }
 
-resource "google_service_account_iam_policy" "main" {
+resource "google_service_account_iam_policy" "publish_image_gha_main" {
   service_account_id = google_service_account.publish_image_gha_main.name
   policy_data        = data.google_iam_policy.service_account_publish_image_gha_main_iam.policy_data
 }
@@ -61,4 +61,13 @@ data "google_iam_policy" "service_account_apply_terraform_gha_main_iam" {
 resource "google_service_account_iam_policy" "apply_terraform_gha_main" {
   service_account_id = google_service_account.apply_terraform_gha_main.name
   policy_data        = data.google_iam_policy.service_account_apply_terraform_gha_main_iam.policy_data
+}
+
+resource "terraform_data" "bootstrap" {
+  depends_on = [
+    google_service_account_iam_policy.apply_terraform_gha_main,
+    google_project_iam_member.apply_terraform_gha_main_owner,
+    google_artifact_registry_repository_iam_policy.main,
+    google_service_account_iam_policy.publish_image_gha_main,
+  ]
 }
