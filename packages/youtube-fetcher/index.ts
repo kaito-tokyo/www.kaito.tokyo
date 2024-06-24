@@ -1,4 +1,4 @@
-import { http } from "@google-cloud/functions-framework";
+import express from "express";
 
 import { handleDigest } from "./handlers/digest.js";
 import { handleSaveSearchList, handleSplitSearchList } from "./handlers/list-search.js";
@@ -13,15 +13,22 @@ import {
 	handleComposePlaylistItemsList
 } from "./handlers/list-playlist-items.js";
 
-http("youtube-fetcher-digest", handleDigest);
+const app = express();
 
-http("youtube-fetcher-save-search-list", handleSaveSearchList);
-http("youtube-fetcher-split-search-list", handleSplitSearchList);
+app.post("/youtube-fetcher-digest", handleDigest);
 
-http("youtube-fetcher-generate-video-list-queries", handleGenerateVideoListQueries);
-http("youtube-fetcher-save-video-list", handleSaveVideoList);
-http("youtube-fetcher-split-video-list", handleSplitVideoList);
-http("youtube-fetcher-compose-video-list", handleComposeVideoList);
+app.get("/youtube-fetcher-save-search-list", handleSaveSearchList);
+app.get("/youtube-fetcher-split-search-list", handleSplitSearchList);
 
-http("youtube-fetcher-save-playlist-items-list", handleSavePlaylistItemsList);
-http("youtube-fetcher-compose-playlist-items-list", handleComposePlaylistItemsList);
+app.get("/youtube-fetcher-generate-video-list-queries", handleGenerateVideoListQueries);
+app.post("/youtube-fetcher-save-video-list", handleSaveVideoList);
+app.get("/youtube-fetcher-compose-video-list", handleComposeVideoList);
+app.get("/youtube-fetcher-split-video-list", handleSplitVideoList);
+
+app.get("/youtube-fetcher-save-playlist-items-list", handleSavePlaylistItemsList);
+app.get("/youtube-fetcher-compose-playlist-items-list", handleComposePlaylistItemsList);
+
+const port = parseInt(process.env["PORT"] ?? "8080", 10);
+app.listen(port, () => {
+  console.log(`Listening on port ${port}`);
+});

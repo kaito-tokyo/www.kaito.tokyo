@@ -1,5 +1,5 @@
 {
-	"name": "www.kaito.tokyo-youtube-fetcher",
+	"name": "youtube-fetcher",
 	"version": "1.0.0",
 	"main": "index.js",
 	"scripts": {
@@ -9,8 +9,8 @@
 	"license": "MIT",
 	"private": true,
 	"dependencies": {
-		"@google-cloud/functions-framework": "^3.4.0",
 		"@google-cloud/storage": "^7.11.2",
+		"express": "^4.19.2",
 		"googleapis": "^137.1.0"
 	},
 	"devDependencies": {
