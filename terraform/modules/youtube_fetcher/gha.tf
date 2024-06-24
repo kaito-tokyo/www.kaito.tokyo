@@ -26,7 +26,7 @@ data "google_iam_policy" "service_account_push_gha_main_iam" {
 
 resource "google_service_account_iam_policy" "push_gha_main" {
   service_account_id = google_service_account.push_gha_main.name
-  policy_data        = data.google_iam_policy.service_account_apply_terraform_gha_main_iam.policy_data
+  policy_data        = data.google_iam_policy.service_account_push_gha_main_iam.policy_data
 }
 
 resource "terraform_data" "bootstrap" {
