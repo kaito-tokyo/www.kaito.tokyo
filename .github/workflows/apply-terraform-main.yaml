@@ -36,10 +36,10 @@ jobs:
           service_account: "yf-push-gha-main@www-kaito-tokyo-1-svc-my1a.iam.gserviceaccount.com"
 
       - name: "Init Terraform"
-        run: "tofu init"
+        run: "terraform init"
 
       - name: "Plan Terraform"
-        run: "tofu plan -input=false -out=tfplan -var=run_image=${{ inputs.run-image }}"
+        run: "terraform plan -input=false -out=tfplan -var=run_image=${{ inputs.run-image }}"
 
       - name: "Apply Terraform"
-        run: "tofu apply -auto-approve tfplan"
+        run: "terraform apply -auto-approve tfplan"
