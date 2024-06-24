@@ -34,6 +34,7 @@ data "google_iam_policy" "artifact_registry_main_iam" {
 
 resource "google_artifact_registry_repository_iam_policy" "main" {
   repository  = google_artifact_registry_repository.main.name
+  location    = google_artifact_registry_repository.main.location
   policy_data = data.google_iam_policy.artifact_registry_main_iam.policy_data
 }
 
