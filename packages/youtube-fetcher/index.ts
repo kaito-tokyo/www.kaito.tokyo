@@ -30,5 +30,5 @@ app.get("/youtube-fetcher-compose-playlist-items-list", handleComposePlaylistIte
 
 const port = parseInt(process.env["PORT"] ?? "8080", 10);
 app.listen(port, () => {
-  console.log(`Listening on port ${port}`);
+	console.log(`Listening on port ${port}`);
 });

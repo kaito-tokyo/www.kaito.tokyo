@@ -10,5 +10,5 @@ app.get("/newt-storage-upload-object-to-cdn", handleUploadObjectToCdn);
 
 const port = parseInt(process.env["PORT"] ?? "8080", 10);
 app.listen(port, () => {
-  console.log(`Listening on port ${port}`);
+	console.log(`Listening on port ${port}`);
 });
