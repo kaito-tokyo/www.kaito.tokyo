@@ -38,4 +38,9 @@ jobs:
 
       - name: "Terraform Plan"
         working-directory: "terraform/environments/prod1"
-        run: "terraform plan -var=run_image=invalid -lock=false"
+        run: |
+          terraform plan \
+          -input=false \
+          -lock=false \
+          -var=newt_storage_run_image=invalid \
+          -var=youtube_fetcher_storage_run_image=invalid \
