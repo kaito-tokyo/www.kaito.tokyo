@@ -67,15 +67,9 @@ resource "google_cloud_run_v2_service" "main" {
         }
       }
 
-
       env {
         name  = "CDN_REGION"
-        value = var.cdn_region
-      }
-
-      env {
-        name  = "CDN_REGION"
-        value = var.cdn_region
+        value = var.newt_storage_cdn_region
       }
 
       env {
