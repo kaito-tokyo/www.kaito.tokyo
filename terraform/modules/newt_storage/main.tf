@@ -194,8 +194,8 @@ resource "google_project_iam_member" "workflow_logwriter" {
 
 locals {
   endpoints = {
-    optimizeImage     = "${google_cloud_run_v2_service.main.uri}/optimize-image",
-    uploadObjectToCdn = "${google_cloud_run_v2_service.main.uri}/upload-object-to-cdn",
+    optimizeImage     = "${google_cloud_run_v2_service.main.uri}/newt-storage-optimize-image",
+    uploadObjectToCdn = "${google_cloud_run_v2_service.main.uri}/newt-storage-upload-object-to-cdn",
   }
   buckets = {
     input     = google_storage_bucket.input_www_kaito_tokyo.name,
