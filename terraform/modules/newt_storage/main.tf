@@ -114,7 +114,7 @@ resource "google_storage_bucket" "optimized_www_kaito_tokyo" {
 
 data "google_iam_policy" "bucket_input_iam" {
   binding {
-    role = "roles/objectUser"
+    role = "roles/storage.objectUser"
     members = [
       "serviceAccount:${google_service_account.newt_www_kaito_tokyo.email}",
       "serviceAccount:${google_service_account.run.email}",
