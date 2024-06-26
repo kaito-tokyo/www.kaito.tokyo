@@ -58,7 +58,7 @@ resource "google_cloud_run_v2_service" "main" {
       image = var.run_image
       args = [
         "node",
-        "package/newt-storage/index.js"
+        "packages/newt-storage/index.js"
       ]
 
       resources {
