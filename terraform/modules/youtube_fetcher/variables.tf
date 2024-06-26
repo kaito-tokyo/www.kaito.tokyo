@@ -23,7 +23,7 @@ variable "youtube_fetcher_principalset_push_gha_main" {
   type        = string
 }
 
-variable "newt_storage_run_image" {
+variable "youtube_fetcher_run_image" {
   description = "image to run the cloud run service"
   type        = string
 }
