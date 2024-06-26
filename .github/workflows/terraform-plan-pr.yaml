@@ -43,4 +43,4 @@ jobs:
           -input=false \
           -lock=false \
           -var=newt_storage_run_image=invalid \
-          -var=youtube_fetcher_storage_run_image=invalid \
+          -var=youtube_fetcher_run_image=invalid \
