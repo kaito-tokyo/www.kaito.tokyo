@@ -30,6 +30,11 @@ variable "newt_storage_principalset_push_gha_main" {
   type        = string
 }
 
+variable "newt_storage_run_image" {
+  description = "image to run the cloud run service"
+  type        = string
+}
+
 // YouTube Fetcher
 variable "youtube_fetcher_channel_ids" {
   description = "list of channel ids to fetch"
@@ -46,8 +51,7 @@ variable "youtube_fetcher_principalset_push_gha_main" {
   type        = string
 }
 
-// Determined every build
-variable "run_image" {
+variable "youtube_fetcher_run_image" {
   description = "image to run the cloud run service"
   type        = string
 }

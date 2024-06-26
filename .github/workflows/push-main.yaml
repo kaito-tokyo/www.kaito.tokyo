@@ -9,6 +9,14 @@ on:
       - "main"
 
 jobs:
+  PublishImageNewtStorage:
+    uses: "./.github/workflows/publish-image.yaml"
+    permissions:
+      contents: "read"
+      id-token: "write"
+    with:
+      repository: "asia-east1-docker.pkg.dev/www-kaito-tokyo-1-svc-my1a/ns-main/ns-main"
+
   PublishImageYouTubeFetcher:
     uses: "./.github/workflows/publish-image.yaml"
     permissions:
@@ -19,10 +27,12 @@ jobs:
 
   ApplyTerraformMain:
     needs:
+      - "PublishImageNewtStorage"
       - "PublishImageYouTubeFetcher"
     uses: "./.github/workflows/apply-terraform-main.yaml"
     permissions:
       contents: "read"
       id-token: "write"
     with:
-      run-image: "${{ needs.PublishImageYouTubeFetcher.outputs.run-image }}"
+      newt-storage-run-image: "${{ needs.PublishImageNewtStorage.outputs.run-image }}"
+      youtube-fetcher-run-image: "${{ needs.PublishImageYouTubeFetcher.outputs.run-image }}"

@@ -3,7 +3,10 @@ name: "apply-terraform-main"
 on:
   workflow_call:
     inputs:
-      run-image:
+      newt-storage-run-image:
+        required: true
+        type: "string"
+      youtube-fetcher-run-image:
         required: true
         type: "string"
 
@@ -39,7 +42,12 @@ jobs:
         run: "terraform init"
 
       - name: "Plan Terraform"
-        run: "terraform plan -input=false -out=tfplan -var=run_image=${{ inputs.run-image }}"
+        run: |
+          terraform plan \
+          -input=false \
+          -out=tfplan \
+          -var=newt_storage_run_image=${{ inputs.newt-storage-run-image }} \
+          -var=youtube_fetcher_run_image=${{ inputs.youtube-fetcher-run-image }}
 
       - name: "Apply Terraform"
         run: "terraform apply -auto-approve tfplan"

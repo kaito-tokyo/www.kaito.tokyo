@@ -7,8 +7,7 @@ module "newt_storage" {
   newt_storage_cdn_bucket_name            = var.newt_storage_cdn_bucket_name
   newt_storage_cdn_endpoint               = var.newt_storage_cdn_endpoint
   newt_storage_principalset_push_gha_main = var.newt_storage_principalset_push_gha_main
-
-  run_image = var.run_image
+  newt_storage_run_image                  = var.newt_storage_run_image
 }
 
 module "youtube_fetcher" {
@@ -19,6 +18,5 @@ module "youtube_fetcher" {
   youtube_fetcher_channel_ids                = var.youtube_fetcher_channel_ids
   youtube_fetcher_playlist_ids               = var.youtube_fetcher_playlist_ids
   youtube_fetcher_principalset_push_gha_main = var.youtube_fetcher_principalset_push_gha_main
-
-  run_image = var.run_image
+  youtube_fetcher_run_image                  = var.youtube_fetcher_run_image
 }

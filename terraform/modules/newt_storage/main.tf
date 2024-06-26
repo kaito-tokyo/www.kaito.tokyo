@@ -55,7 +55,7 @@ resource "google_cloud_run_v2_service" "main" {
     service_account = google_service_account.run.email
 
     containers {
-      image = var.run_image
+      image = var.newt_storage_run_image
       args = [
         "node",
         "packages/newt-storage/index.js"
