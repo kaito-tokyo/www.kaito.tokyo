@@ -1,20 +1,15 @@
-resource "google_eventarc_trigger" "optimize_and_upload_input_image_www_kaito_tokyo" {
-  name     = "optimize-and-upload-image-www-kaito-tokyo"
-  location = "asia-east1"
+data "google_project" "main" {
+  project_id = var.project_id
+}
 
-  matching_criteria {
-    attribute = "type"
-    value     = "google.cloud.storage.object.v1.finalized"
-  }
+resource "google_project_iam_member" "gcp_sa_pubsub_tokencreator" {
+  project = var.project_id
+  role    = "roles/iam.serviceAccountTokenCreator"
+  member  = "serviceAccount:service-${data.google_project.main.number}@gcp-sa-pubsub.iam.gserviceaccount.com"
+}
 
-  matching_criteria {
-    attribute = "bucket"
-    value     = google_storage_bucket.input_www_kaito_tokyo.name
-  }
-
-  destination {
-    workflow = google_workflows_workflow.optimize_and_upload_image.id
-  }
-
-  service_account = google_service_account.eventarc.email
+resource "google_project_iam_member" "gs_project_accounts_pubsub_publisher" {
+  project = var.project_id
+  role    = "roles/pubsub.publisher"
+  member  = "serviceAccount:service-${data.google_project.main.number}@gs-project-accounts.iam.gserviceaccount.com"
 }
