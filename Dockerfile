@@ -10,16 +10,9 @@ RUN npm ci
 COPY --parents packages/* ./
 RUN npm run gcp-build && npm prune --omit=dev
 
-# FROM node:22.3.0-bookworm-slim
+FROM node:22.3.0-bookworm-slim
 
-# WORKDIR /app
-# COPY package.json package-lock.json ./
-# COPY --from=builder /app/node_modules/ ./node_modules/
-
-# WORKDIR /app/packages/discord-bot
-# COPY packages/discord-bot/package.json ./
-# COPY --from=builder /app/packages/discord-bot/dist/ ./
-
-# WORKDIR /app
-# CMD ["node", "packages/discord-bot/index.js"]
-# EXPOSE 3000
+WORKDIR /app
+COPY package.json package-lock.json ./
+COPY --from=builder /app/node_modules/ ./node_modules/
+COPY --parents --exclude=*.ts packages/* ./
