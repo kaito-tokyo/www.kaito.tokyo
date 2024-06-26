@@ -80,12 +80,12 @@ resource "google_cloud_run_v2_service" "main" {
 
       env {
         name  = "CDN_ENDPOINT"
-        value = var.cdn_endpoint
+        value = var.newt_storage_cdn_endpoint
       }
 
       env {
         name  = "CDN_BUCKET_NAME"
-        value = var.cdn_bucket_name
+        value = var.newt_storage_cdn_bucket_name
       }
 
       env {
