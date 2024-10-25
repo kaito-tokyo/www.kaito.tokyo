@@ -22,7 +22,7 @@ jobs:
 
     steps:
       - name: "Install dependencies"
-        runs: |
+        run: |
           apt-get update
           apt-get -y install --no-install-recommends rclone
 
@@ -36,7 +36,7 @@ jobs:
           RCLONE_CONFIG_R2_ACCESS_KEY_ID: "${{ secrets.RCLONE_R2_ACCESS_KEY_ID }}"
           RCLONE_CONFIG_R2_SECRET_ACCESS_KEY: "${{ secrets.RCLONE_S3_SECRET_ACCESS_KEY }}"
           RCLONE_CONFIG_R2_ENDPOINT: "${{ secrets.RCLONE_CONFIG_R2_ENDPOINT }}"
-        runs: |
+        run: |
           rclone sync src/routes/artworks r2:www-img-kaito-tokyo/artworks \
             --include-"*.{png,webp,jpg}" \
             --progress
