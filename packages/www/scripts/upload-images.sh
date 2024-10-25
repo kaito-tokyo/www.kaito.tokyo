@@ -10,6 +10,6 @@ do
   for image in $artwork_dir/*.{png,webp}
   do
     name=${image##*/}
-    echo npx wrangler r2 object put "$BUCKET/$prefix/$name" -f "$image"
+    npx wrangler r2 object put "$BUCKET/$prefix/$name" -f "$image"
   done
 done
