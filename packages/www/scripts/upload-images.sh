@@ -4,7 +4,7 @@ set -euo pipefail
 
 BUCKET=www-img-kaito-tokyo
 
-if [[ $CI -eq 1 ]]
+if ! command -v rclone
 then
   apt-get update
   apt-get install -y --no-install-recommends rclone
