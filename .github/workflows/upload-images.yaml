@@ -33,8 +33,8 @@ jobs:
         env:
           RCLONE_CONFIG_R2_TYPE: "s3"
           RCLONE_CONFIG_R2_PROVIDER: "Cloudflare"
-          RCLONE_CONFIG_R2_ACCESS_KEY_ID: "${{ secrets.RCLONE_R2_ACCESS_KEY_ID }}"
-          RCLONE_CONFIG_R2_SECRET_ACCESS_KEY: "${{ secrets.RCLONE_S3_SECRET_ACCESS_KEY }}"
+          RCLONE_CONFIG_R2_ACCESS_KEY_ID: "${{ secrets.RCLONE_CONFIG_R2_ACCESS_KEY_ID }}"
+          RCLONE_CONFIG_R2_SECRET_ACCESS_KEY: "${{ secrets.RCLONE_CONFIG_R2_SECRET_ACCESS_KEY }}"
           RCLONE_CONFIG_R2_ENDPOINT: "${{ secrets.RCLONE_CONFIG_R2_ENDPOINT }}"
         run: |
           rclone copy src/routes/artworks r2:www-img-kaito-tokyo/artworks \
