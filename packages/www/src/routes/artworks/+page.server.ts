@@ -1,18 +1,12 @@
 export const prerender = true;
 
-import { type ArtworkArticle, newtClient } from "$lib/server/newt";
+import { listArtworks } from "$lib/artworks/artworks.js";
 
 import type { PageServerLoad } from "./$types";
 
 export const load = (async () => {
-	const { items: articles } = await newtClient.getContents<ArtworkArticle>({
-		appUid: "artworks",
-		modelUid: "article",
-		query: {
-			select: ["_id", "title", "slug", "images", "publishedAt"]
-		}
-	});
+	const artworks = await listArtworks();
 	return {
-		articles
+		artworks
 	};
 }) satisfies PageServerLoad;

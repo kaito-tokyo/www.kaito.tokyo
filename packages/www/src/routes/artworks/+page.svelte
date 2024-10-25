@@ -3,29 +3,26 @@
 
 	import type { PageData } from "./$types";
 
-	import { getThumbnail400URL, formatPublishedAt } from "$lib/newt/images";
-
 	export let data: PageData;
 </script>
 
 <svelte:head>
-	<title>Umireon's Artworks - www.kaito.tokyo</title>
-	<meta name="description" content="The artworks that umireon have made." />
+	<title>うみれおんのイラスト - www.kaito.tokyo</title>
+	<meta name="description" content="うみれおんが描いたイラスト" />
 </svelte:head>
 
 <main>
 	<section id="artwork-grid" class="grid">
-		{#each data.articles as article (article._id)}
-			<a href={`${base}/artworks/${article.slug}`}>
+		{#each data.artworks as { slug } (slug)}
+			<a href={`${base}/artworks/${slug}`}>
 				<article>
 					<img
-						src={getThumbnail400URL(article.images[0].src, ".webp")}
-						alt={article.title}
+						src={`https://www-img.kaito.tokyo/artworks/${slug}/thumbnail400.webp`}
 						width={200}
 						height={200}
 					/>
-					<p class="title">{article.title}</p>
-					<p class="publishedAt">{formatPublishedAt(article.publishedAt)}</p>
+					<p class="title">{slug}</p>
+					<!--p class="publishedAt">{formatPublishedAt(article.publishedAt)}</p-->
 				</article>
 			</a>
 		{/each}

@@ -5,8 +5,6 @@
 
 	import type { PageData } from "./$types";
 
-	import { getThumbnail400URL } from "$lib/newt/images";
-
 	export let data: PageData;
 
 	function formatDate(dateString: string): string {
