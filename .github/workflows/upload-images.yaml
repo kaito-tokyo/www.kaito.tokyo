@@ -29,7 +29,7 @@ jobs:
       - name: "Checkout"
         uses: "actions/checkout@v4"
 
-      - name: "Sync images"
+      - name: "Copy images"
         env:
           RCLONE_CONFIG_R2_TYPE: "s3"
           RCLONE_CONFIG_R2_PROVIDER: "Cloudflare"
@@ -37,6 +37,6 @@ jobs:
           RCLONE_CONFIG_R2_SECRET_ACCESS_KEY: "${{ secrets.RCLONE_S3_SECRET_ACCESS_KEY }}"
           RCLONE_CONFIG_R2_ENDPOINT: "${{ secrets.RCLONE_CONFIG_R2_ENDPOINT }}"
         run: |
-          rclone sync src/routes/artworks r2:www-img-kaito-tokyo/artworks \
-            --include-"*.{png,webp,jpg}" \
+          rclone copy src/routes/artworks r2:www-img-kaito-tokyo/artworks \
+            --include="*.{png,webp,jpg}" \
             --progress
