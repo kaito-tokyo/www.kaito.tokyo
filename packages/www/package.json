@@ -10,8 +10,7 @@
 		"lint": "prettier --check . && eslint .",
 		"format": "prettier --write .",
 		"gcp-build": "",
-		"clean": "",
-		"upload-images": "./scripts/upload-images.sh"
+		"clean": ""
 	},
 	"devDependencies": {
 		"@fontsource/fira-mono": "^5.1.0",
