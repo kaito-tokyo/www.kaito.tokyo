@@ -37,6 +37,6 @@ jobs:
           RCLONE_CONFIG_R2_SECRET_ACCESS_KEY: "${{ secrets.RCLONE_CONFIG_R2_SECRET_ACCESS_KEY }}"
           RCLONE_CONFIG_R2_ENDPOINT: "${{ secrets.RCLONE_CONFIG_R2_ENDPOINT }}"
         run: |
-          rclone copy packages/www/src/routes/artworks r2:www-img-kaito-tokyo/artworks \
+          rclone copy "packages/www/src/routes/(artworks)/artworks" r2:www-img-kaito-tokyo/artworks \
             --include="*.{png,webp,jpg}" \
             --progress

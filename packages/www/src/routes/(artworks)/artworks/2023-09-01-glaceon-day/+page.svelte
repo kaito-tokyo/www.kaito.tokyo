@@ -1,5 +1,5 @@
 <script lang="ts">
-    const slug = import.meta.url.split("/").slice(-2)[0]
+	const slug = import.meta.url.split("/").slice(-2)[0];
 	const wwwImg = `https://www-img.kaito.tokyo/artworks/${slug}`;
 </script>
 

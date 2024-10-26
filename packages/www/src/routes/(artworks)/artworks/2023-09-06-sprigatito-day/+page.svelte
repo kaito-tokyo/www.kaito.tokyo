@@ -1,5 +1,5 @@
 <script lang="ts">
-    const slug = import.meta.url.split("/").slice(-2)[0]
+	const slug = import.meta.url.split("/").slice(-2)[0];
 	const wwwImg = `https://www-img.kaito.tokyo/artworks/${slug}`;
 </script>
 
@@ -22,25 +22,25 @@
 		alt="ニャオハ主線あり"
 	/>
 	<img
-	    src={`${wwwImg}/2023-09-06-sprigatito-day_02.png`}
+		src={`${wwwImg}/2023-09-06-sprigatito-day_02.png`}
 		width="1600"
 		height="1600"
 		alt="ニャオハ主線なし"
 	/>
 	<img
-	    src={`${wwwImg}/2023-09-06-sprigatito-day_03.png`}
+		src={`${wwwImg}/2023-09-06-sprigatito-day_03.png`}
 		width="1600"
 		height="1600"
 		alt="ニャオハ背景白"
 	/>
 	<img
-	    src={`${wwwImg}/2023-09-06-sprigatito-day_04.png`}
+		src={`${wwwImg}/2023-09-06-sprigatito-day_04.png`}
 		width="1600"
 		height="1600"
 		alt="リーフィア単体"
 	/>
 	<img
-	    src={`${wwwImg}/2023-09-06-sprigatito-day_05.png`}
+		src={`${wwwImg}/2023-09-06-sprigatito-day_05.png`}
 		width="1600"
 		height="1600"
 		alt="リーフィア単体"
