@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { base } from "$app/paths";
-
 	import type { PageData } from "./$types";
 
 	export let data: PageData;
@@ -13,16 +12,17 @@
 
 <main>
 	<section id="artwork-grid" class="grid">
-		{#each data.artworks as { slug } (slug)}
+		{#each data.artworks as { slug, title, publishedAt } (slug)}
 			<a href={`${base}/artworks/${slug}`}>
 				<article>
 					<img
 						src={`https://www-img.kaito.tokyo/artworks/${slug}/thumbnail400.webp`}
+						alt={title}
 						width={200}
 						height={200}
 					/>
-					<p class="title">{slug}</p>
-					<!--p class="publishedAt">{formatPublishedAt(article.publishedAt)}</p-->
+					<p class="title">{title}</p>
+					<p class="publishedAt">{publishedAt}</p>
 				</article>
 			</a>
 		{/each}
