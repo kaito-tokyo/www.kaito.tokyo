@@ -2,7 +2,7 @@ import { readdir } from "node:fs/promises";
 
 import sharp from "sharp";
 
-const ARTWORK_DIR_PREFIX = "src/routes/artworks";
+const ARTWORK_DIR_PREFIX = "src/routes/(artworks)/artworks";
 
 async function listArtworkSlugs() {
 	const slugs = await readdir(ARTWORK_DIR_PREFIX);
