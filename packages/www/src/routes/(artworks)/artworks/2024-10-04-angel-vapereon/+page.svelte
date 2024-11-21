@@ -1,7 +1,5 @@
 <script lang="ts">
-	import { dev } from "$app/environment";
-	const slug = import.meta.url.split("/").slice(-2)[0];
-	const wwwImg = `https://www-img.kaito.tokyo/artworks/${slug}`;
+	const wwwImg = `https://www-img.kaito.tokyo/artworks/2024-10-04-angel-vapereon`;
 </script>
 
 <svelte:head>
