@@ -5,6 +5,7 @@
 <svelte:head>
 	<title>ポケモン天使化 シャワーズ</title>
 	<meta name="twitter:card" content="summary_large_image" />
+	<meta property="og:type" content="article" />
 	<meta property="og:image" content={`${wwwImg}/2024-10-04-angel-vapereon_01.png`} />
 	<meta property="og:title" content="ポケモン天使化 シャワーズ" />
 </svelte:head>
