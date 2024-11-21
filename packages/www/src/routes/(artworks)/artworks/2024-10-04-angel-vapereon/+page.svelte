@@ -5,6 +5,7 @@
 <svelte:head>
 	<title>ポケモン天使化 シャワーズ</title>
 	<meta property="og:image" content={`${wwwImg}/2024-10-04-angel-vapereon_01.png`} />
+	<meta property="og:description" content="ポケモン天使化 シャワーズ" />
 </svelte:head>
 
 <article>
