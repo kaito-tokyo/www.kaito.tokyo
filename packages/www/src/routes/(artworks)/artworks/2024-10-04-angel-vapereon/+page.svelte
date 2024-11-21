@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { dev } from "$app/environment"
+	import { dev } from "$app/environment";
 	const slug = import.meta.url.split("/").slice(-2)[0];
 	const wwwImg = `https://www-img.kaito.tokyo/artworks/${slug}`;
 </script>
@@ -13,9 +13,7 @@
 	<section class="metadata">
 		<p>投稿日:<time datetime="2024-10-04">2024-10-04</time></p>
 	</section>
-	<section class="description">
-		ポケモン天使化の企画に参加しました
-	</section>
+	<section class="description">ポケモン天使化の企画に参加しました</section>
 	<img
 		src={`${wwwImg}/2024-10-04-angel-vapereon_01.png`}
 		width="1600"
