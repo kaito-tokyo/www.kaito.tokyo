@@ -14,7 +14,7 @@ async function listArtworks() {
 	return await Promise.all(
 		slugs.map(async (slug) => {
 			const children = await readdir(`${ARTWORK_DIR_PREFIX}/${slug}`);
-			const images = children.filter((file) => /\.png$/.test(file));
+			const images = children.filter((file) => /\.(png|jpg)$/.test(file));
 			return {
 				slug,
 				images
