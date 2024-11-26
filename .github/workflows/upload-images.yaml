@@ -20,6 +20,8 @@ jobs:
   UploadImages:
     runs-on: "ubuntu-24.04"
 
+    if: "${{ github.actor == 'umireon' }}"
+
     steps:
       - name: "Install dependencies"
         run: |
