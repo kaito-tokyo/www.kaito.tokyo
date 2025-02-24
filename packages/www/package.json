@@ -39,6 +39,6 @@
 	"dependencies": {
 		"date-fns": "^4.1.0",
 		"date-fns-tz": "^3.2.0",
-		"newt-client-js": "^3.3.7"
+		"newt-client-js": "^3.3.8"
 	}
 }
