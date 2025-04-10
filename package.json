@@ -16,7 +16,7 @@
 		"packages/youtube-fetcher"
 	],
 	"devDependencies": {
-		"prettier": "^3.4.2"
+		"prettier": "^3.5.3"
 	},
 	"dependencies": {
 		"@aws-sdk/client-s3": "^3.772.0",
