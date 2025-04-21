@@ -10,7 +10,7 @@
 	"private": true,
 	"dependencies": {
 		"@google-cloud/storage": "^7.16.0",
-		"express": "^4.21.2",
+		"express": "^5.1.0",
 		"googleapis": "^146.0.0"
 	},
 	"devDependencies": {
