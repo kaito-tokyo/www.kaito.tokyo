@@ -19,7 +19,7 @@
 		"prettier": "^3.4.2"
 	},
 	"dependencies": {
-		"@aws-sdk/client-s3": "^3.772.0",
+		"@aws-sdk/client-s3": "^3.787.0",
 		"@google-cloud/functions-framework": "^3.5.1",
 		"@google-cloud/secret-manager": "^5.4.0"
 	},
