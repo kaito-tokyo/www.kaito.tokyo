@@ -16,12 +16,12 @@
 		"packages/youtube-fetcher"
 	],
 	"devDependencies": {
-		"prettier": "^3.4.2"
+		"prettier": "^3.5.3"
 	},
 	"dependencies": {
-		"@aws-sdk/client-s3": "^3.758.0",
-		"@google-cloud/functions-framework": "^3.4.5",
-		"@google-cloud/secret-manager": "^5.4.0"
+		"@aws-sdk/client-s3": "^3.787.0",
+		"@google-cloud/functions-framework": "^3.5.1",
+		"@google-cloud/secret-manager": "^6.0.1"
 	},
 	"type": "module",
 	"engines": {
