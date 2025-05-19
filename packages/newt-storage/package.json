@@ -9,7 +9,7 @@
 	"license": "MIT",
 	"private": true,
 	"dependencies": {
-		"@google-cloud/functions-framework": "^3.5.1",
+		"@google-cloud/functions-framework": "^4.0.0",
 		"@google-cloud/storage": "^7.16.0",
 		"sharp": "^0.34.1"
 	},
