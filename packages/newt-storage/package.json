@@ -11,7 +11,7 @@
 	"dependencies": {
 		"@google-cloud/functions-framework": "^4.0.0",
 		"@google-cloud/storage": "^7.16.0",
-		"sharp": "^0.34.1"
+		"sharp": "^0.34.2"
 	},
 	"devDependencies": {
 		"typescript": "^5.8.3"
