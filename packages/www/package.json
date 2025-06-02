@@ -13,7 +13,7 @@
 		"clean": ""
 	},
 	"devDependencies": {
-		"@fontsource/fira-mono": "^5.2.5",
+		"@fontsource/fira-mono": "^5.2.6",
 		"@neoconfetti/svelte": "^2.2.2",
 		"@sveltejs/adapter-static": "^3.0.8",
 		"@sveltejs/kit": "^2.21.1",
